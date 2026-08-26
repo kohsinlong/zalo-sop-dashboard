@@ -276,7 +276,7 @@
   var CKEYS = ["d5","d7","ngt","sh","la"];
 
   var C = {
-    d5:{name:"CTE D5", real:true, staff:[[1,109,14]],
+    d5:{name:"CTE D5", real:true, staff:[["Thảo",109,14]],
         due:[10,12,14,2,2,19,6,26,18,0,0,0,0], miss:[0,1,0,0,0,3,1,5,4,0,0,0,0],
         prodDue:[79,20,10,0], prodMiss:[10,3,1,0],
         flags:[15,6,6,1], trend:[19,17,20,16,15,13,15,14]},
@@ -299,14 +299,14 @@
   };
 
   var ACTIONS = {
-    d5:[["MCY-250824-…-Bé N.A.","MC","CD+30","26 Aug","4d",1,"28 Jul"],
-        ["MCY-260812-…-Bé T.H.","MC","CD+14","27 Aug","3d",1,"12 Aug"],
-        ["MCY-260810-…-Bé K.V.","MC","CD+14","27 Aug","3d",1,"10 Aug"],
-        ["MCY-260808-…-Bé Q.M.","MC","CD+14","28 Aug","2d",1,"08 Aug"],
-        ["MCY-260824-…-Bé L.P.","MC","CD+3-5","28 Aug","2d",1,"24 Aug"],
-        ["MCY-260823-…-Bé A.T.","MC","CD+3-5","28 Aug","2d",1,"23 Aug"],
-        ["KínhY-260820-…-A. Đ.","Kính","CD+7","27 Aug","3d",1,"20 Aug"],
-        ["OKN-260828-…-Bé M.C.","Ortho-K","D6-7","28 Aug","2d",1,"21 Aug"]],
+    d5:[["MCY-250824-…-Bé N.A.","MC","CD+30","26 Aug","4d","Thảo","28 Jul"],
+        ["MCY-260812-…-Bé T.H.","MC","CD+14","27 Aug","3d","Thảo","12 Aug"],
+        ["MCY-260810-…-Bé K.V.","MC","CD+14","27 Aug","3d","Thảo","10 Aug"],
+        ["MCY-260808-…-Bé Q.M.","MC","CD+14","28 Aug","2d","Thảo","08 Aug"],
+        ["MCY-260824-…-Bé L.P.","MC","CD+3-5","28 Aug","2d","Thảo","24 Aug"],
+        ["MCY-260823-…-Bé A.T.","MC","CD+3-5","28 Aug","2d","Thảo","23 Aug"],
+        ["KínhY-260820-…-A. Đ.","Kính","CD+7","27 Aug","3d","Thảo","20 Aug"],
+        ["OKN-260828-…-Bé M.C.","Ortho-K","D6-7","28 Aug","2d","Thảo","21 Aug"]],
     d7:[["MCY-250901-…-Bé H.N.","MC","CD+365","24 Aug","6d",1,"03 Sep"],
         ["OKY-251130-…-Bé P.L.","Ortho-K","CD+270","25 Aug","5d",2,"04 Jun"],
         ["KínhY-260301-…-C. T.","Kính","CD+180","26 Aug","4d",1,"28 Feb"],
@@ -479,6 +479,12 @@
             prodMiss:agg("prodMiss"), flags:agg("flags"), trend:C.d5.trend.map(function(_,i){
               return CKEYS.reduce(function(s,k){ return s+C[k].trend[i]; },0); }), real:false, staff:null};
   }
+  /* Real assistant names appear where we have them (from the clinic's
+     tracker). Clinics we have no tracker for fall back to a numbered
+     label until their data arrives. */
+  function nameOf(v){
+    return (typeof v === "string") ? v : (T().asst + " " + v);
+  }
   function heatClass(v){ return v<=0?"v0":v===1?"v1":v===2?"v2":v===3?"v3":"v4"; }
 
   function render(){
@@ -556,7 +562,7 @@
       var mx = Math.max.apply(null, v.staff.map(function(s){ return s[2]/s[1]; }));
       v.staff.forEach(function(s){
         var rate = s[2]/s[1]*100;
-        h += '<tr><td>'+esc(t.asst+" "+s[0])+'</td><td class="n">'+s[1]+'</td><td class="n">'+(s[1]-s[2])+'</td>'
+        h += '<tr><td>'+esc(nameOf(s[0]))+'</td><td class="n">'+s[1]+'</td><td class="n">'+(s[1]-s[2])+'</td>'
           + '<td class="n">'+s[2]+'</td><td class="n">'+rate.toFixed(1)+'%</td>'
           + '<td><span class="bar" style="width:'+Math.round(rate/(mx*100)*100)+'%"></span></td></tr>';
       });
@@ -647,14 +653,14 @@
       + '<th>'+esc(t.thStaff)+'</th><th>'+esc(t.thLast)+'</th></tr></thead><tbody>';
     acts.forEach(function(r){
       h += '<tr><td class="tagmono">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td>'
-        + '<td>'+esc(r[3])+'</td><td class="n">'+esc(r[4])+'</td><td>'+esc(t.asst+" "+r[5])+'</td>'
+        + '<td>'+esc(r[3])+'</td><td class="n">'+esc(r[4])+'</td><td>'+esc(nameOf(r[5]))+'</td>'
         + '<td class="num">'+esc(r[6])+'</td></tr>';
     });
     h += '</tbody></table></div><div class="pad" style="border-top:1px solid var(--rule-2);color:var(--muted);font-size:.84rem">'
       + '<p style="margin:0">'+esc(t.showing(acts.length, miss))+'</p></div></div>';
 
     /* evidence */
-    var who = t.asst + " 1";
+    var who = clinic === "all" ? nameOf(C.d5.staff[0][0]) : nameOf(v.staff[0][0]);
     h += '<div class="panel"><h3><span>'+esc(t.pEv)+'</span><span class="hint">'+esc(t.pEvH)+'</span></h3>'
       + '<div class="evgrid"><div class="evleft">';
     var pills = [["p-ok",t.sent],["p-bad",t.notsentS],["p-warn",t.lateS]];
