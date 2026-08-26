@@ -13,7 +13,6 @@
     --ok:#17795E; --ok-soft:#E2F0EA;
     --warn:#A6690A; --warn-soft:#F7EEDC; --warn-mid:#EFDCBB;
     --bad:#AE2E48; --bad-soft:#F8E6EA;
-    --g1:#E8F0EA; --g2:#BFDCCB; --g3:#83BFA0; --g4:#2F9673;
     --inert:#5A6072; --inert-soft:#EBECEF;
     --shadow:0 1px 2px rgba(20,21,28,.05), 0 8px 24px -18px rgba(20,21,28,.25);
   }
@@ -27,8 +26,6 @@
       --ok:#5FC7A4; --ok-soft:#12291F;
       --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
       --bad:#F0819A; --bad-soft:#2E141B;
-      --g1:#14211B; --g2:#1B3A2C; --g3:#255744; --g4:#37836423;
-      --g4:#2F7A5E;
       --inert:#98A0B4; --inert-soft:#1F2129;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
     }
@@ -42,7 +39,6 @@
     --ok:#5FC7A4; --ok-soft:#12291F;
     --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
     --bad:#F0819A; --bad-soft:#2E141B;
-    --g1:#14211B; --g2:#1B3A2C; --g3:#255744; --g4:#2F7A5E;
     --inert:#98A0B4; --inert-soft:#1F2129;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
   }
@@ -55,9 +51,8 @@
   .num{font-variant-numeric:tabular-nums}
   button{font-family:inherit;font-size:inherit;cursor:pointer}
   button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-  .wrap{max-width:1300px;margin:0 auto;padding:0 24px 90px}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 24px 90px}
 
-  /* gate */
   #gate{position:fixed;inset:0;z-index:100;background:var(--ground);
     display:flex;align-items:center;justify-content:center;padding:24px}
   #gate.gone{display:none}
@@ -80,13 +75,12 @@
   .gateerr{background:var(--bad-soft);color:var(--bad);border-radius:4px;padding:9px 12px;
     font-size:.84rem;margin-bottom:15px;display:none}
   .gateerr.on{display:block}
-  .who{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;
-    font-size:10.5px;color:var(--muted)}
+  .who{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
   .who button{background:none;border:1px solid var(--rule);border-radius:4px;padding:4px 10px;
     color:var(--muted);font-size:10.5px;font-family:inherit}
   .who button:hover{color:var(--ink);border-color:var(--muted)}
 
-  header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;padding:32px 0 16px}
+  header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;padding:32px 0 14px}
   .titleblock h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.7rem;letter-spacing:-.015em;margin:0 0 5px}
   .titleblock .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -95,46 +89,55 @@
   .seg button:last-child{border-right:0}
   .seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
 
-  .clinics{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 10px}
-  .clinics button{background:var(--surface);border:1px solid var(--rule);border-radius:20px;
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
+  .chips button{background:var(--surface);border:1px solid var(--rule);border-radius:20px;
     padding:6px 14px;font-size:.85rem;color:var(--ink-2);display:flex;align-items:center;gap:8px}
-  .clinics button .cn{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--ok)}
-  .clinics button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
-  .clinics button[aria-pressed="true"] .cn{color:var(--surface)}
-  .scopebar{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--muted);margin-bottom:20px}
+  .chips button .cn{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--accent)}
+  .chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .chips button[aria-pressed="true"] .cn{color:var(--surface)}
+  .chips button[disabled]{opacity:.35;cursor:default}
+  .mtdtag{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.08em;
+    background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:3px;font-weight:600}
+  .chips button[aria-pressed="true"] .mtdtag{background:rgba(255,255,255,.22);color:var(--surface)}
+  .scopebar{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin:4px 0 20px}
   .scopebar b{color:var(--accent);font-weight:600}
 
-  .herorow{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-bottom:18px;align-items:stretch}
-  @media (max-width:940px){.herorow{grid-template-columns:1fr}}
+  .herorow{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-bottom:18px;align-items:stretch}
+  @media (max-width:980px){.herorow{grid-template-columns:1fr}}
   .hero{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--accent);
-    border-radius:4px;box-shadow:var(--shadow);padding:24px 28px;
-    display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
-  @media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px;padding:20px}}
-  .hero .bignum{font-size:4.1rem;font-weight:600;letter-spacing:-.045em;line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
-  .hero .biglab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:10px}
-  .hero .sideline{font-size:.98rem;color:var(--ink-2);margin:0 0 14px;max-width:56ch}
-  .hero .sideline b{color:var(--ink);font-weight:600}
-  .passbar{display:flex;height:32px;gap:3px;margin:0 0 8px}
-  .passbar .sg{border-radius:2px;min-width:3px;display:flex;align-items:center;justify-content:center;
-    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:#fff}
-  .barlegend{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem}
-  .barlegend span.i{display:flex;gap:7px;align-items:center}
-  .barlegend .sw{width:10px;height:10px;border-radius:2px}
+    border-radius:4px;box-shadow:var(--shadow);padding:24px 28px}
+  .heroTop{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
+  @media (max-width:700px){.heroTop{grid-template-columns:1fr;gap:16px}}
+  .bignum{font-size:4rem;font-weight:600;letter-spacing:-.045em;line-height:.9;font-variant-numeric:tabular-nums}
+  .biglab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .sideline{font-size:.96rem;color:var(--ink-2);margin:0 0 14px;max-width:58ch}
+  .sideline b{color:var(--ink);font-weight:600}
+
+  /* target gauge */
+  .gauge{position:relative;height:30px;background:var(--surface-3);border-radius:3px;overflow:visible;margin-bottom:9px}
+  .gfill{height:100%;border-radius:3px}
+  .gtarget{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--ink);opacity:.75}
+  .gtlab{position:absolute;top:-19px;transform:translateX(-50%);font-family:"IBM Plex Mono",monospace;
+    font-size:9.5px;letter-spacing:.08em;color:var(--ink-2);white-space:nowrap}
+  .glegend{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+  .glegend b{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
 
   .flagcard{background:var(--warn-soft);border:1px solid var(--warn);border-left:4px solid var(--warn);
     border-radius:4px;box-shadow:var(--shadow);padding:20px 22px;display:flex;flex-direction:column;
     gap:11px;min-width:0;overflow-wrap:anywhere}
   .flagcard .fnum{font-size:2.5rem;font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--warn);font-variant-numeric:tabular-nums}
-  .flagcard .flab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--warn);font-weight:600}
+  .flagcard .flab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--warn);font-weight:600}
   .flagcard p{margin:0;font-size:.83rem;color:var(--ink-2)}
   .flist{display:flex;flex-direction:column;min-width:0}
   .flist .fr{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;
     gap:2px 12px;font-size:.81rem;padding:6px 0;border-bottom:1px solid var(--warn-mid);min-width:0}
   .flist .fr:last-child{border-bottom:0}
   .flist .fr > span:first-child{flex:1 1 auto;min-width:0}
-  .flist .fv{font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums;
-    white-space:normal;overflow-wrap:anywhere;text-align:right;max-width:100%;line-height:1.45}
+  .flist .fv{font-family:"IBM Plex Mono",monospace;font-weight:600;white-space:normal;
+    overflow-wrap:anywhere;text-align:right;max-width:100%;line-height:1.45}
 
   .panel{background:var(--surface);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);margin-bottom:18px}
   .panel > h3{margin:0;padding:14px 20px;border-bottom:1px solid var(--rule-2);font-size:.92rem;font-weight:600;
@@ -142,18 +145,29 @@
   .panel > h3 .hint{font-weight:400;font-size:.79rem;color:var(--muted)}
   .pad{padding:18px 20px}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-  @media (max-width:940px){.grid2{grid-template-columns:1fr}}
+  @media (max-width:980px){.grid2{grid-template-columns:1fr}}
 
-  /* funnel */
-  .funnel{display:grid;gap:12px}
-  .fstep{display:grid;grid-template-columns:76px 1fr 92px;gap:14px;align-items:center}
-  @media (max-width:640px){.fstep{grid-template-columns:64px 1fr 72px;gap:9px}}
-  .fstep .fd{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.85rem}
-  .fstep .ftrack{height:26px;background:var(--surface-3);border-radius:3px;overflow:hidden;position:relative}
-  .fstep .ffill{height:100%;border-radius:3px}
-  .fstep .fnums{font-family:"IBM Plex Mono",monospace;font-size:.82rem;text-align:right;font-variant-numeric:tabular-nums}
-  .fstep .fnums b{font-weight:600}
-  .ftask{grid-column:2/-1;font-size:.79rem;color:var(--muted);margin-top:-6px;line-height:1.4}
+  /* touchpoint ladder */
+  .tp{border-bottom:1px solid var(--rule-2);padding:14px 20px}
+  .tp:last-child{border-bottom:0}
+  .tphead{display:grid;grid-template-columns:104px 1fr 128px;gap:14px;align-items:center}
+  @media (max-width:640px){.tphead{grid-template-columns:78px 1fr 84px;gap:9px}}
+  .tpname{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.86rem}
+  .tpname .ph{display:block;font-family:"IBM Plex Sans",sans-serif;font-weight:400;
+    font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .tptrack{height:24px;background:var(--surface-3);border-radius:3px;overflow:hidden;display:flex}
+  .tpseg{height:100%}
+  .tpnums{font-family:"IBM Plex Mono",monospace;font-size:.82rem;text-align:right;font-variant-numeric:tabular-nums}
+  .tpnums b{font-weight:600}
+  .cps{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0 118px}
+  @media (max-width:640px){.cps{margin-left:0}}
+  .cp{font-size:.78rem;display:flex;align-items:center;gap:6px;background:var(--surface-2);
+    border:1px solid var(--rule-2);border-radius:3px;padding:3px 9px}
+  .cp .pcv{font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums}
+  .cp.vip{border-color:var(--accent);background:var(--accent-soft)}
+  .cp.ref{border-color:var(--ok);background:var(--ok-soft)}
+  .tag{font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.08em;
+    text-transform:uppercase;opacity:.75}
 
   .tblwrap{overflow-x:auto}
   table{border-collapse:collapse;width:100%;font-size:.875rem}
@@ -164,60 +178,51 @@
   td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
   td.n{font-family:"IBM Plex Mono",monospace}
   tbody tr.tot td{background:var(--surface-2);font-weight:600;border-top:1px solid var(--rule)}
-  table.heat td.c{text-align:center;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
-    font-weight:600;border-left:1px solid var(--rule-2)}
-  table.heat th.c{text-align:center}
-  table.heat td.v0{background:var(--bad-soft);color:var(--bad)}
-  table.heat td.v1{background:var(--g1)}
-  table.heat td.v2{background:var(--g2)}
-  table.heat td.v3{background:var(--g3)}
-  table.heat td.v4{background:var(--g4);color:#fff}
-  :root[data-theme="dark"] table.heat td.v4,
-  :root:not([data-theme="light"]) table.heat td.v4{color:var(--ink)}
-  .heatkey{display:flex;gap:8px;align-items:center;padding:12px 20px;border-top:1px solid var(--rule-2);
-    font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-  .heatkey i{width:22px;height:11px;border-radius:2px;display:inline-block}
+  .barw{position:relative;height:8px;background:var(--surface-3);border-radius:2px;min-width:70px}
+  .barf{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
+  .bart{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--ink);opacity:.55}
 
-  .bar{display:inline-block;height:7px;border-radius:2px;background:var(--ok);vertical-align:middle;min-width:2px}
-  .barn{background:var(--bad)}
   .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.05em;
     padding:2px 7px;border-radius:3px;font-weight:600;white-space:nowrap}
   .p-ok{background:var(--ok-soft);color:var(--ok)}
   .p-bad{background:var(--bad-soft);color:var(--bad)}
   .p-warn{background:var(--warn-soft);color:var(--warn)}
   .p-inert{background:var(--inert-soft);color:var(--inert)}
+  .p-accent{background:var(--accent-soft);color:var(--accent)}
 
-  .note{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px;padding:15px 18px;margin-bottom:20px;font-size:.87rem}
-  .note p{margin:0}
-  .months button .cn{color:var(--accent)}
-  .months button[aria-pressed="true"] .cn{color:var(--surface)}
-  .mtdtag{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.08em;
-    background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:3px;font-weight:600}
-  .months button[aria-pressed="true"] .mtdtag{background:rgba(255,255,255,.22);color:var(--surface)}
   .mtdgrid{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center}
-  @media (max-width:520px){.mtdgrid{grid-template-columns:1fr;gap:16px}}
-  .mtdnum{font-size:3.1rem;font-weight:600;letter-spacing:-.04em;line-height:.95;
+  @media (max-width:540px){.mtdgrid{grid-template-columns:1fr;gap:16px}}
+  .mtdnum{font-size:3rem;font-weight:600;letter-spacing:-.04em;line-height:.95;
     color:var(--accent);font-variant-numeric:tabular-nums}
   .mtdlab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--muted);margin-top:8px}
-  .mtdside{display:flex;flex-direction:column;gap:0}
   .mtdrow{display:flex;justify-content:space-between;gap:14px;font-size:.85rem;
     padding:6px 0;border-bottom:1px solid var(--rule-2)}
   .mtdrow:last-child{border-bottom:0}
   .mtdrow b{font-family:"IBM Plex Mono",monospace}
   .mtdnote{margin:14px 0 0;font-size:.8rem;color:var(--muted);line-height:1.5}
-  .mtrend{display:flex;align-items:flex-end;gap:10px;height:150px}
+
+  .mtrend{display:flex;align-items:flex-end;gap:9px;height:158px;position:relative}
   .mcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;justify-content:flex-end}
   .mbar{width:100%;max-width:46px;border-radius:2px 2px 0 0}
   .mval{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600}
-  .mlab{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted)}
-  .mn{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);opacity:.75}
+  .mlab{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);white-space:nowrap}
+  .mn{font-family:"IBM Plex Mono",monospace;font-size:8.5px;color:var(--muted);opacity:.75}
+  .tline{position:absolute;left:0;right:0;border-top:1px dashed var(--ink);opacity:.4}
+  .tlineLab{position:absolute;right:0;font-family:"IBM Plex Mono",monospace;font-size:9px;
+    color:var(--muted);transform:translateY(-14px)}
+
+  .rulebox{display:grid;gap:9px}
+  .rulerow{display:grid;grid-template-columns:26px 1fr auto;gap:11px;align-items:baseline;font-size:.86rem}
+  .rulerow .tick{font-family:"IBM Plex Mono",monospace;font-weight:600}
+  .rulerow .rn{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-weight:600}
+
   .hidden{display:none}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media (max-width:640px){
     .wrap{padding:0 16px 60px}
     .titleblock h1{font-size:1.3rem}
-    .hero .bignum{font-size:3.2rem}
+    .bignum{font-size:3.1rem}
   }
 </style>
 
@@ -239,7 +244,7 @@
   <header class="top">
     <div class="titleblock">
       <h1 id="pgTitle">Lasik SOP Compliance</h1>
-      <div class="sub"><span id="pgSub">QC audit</span> &middot; 26 Aug 2026</div>
+      <div class="sub"><span id="pgSub">QC audit</span> &middot; D1 &ndash; D90</div>
     </div>
     <div class="controls">
       <span class="who" id="whoami"></span>
@@ -250,8 +255,8 @@
       </div>
     </div>
   </header>
-  <div class="clinics months" id="monthbar" role="group" aria-label="Month"></div>
-  <div class="clinics" id="clinicbar" role="group" aria-label="Clinic"></div>
+  <div class="chips" id="monthbar" role="group" aria-label="Month"></div>
+  <div class="chips" id="clinicbar" role="group" aria-label="Clinic"></div>
   <div class="scopebar" id="scopebar"></div>
   <div id="app"></div>
 </div>
@@ -260,12 +265,15 @@
 (function(){
   "use strict";
 
-  var TODAY = "2026-08-26";
-  /* [clinic, rep, D1, D2-D4, D6, D15, <D25, auditDate] */
-  var CASES = [["LTR","BT",1,1,1,1,1,"2026-04-01"],["ND","Thùy Linh",1,1,1,1,1,"2026-04-02"],["SH","Thủy",1,1,0,0,1,"2026-04-02"],["NT","Ngân",1,0,0,0,1,"2026-04-03"],["LA","Vân Anh",1,0,1,1,1,"2026-04-03"],["CMTT","Phúc",1,1,1,1,0,"2026-04-04"],["LTR","TH",1,1,1,1,1,"2026-04-04"],["NGT","Uyên",0,1,0,0,0,"2026-04-05"],["NT","Ngân",1,0,0,0,1,"2026-04-05"],["LTR","MD",1,1,1,1,1,"2026-04-05"],["NGT","Vân",1,1,1,1,1,"2026-04-08"],["ND","Phương Linh",1,1,1,1,1,"2026-04-08"],["LTR","CT",1,1,1,1,1,"2026-04-09"],["CT","Nhi",1,1,1,1,1,"2026-04-10"],["NGT","Uyên",1,1,1,0,0,"2026-04-10"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-04-10"],["CMTT","Tân",1,0,0,0,0,"2026-04-11"],["VI","Liên",1,1,1,0,1,"2026-04-11"],["CMTT","Hoàng",1,1,1,0,0,"2026-04-14"],["CMTT","Tân",1,1,1,0,1,"2026-04-15"],["NGT","Vân",1,1,1,1,0,"2026-04-15"],["LTR","TH",1,1,1,1,1,"2026-04-16"],["CT","Tuyền",1,1,1,0,1,"2026-04-17"],["NGT","Uyên",1,1,1,1,0,"2026-04-18"],["CT","Nhi",1,1,1,1,1,"2026-04-19"],["ND","Phương Linh",1,1,1,1,1,"2026-04-19"],["CT","Nhi",1,1,1,1,1,"2026-04-21"],["ND","Phương Linh",1,1,1,1,1,"2026-04-21"],["NGT","Hiếu",1,1,1,1,1,"2026-04-21"],["CMTT","Tân",1,1,1,0,0,"2026-04-22"],["ND","Phương Linh",1,1,1,1,1,"2026-04-22"],["NT","Huấn",1,1,1,0,0,"2026-04-23"],["CMTT","Thanh",1,1,1,1,0,"2026-04-24"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-04-24"],["NT","Huấn",1,1,1,1,1,"2026-04-25"],["CMTT","Phúc",1,1,1,1,0,"2026-04-26"],["LTR","BT",1,1,1,1,1,"2026-04-26"],["VI","Duyên",0,1,1,1,1,"2026-04-26"],["CMTT","Hoàng",1,1,1,1,0,"2026-04-27"],["LA","Vân Anh",1,0,1,1,1,"2026-04-28"],["SH","Oanh",1,1,1,0,0,"2026-05-01"],["LTR","MD",1,1,1,1,1,"2026-05-01"],["SH","Oanh",1,1,1,0,1,"2026-05-01"],["VI","Liên",1,1,1,0,1,"2026-05-04"],["CMTT","Hoàng",1,1,1,0,1,"2026-05-06"],["CT","Tuyền",1,0,0,0,1,"2026-05-07"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-05-08"],["NGT","Vân",1,1,1,1,0,"2026-05-08"],["LTR","CT",1,1,1,1,1,"2026-05-09"],["VI","Liên",1,1,1,1,1,"2026-05-11"],["CMTT","Hoàng",1,1,1,1,0,"2026-05-11"],["SH","Oanh",1,1,1,0,1,"2026-05-11"],["NGT","Uyên",1,1,1,1,1,"2026-05-13"],["NGT","Uyên",1,1,1,0,1,"2026-05-13"],["LA","Vân Anh",1,0,1,1,1,"2026-05-13"],["SH","Thủy",1,1,0,0,1,"2026-05-14"],["CMTT","Tân",1,1,1,0,1,"2026-05-14"],["NGT","Vân",1,1,1,0,0,"2026-05-14"],["CT","Nhi",1,1,1,1,1,"2026-05-15"],["SH","Oanh",1,1,0,0,1,"2026-05-15"],["LA","Vân Anh",1,0,0,1,1,"2026-05-15"],["CT","Nhi",1,1,1,1,1,"2026-05-15"],["NGT","Hiếu",1,1,1,1,1,"2026-05-15"],["NGT","Vân",1,1,1,1,0,"2026-05-16"],["VI","Duyên",1,1,1,1,1,"2026-05-16"],["CMTT","Thanh",1,1,1,1,0,"2026-05-17"],["VI","Liên",1,1,1,1,1,"2026-05-17"],["ND","Thùy Linh",1,1,1,1,1,"2026-05-18"],["SH","Oanh",1,1,1,0,1,"2026-05-18"],["NT","Huấn",1,1,1,1,1,"2026-05-19"],["LTR","MT",1,1,1,1,1,"2026-05-19"],["LTR","CT",1,1,1,1,1,"2026-05-19"],["CT","Tuyền",1,0,0,1,1,"2026-05-19"],["NT","Ngân",1,0,0,0,1,"2026-05-19"],["SH","Oanh",1,1,1,0,1,"2026-05-19"],["VI","Duyên",1,1,1,1,1,"2026-05-22"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-05-22"],["NGT","Hiếu",1,1,1,1,1,"2026-05-23"],["ND","Thùy Linh",1,1,1,1,1,"2026-05-23"],["CT","Tuyền",1,1,1,0,1,"2026-05-24"],["LTR","CT",1,1,1,1,1,"2026-05-25"],["NT","Huấn",1,1,1,1,1,"2026-05-25"],["LTR","TH",1,1,1,1,1,"2026-05-25"],["NGT","Hiếu",1,1,1,1,1,"2026-05-27"],["NGT","Hiếu",1,1,0,0,0,"2026-05-28"],["VI","Duyên",1,1,1,1,1,"2026-06-01"],["LTR","CT",1,1,1,1,1,"2026-06-02"],["CMTT","Thanh",1,1,1,1,0,"2026-06-02"],["SH","Thủy",1,1,1,0,1,"2026-06-04"],["NGT","Vân",1,1,1,1,0,"2026-06-04"],["ND","Phương Linh",1,1,1,1,1,"2026-06-04"],["VI","Liên",1,1,1,1,1,"2026-06-06"],["ND","Phương Linh",1,1,1,1,1,"2026-06-06"],["CT","Nhi",1,1,1,1,1,"2026-06-06"],["VI","Duyên",1,1,1,1,1,"2026-06-07"],["NGT","Uyên",1,1,1,0,1,"2026-06-07"],["CMTT","Hoàng",1,0,0,0,0,"2026-06-07"],["LTR","MD",1,1,1,1,1,"2026-06-07"],["NGT","Uyên",1,1,1,0,1,"2026-06-07"],["NGT","Vân",1,1,1,1,0,"2026-06-09"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-06-09"],["LTR","MD",1,1,1,1,1,"2026-06-09"],["VI","Liên",1,1,1,1,1,"2026-06-09"],["NT","Huấn",1,1,1,0,1,"2026-06-10"],["ND","Thùy Linh",1,1,1,1,1,"2026-06-10"],["CMTT","Hoàng",1,1,1,1,0,"2026-06-11"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-06-11"],["CMTT","Tân",1,1,1,0,1,"2026-06-13"],["CTE","Diễm Thanh",1,1,1,0,0,"2026-06-14"],["CMTT","Thanh",1,1,1,1,0,"2026-06-14"],["NT","Ngân",0,0,1,1,1,"2026-06-15"],["CMTT","Hoàng",1,1,1,1,0,"2026-06-16"],["ND","Thùy Linh",1,1,1,1,1,"2026-06-16"],["LA","Vân Anh",1,0,1,1,1,"2026-06-17"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-06-17"],["SH","Oanh",1,1,1,0,0,"2026-06-17"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-06-18"],["LTR","MT",1,1,1,1,1,"2026-06-18"],["NGT","Hiếu",0,0,1,1,0,"2026-06-18"],["LTR","CT",1,1,1,1,1,"2026-06-19"],["NT","Ngân",0,0,0,0,0,"2026-06-20"],["CT","Tuyền",1,1,1,0,1,"2026-06-21"],["NGT","Hiếu",0,0,0,0,0,"2026-06-21"],["VI","Duyên",1,1,1,1,1,"2026-06-22"],["CMTT","Thanh",1,1,1,1,0,"2026-06-22"],["CMTT","Tân",1,1,1,0,1,"2026-06-23"],["LTR","BT",1,1,1,1,1,"2026-06-24"],["NT","Huấn",1,1,1,1,1,"2026-06-24"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-06-24"],["CTE","Diễm Thanh",1,1,1,1,0,"2026-06-27"],["CT","Nhi",1,1,1,1,1,"2026-06-27"],["CMTT","Tân",1,0,0,1,0,"2026-06-27"],["NT","Huấn",1,1,1,1,1,"2026-06-28"],["LTR","MD",1,1,1,1,1,"2026-07-01"],["LTR","MD",1,1,1,1,1,"2026-07-01"],["LTR","TH",1,1,1,1,1,"2026-07-02"],["LTR","BT",1,1,1,1,1,"2026-07-03"],["SH","Thủy",1,1,1,0,0,"2026-07-03"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-07-03"],["LTR","BT",1,1,1,1,1,"2026-07-03"],["CMTT","Tân",1,1,1,0,1,"2026-07-03"],["CMTT","Thanh",1,1,1,1,0,"2026-07-03"],["LTR","BT",1,1,1,1,1,"2026-07-05"],["LTR","MT",1,1,1,1,1,"2026-07-05"],["CMTT","Phúc",1,1,1,1,0,"2026-07-06"],["CT","Nhi",1,1,1,1,1,"2026-07-06"],["LTR","MT",1,1,1,1,1,"2026-07-06"],["LTR","TH",1,1,1,1,1,"2026-07-06"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-07-07"],["LTR","MD",1,1,1,1,1,"2026-07-07"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-07-08"],["LTR","MD",1,1,1,1,1,"2026-07-08"],["LA","Vân Anh",1,0,1,1,1,"2026-07-08"],["NGT","Vân",1,1,1,1,0,"2026-07-08"],["NT","Ngân",1,0,0,0,1,"2026-07-11"],["VI","Duyên",1,1,1,1,1,"2026-07-12"],["SH","Oanh",1,1,1,0,1,"2026-07-13"],["NGT","Uyên",1,1,1,0,0,"2026-07-15"],["CT","Tuyền",1,1,1,1,1,"2026-07-15"],["SH","Oanh",1,1,1,0,1,"2026-07-16"],["SH","Thủy",1,1,1,0,1,"2026-07-16"],["LA","Vân Anh",1,0,1,1,1,"2026-07-16"],["NGT","Vân",1,1,1,1,0,"2026-07-16"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-07-17"],["LTR","MT",1,1,1,1,1,"2026-07-17"],["NT","Ngân",1,1,1,1,1,"2026-07-18"],["NT","Ngân",1,1,1,0,1,"2026-07-18"],["LTR","BT",1,1,1,1,1,"2026-07-18"],["LTR","MT",1,1,1,1,1,"2026-07-18"],["SH","Thủy",1,1,0,0,1,"2026-07-18"],["ND","Phương Linh",1,1,1,1,1,"2026-07-20"],["CT","Nhi",1,1,1,1,1,"2026-07-20"],["LTR","TH",1,1,1,1,1,"2026-07-22"],["NGT","Hiếu",1,1,1,0,0,"2026-07-22"],["NGT","Hiếu",1,1,1,1,1,"2026-07-24"],["CMTT","Tân",1,1,1,0,1,"2026-07-24"],["CMTT","Tân",1,1,1,1,0,"2026-07-25"],["CTE","Diễm Thanh",1,1,1,1,0,"2026-07-25"],["VI","Liên",1,1,1,1,1,"2026-07-25"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-07-26"],["SH","Thủy",1,1,1,0,1,"2026-07-26"],["CMTT","Thanh",1,1,1,1,0,"2026-07-26"],["CMTT","Thanh",1,1,1,0,0,"2026-07-27"],["LA","Vân Anh",1,0,1,1,1,"2026-07-27"],["VI","Duyên",1,1,1,1,1,"2026-07-27"],["LA","Trúc Quỳnh",0,0,1,1,1,"2026-07-28"],["NGT","Uyên",1,1,1,1,1,"2026-07-28"],["CMTT","Phúc",1,1,1,1,1,"2026-08-01"],["NT","Huấn",1,0,0,0,1,"2026-08-01"],["CMTT","Phúc",1,1,1,1,1,"2026-08-02"],["VI","Duyên",1,1,1,1,1,"2026-08-02"],["LTR","TH",1,1,1,1,1,"2026-08-02"],["LTR","MD",1,1,1,1,1,"2026-08-02"],["LTR","MT",1,1,1,1,1,"2026-08-03"],["LA","Vân Anh",0,0,0,0,0,"2026-08-03"],["LTR","MT",1,1,1,1,1,"2026-08-03"],["LA","Vân Anh",1,0,1,1,1,"2026-08-04"],["LTR","CT",1,1,1,1,1,"2026-08-04"],["CT","Tuyền",1,1,1,1,1,"2026-08-05"],["CT","Tuyền",1,1,1,1,1,"2026-08-05"],["CMTT","Phúc",1,1,1,1,1,"2026-08-05"],["CMTT","Phúc",1,1,1,1,0,"2026-08-06"],["CMTT","Phúc",1,1,1,1,0,"2026-08-06"],["CMTT","Thanh",1,1,1,1,0,"2026-08-06"],["NT","Huấn",1,1,1,1,1,"2026-08-07"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-08"],["CMTT","Thanh",1,1,1,1,0,"2026-08-09"],["NGT","Uyên",1,1,1,0,1,"2026-08-10"],["NGT","Hiếu",1,1,1,1,1,"2026-08-11"],["LTR","MT",1,1,1,1,1,"2026-08-11"],["LTR","CT",1,1,1,1,1,"2026-08-11"],["NT","Huấn",1,1,1,1,1,"2026-08-13"],["ND","Phương Linh",1,1,1,1,1,"2026-08-13"],["LTR","MT",1,1,1,1,1,"2026-08-14"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-14"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-14"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-15"],["LTR","CT",1,1,1,1,1,"2026-08-15"],["ND","Phương Linh",1,1,1,1,1,"2026-08-16"],["LTR","CT",1,1,1,1,1,"2026-08-17"],["VI","Liên",1,1,1,1,1,"2026-08-18"],["SH","Thủy",1,1,1,0,1,"2026-08-19"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-08-19"],["CT","Tuyền",1,1,1,1,1,"2026-08-20"],["LTR","TH",1,1,1,1,1,"2026-08-21"],["LTR","BT",1,1,1,1,1,"2026-08-21"],["CT","Tuyền",1,0,0,0,1,"2026-08-21"],["VI","Duyên",1,1,1,1,1,"2026-08-21"],["CMTT","Phúc",1,1,1,1,1,"2026-08-22"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-22"],["CMTT","Phúc",1,1,1,1,0,"2026-08-22"],["CT","Nhi",1,1,1,1,1,"2026-08-23"],["LTR","TH",1,1,1,1,1,"2026-08-23"],["VI","Liên",0,0,0,0,0,"2026-08-23"],["LTR","TH",1,1,1,1,1,"2026-08-23"],["NT","Ngân",1,1,1,1,1,"2026-08-23"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-08-24"],["SH","Oanh",1,1,1,0,1,"2026-08-24"],["CMTT","Hoàng",1,1,1,0,0,"2026-08-24"],["ND","Phương Linh",1,1,1,1,1,"2026-08-24"],["SH","Thủy",1,1,1,0,1,"2026-08-24"],["NGT","Vân",1,1,1,1,0,"2026-08-24"],["LTR","BT",1,1,1,1,1,"2026-08-25"],["CMTT","Hoàng",1,1,1,1,1,"2026-08-25"],["NT","Ngân",1,1,1,1,1,"2026-08-25"],["CMTT","Hoàng",1,1,1,1,0,"2026-08-26"],["SH","Thủy",1,1,1,0,1,"2026-08-26"],["VI","Liên",1,1,1,1,1,"2026-08-26"],["LTR","MD",1,1,1,1,1,"2026-08-26"]];
+  var DATA = {"touch":[["D1",[["checkin",""],["meds",""]]],["<D3",[["eyecare",""],["vipintro","vip"]]],["<D6",[["recall",""],["vip","vip"]]],["<D15",[["checkin",""],["referral","ref"]]],["<>D25",[["recall1m",""],["referral","ref"]]],["D30-D60",[["habit",""],["vipben","vip"],["referral","ref"]]],["D60-D90",[["recall3m",""],["referral","ref"]]],["post-D90",[["msgapp",""],["vipben","vip"]]]],"cases":[["CMTT","Tân","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-10","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-10","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2025-10-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-10","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-01","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2025-10-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-10","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-16","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-16","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-16","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-08","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-08","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-16","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-16","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-01","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-04","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-11","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-15","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-16","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-16","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-16","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-16","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-16","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-16","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-10","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-08","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-08","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-04","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-16","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-15","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-11","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-11","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-10","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-10","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-10","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-09","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-09","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-09","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-08","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-04","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-16","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-15","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-15","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-12","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-10","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-05","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-05","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-05","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-01","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2025-12-01","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-16","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-11","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-11","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-10","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2025-12-01","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-16","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-16","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-15","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-11","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-10","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-04","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-04","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-03","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2025-12-01","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-16","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-11","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-10","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-08","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-05","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-01","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-04","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-15","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-15","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2025-12-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-07","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-07","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-07","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-01-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-01-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-01-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-01-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-01-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-01-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-15","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-12-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-12-06","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-12-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-01-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-01-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-01-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-01-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-01-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-01-12","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2025-12-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2025-12-06","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2025-12-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2025-12-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2025-12-09","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-27","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-29","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-29","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-29","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-30","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-30","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-30","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-30","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-31","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-31","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-31","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-31","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-31","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2025-12-31","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-20","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-20","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-20","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-22","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-22","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-22","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-23","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-23","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-23","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-23","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-25","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2025-12-26","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-20","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-20","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-20","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-22","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-22","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-22","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-23","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-24","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-25","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-25","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-25","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-25","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2025-12-25","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-02","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-03","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-03","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-05","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-01-06","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-07","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-01-07","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-11-07","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-11-10","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-11-19","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2025-11-20","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-14","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-13","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-13","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-10","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-10","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-09","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-01-07","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-13","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-09","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-08","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-01-07","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-14","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-13","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-13","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-12","partial",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-12","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-01-07","pass",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-01-02","partial",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Tân","2026-01-02","partial",1,0,1,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Tân","2026-01-02","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Tân","2026-01-02","partial",1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-01-03","partial",1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-01-05","partial",1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-01-05","partial",1,1,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0],["CMTT","Tân","2026-01-06","partial",1,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0],["CMTT","Tân","2026-01-08","partial",1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Tân","2026-01-09","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,0,1,1,0,0],["CMTT","Tân","2026-01-09","partial",1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],["CMTT","Tân","2026-01-10","partial",1,0,0,1,1,1,1,0,0,0,0,1,0,1,0,0,0,0],["CMTT","Tân","2026-01-10","partial",1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-01-10","partial",1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,1],["CMTT","Tân","2026-01-10","partial",1,1,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0],["CMTT","Hoàng","2026-01-02","pass",1,0,1,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1],["CMTT","Hoàng","2026-01-02","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,1,1,1],["CMTT","Hoàng","2026-01-02","pass",1,1,1,1,1,0,1,1,0,0,0,1,1,1,0,1,1,1],["CMTT","Hoàng","2026-01-02","pass",1,1,1,0,1,1,1,1,1,0,0,1,1,0,1,1,0,1],["CMTT","Hoàng","2026-01-02","pass",1,0,1,1,1,1,1,1,1,0,0,1,1,0,1,1,1,1],["CMTT","Hoàng","2026-01-02","pass",1,1,0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-01-02","pass",1,1,1,0,1,1,0,1,1,0,0,0,1,1,0,0,0,0],["CMTT","Hoàng","2026-01-03","pass",1,1,0,0,1,1,1,1,1,0,0,1,1,1,0,0,1,1],["CMTT","Hoàng","2026-01-03","partial",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-01-05","pass",1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,1],["CMTT","Hoàng","2026-01-05","pass",1,1,1,1,0,1,1,1,1,0,0,1,1,1,0,1,0,0],["CMTT","Hoàng","2026-01-07","partial",1,1,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-01-07","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0],["CMTT","Hoàng","2026-01-07","partial",1,1,1,0,0,1,1,1,1,0,0,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-01-07","pass",1,1,0,1,1,0,1,1,1,0,0,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-01-07","pass",1,1,1,0,1,0,1,1,0,0,0,1,1,1,0,0,1,1],["CMTT","Hoàng","2026-01-07","pass",1,1,1,1,0,1,1,0,1,0,0,1,1,1,1,1,1,1],["CMTT","Hoàng","2026-01-07","pass",1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1],["CMTT","Thanh","2026-01-02","pass",1,1,0,1,1,0,1,1,1,0,0,0,0,1,1,1,0,0],["CMTT","Thanh","2026-01-02","partial",1,1,0,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Thanh","2026-01-02","partial",1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2026-01-02","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0],["CMTT","Thanh","2026-01-03","partial",1,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Thanh","2026-01-03","pass",1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1],["CMTT","Thanh","2026-01-03","pass",1,1,0,1,1,1,0,0,1,0,0,1,1,1,1,1,1,1],["CMTT","Thanh","2026-01-03","pass",1,0,1,1,1,1,1,1,1,0,0,1,1,1,1,0,1,1],["CMTT","Thanh","2026-01-05","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0],["CMTT","Thanh","2026-01-05","pass",1,1,1,0,1,1,1,1,1,0,0,1,1,1,0,1,0,0],["CMTT","Thanh","2026-01-05","partial",1,0,1,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Thanh","2026-01-06","partial",1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0],["CMTT","Thanh","2026-01-07","partial",1,1,1,0,0,1,1,0,0,0,0,0,0,0,0,1,0,0],["CMTT","Thanh","2026-01-08","pass",1,1,1,1,1,1,1,0,1,0,0,1,1,1,0,0,0,0],["CMTT","Thanh","2026-01-08","pass",1,1,0,1,1,1,0,1,1,0,0,1,1,1,1,1,0,0],["CMTT","Thanh","2026-01-08","pass",1,1,0,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",1,1,0,1,1,1,0,1,1,0,0,1,0,1,1,0,0,0],["NGT","Vân","2026-01-02","pass",1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,0,0,0],["NGT","Vân","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-03","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-03","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-03","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-05","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-05","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-01-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-02","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-03","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-03","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-06","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-05","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-07","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-07","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-07","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-01-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-02-02","pass",1,1,1,1,0,0,0,0,0,0,0,0,1,1,0,1,0,0],["LTR","Mai Trâm","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Bảo Trâm","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Bảo Trâm","2026-02-02","pass",1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1],["LTR","Diễm","2026-02-02","pass",1,1,0,1,1,0,0,0,0,0,0,1,1,1,0,0,1,1],["LTR","Bảo Trâm","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0],["LTR","Tiên","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0],["LTR","Diễm","2026-02-02","pass",1,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0],["LTR","Mai Trâm","2026-02-02","pass",1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0],["LTR","Thu Hiền","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Tiên","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1],["LTR","Bảo Trâm","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["LTR","Mai Trâm","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0],["LTR","Thu Hiền","2026-02-02","pass",1,0,1,0,1,0,0,0,0,0,0,1,1,0,1,1,1,1],["LTR","Thu Hiền","2026-02-02","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0],["LTR","Mai Trâm","2026-02-03","pass",1,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0],["LTR","Bảo Trâm","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,1,1],["LTR","Tiên","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1],["LTR","Tiên","2026-02-03","pass",1,1,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1],["LTR","Bảo Trâm","2026-02-03","pass",1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-02-03","pass",1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0],["LTR","Bảo Trâm","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Tiên","2026-02-03","pass",1,0,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0],["LTR","Diễm","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Tiên","2026-02-03","pass",1,1,1,0,1,0,0,0,0,0,0,0,1,1,1,0,1,1],["LTR","Thu Hiền","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1],["LTR","Thu Hiền","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0],["LTR","Tiên","2026-02-04","nozalo",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1],["LTR","Bảo Trâm","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Thu Hiền","2026-02-04","pass",1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],["LTR","Mai Trâm","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0],["LTR","Diễm","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,1],["LTR","Diễm","2026-02-04","pass",1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Diễm","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-02-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-02-04","pass",1,1,0,1,1,0,0,0,0,0,0,0,0,1,0,0,1,1],["SH","Ngọc Thủy","2026-02-02","none",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-02","none",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-02","none",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-04","partial",1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-04","partial",1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-02","none",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-03","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-04","partial",1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["SH","Oanh","2026-02-04","partial",1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0],["SH","Oanh","2026-02-04","partial",1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-02-03","pass",1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Tân","2026-02-03","pass",1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],["CMTT","Tân","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,1,0,0],["CMTT","Tân","2026-02-04","partial",1,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0],["CMTT","Tân","2026-02-04","partial",1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Tân","2026-02-05","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],["CMTT","Tân","2026-02-05","pass",1,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1,1],["CMTT","Tân","2026-02-05","partial",1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-02","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0],["CMTT","Hoàng","2026-02-02","pass",1,0,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0],["CMTT","Hoàng","2026-02-02","pass",1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-03","pass",1,1,1,1,0,0,0,0,0,0,0,1,1,1,0,1,1,1],["CMTT","Hoàng","2026-02-03","pass",1,1,0,1,1,0,0,0,0,0,0,1,1,1,0,0,1,1],["CMTT","Hoàng","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,0],["CMTT","Hoàng","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,1,0,1,0,0,0,0],["CMTT","Hoàng","2026-02-04","pass",1,1,0,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-02-04","pass",1,0,1,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-02-05","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-02-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-05","pass",1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1],["CMTT","Hoàng","2026-02-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2026-02-02","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Thanh","2026-02-03","pass",1,0,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0],["CMTT","Thanh","2026-02-03","pass",1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0],["CMTT","Thanh","2026-02-04","partial",1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Thanh","2026-02-05","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1],["CMTT","Thanh","2026-02-06","pass",1,1,1,0,1,0,0,0,0,0,0,1,1,1,0,0,1,1],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,1,0,0],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,1,0,0],["CMTT","Thanh","2026-02-06","pass",1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0],["CMTT","Thanh","2026-02-06","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1],["NGT","Vân","2026-02-02","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["NGT","Vân","2026-02-02","partial",1,0,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["NGT","Vân","2026-02-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-02","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0],["NGT","Vân","2026-02-03","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-03","pass",1,1,1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0],["NGT","Vân","2026-02-03","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1],["NGT","Vân","2026-02-03","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,1,0],["NGT","Vân","2026-02-03","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0],["NGT","Vân","2026-02-03","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-04","partial",1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["NGT","Uyên","2026-02-02","pass",1,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0],["NGT","Uyên","2026-02-02","pass",1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-02","pass",1,1,0,1,1,1,1,0,0,0,0,1,0,1,1,1,0,0],["NGT","Uyên","2026-02-02","pass",1,0,1,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0],["NGT","Uyên","2026-02-02","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0],["NGT","Uyên","2026-02-02","pass",1,1,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0],["NGT","Uyên","2026-02-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-03","partial",1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-04","pass",1,1,1,0,1,1,1,0,0,0,0,0,0,0,1,0,1,0],["NGT","Uyên","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-04","nozalo",1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-04","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-02","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-03","partial",1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1],["NGT","Hiếu","2026-02-06","partial",1,1,1,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1],["NGT","Hiếu","2026-02-06","partial",1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-06","partial",1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-06","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-06","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-06","partial",1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1],["CTE","Diễm Thanh","2026-02-04","pass",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-02-04","pass",1,1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1],["CTE","Diễm Thanh","2026-02-05","pass",1,1,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0],["CTE","Diễm Thanh","2026-02-07","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Diễm Thanh","2026-02-07","pass",1,1,1,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1],["CTE","Diễm Thanh","2026-02-09","pass",1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1],["CTE","Diễm Thanh","2026-01-13","pass",1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1],["CTE","Diễm Thanh","2026-01-14","partial",1,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0],["CTE","Diễm Thanh","2026-01-15","pass",1,0,0,0,0,0,1,0,0,0,0,1,1,1,1,0,0,0],["CTE","Diễm Thanh","2026-01-17","partial",1,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,0,0],["CTE","Ngân","2026-02-02","pass",1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],["CTE","Ngân","2026-02-02","pass",1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1],["CTE","Ngân","2026-02-03","pass",1,1,0,0,0,1,1,0,0,0,0,1,1,1,0,0,0,0],["CTE","Ngân","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-02-04","pass",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,1,0,1],["CTE","Ngân","2026-02-05","pass",1,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0],["CTE","Ngân","2026-02-06","pass",1,0,1,0,1,0,0,0,0,0,0,1,0,1,1,0,1,0],["CTE","Ngân","2026-02-06","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["CTE","Ngân","2026-01-07","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],["CTE","Ngân","2026-01-12","pass",1,0,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0],["CTE","Ngân","2026-01-15","pass",1,0,0,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0],["CTE","Ngân","2026-01-19","pass",1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-21","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-23","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-26","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-01-26","partial",1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0],["CMTT","Tân","2026-02-07","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Tân","2026-02-07","partial",1,1,1,0,0,1,1,0,0,0,0,1,1,1,0,0,0,0],["CMTT","Tân","2026-02-07","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-02-07","partial",1,1,1,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1],["CMTT","Tân","2026-02-07","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0],["CMTT","Tân","2026-02-07","partial",1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-02-07","partial",1,0,1,1,1,0,0,1,1,0,0,0,0,0,0,0,1,1],["CMTT","Tân","2026-02-07","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Hoàng","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0],["CMTT","Hoàng","2026-02-09","pass",1,1,0,1,1,0,1,0,0,1,1,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-09","pass",1,1,1,0,1,0,1,0,0,1,0,1,1,1,1,1,0,0],["CMTT","Hoàng","2026-02-09","pass",1,1,0,1,1,1,0,0,0,1,0,0,1,0,1,1,0,0],["CMTT","Hoàng","2026-02-09","pass",1,1,1,1,0,1,1,0,0,1,1,0,0,0,0,0,1,0],["CMTT","Hoàng","2026-02-09","pass",1,1,1,1,0,0,1,0,0,1,1,1,1,1,1,1,1,1],["CMTT","Hoàng","2026-02-09","pass",1,1,1,0,1,1,1,0,0,1,1,1,1,1,0,0,1,1],["CMTT","Hoàng","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,0,0,0,1,1,0,0],["CMTT","Hoàng","2026-02-09","pass",1,0,1,1,1,1,0,0,0,1,1,0,0,0,0,0,1,0],["CMTT","Thanh","2026-02-09","pass",1,1,1,1,0,1,1,0,0,1,1,0,0,0,1,1,1,1],["CMTT","Thanh","2026-02-09","pass",1,0,1,0,1,1,1,0,0,0,0,0,0,0,1,1,0,0],["CMTT","Thanh","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,1],["CMTT","Thanh","2026-02-09","pass",1,0,1,1,1,1,0,0,0,1,0,1,0,1,0,0,1,1],["CMTT","Thanh","2026-02-09","pass",1,0,1,1,0,0,1,0,0,1,1,0,0,0,0,0,0,0],["CMTT","Thanh","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,1,1,1,1,0,0,1,1],["CMTT","Thanh","2026-02-09","pass",1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,1,0,0],["CMTT","Thanh","2026-02-09","pass",1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0],["CMTT","Thanh","2026-02-10","partial",1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1],["CMTT","Thanh","2026-02-10","partial",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-02-09","unknown",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,0,0,0,0,1,1,1,1],["LTR","Mai Trâm","2026-02-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-02-09","pass",1,0,1,1,1,0,1,0,0,1,1,0,0,0,0,1,1,0],["LTR","Bảo Trâm","2026-02-09","pass",1,1,1,0,1,1,1,0,0,0,0,1,1,1,0,0,1,1],["LTR","Tiên","2026-02-09","partial",1,1,1,0,0,1,1,0,0,0,0,1,1,1,0,0,0,0],["LTR","Bảo Trâm","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0],["LTR","Tiên","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0],["LTR","Tiên","2026-02-09","partial",1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0],["LTR","Bảo Trâm","2026-02-09","pass",1,1,1,1,1,0,1,0,0,0,0,1,1,1,1,0,1,1],["LTR","Diễm","2026-02-09","pass",1,0,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0],["LTR","Diễm","2026-02-09","pass",1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,1,0,0],["LTR","Mai Trâm","2026-02-09","partial",1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-02-09","pass",1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,0],["LTR","Bảo Trâm","2026-02-09","pass",1,1,1,1,1,1,1,0,1,0,0,1,1,1,0,0,0,1],["LTR","Thu Hiền","2026-02-09","pass",1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0],["LTR","Thu Hiền","2026-02-09","pass",1,1,1,1,0,0,1,0,0,1,1,1,1,1,1,0,1,1],["LTR","Thu Hiền","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,1,1],["LTR","Bảo Trâm","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-02-09","pass",1,1,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0],["LTR","Diễm","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1],["LTR","Tiên","2026-02-09","partial",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0],["LTR","Mai Trâm","2026-02-09","pass",1,0,1,1,0,1,0,0,0,1,0,0,0,1,1,1,0,0],["LTR","Thu Hiền","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,0,0,1,0,0,0,0,0],["LTR","Mai Trâm","2026-02-09","pass",1,1,1,0,1,1,1,0,0,1,1,1,0,0,1,1,0,0],["LTR","Mai Trâm","2026-02-09","pass",1,1,0,1,1,0,0,0,0,1,1,0,0,1,1,1,1,1],["LTR","Mai Trâm","2026-02-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-02-09","none",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-02-09","partial",1,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0],["LTR","Bảo Trâm","2026-02-09","partial",1,1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1],["LTR","Bảo Trâm","2026-02-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-02-09","pass",1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,1,0],["ND","Thùy Linh","2026-02-08","partial",1,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0],["ND","Thùy Linh","2026-02-08","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-02-08","partial",1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-02-08","partial",1,1,1,0,0,1,1,0,0,0,0,1,0,1,0,0,0,0],["ND","Thùy Linh","2026-02-08","partial",1,1,1,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0],["ND","Thùy Linh","2026-02-08","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Thùy Linh","2026-02-08","pass",1,1,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-02-08","pass",1,1,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-02-08","pass",1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-02-08","pass",1,1,0,1,1,0,1,0,0,1,1,0,0,0,0,0,0,0],["ND","Phương Linh","2026-02-08","pass",1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,1,1],["ND","Phương Linh","2026-02-09","pass",1,1,0,0,1,1,1,0,0,1,0,0,0,0,1,1,0,0],["ND","Phương Linh","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,0,0,0,1,1,0,0],["ND","Phương Linh","2026-02-09","pass",1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,0,0],["NGT","Vân","2026-02-09","pass",1,0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,0,0],["NGT","Vân","2026-02-09","partial",1,0,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0],["NGT","Vân","2026-02-09","partial",1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],["NGT","Vân","2026-02-09","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0],["NGT","Vân","2026-02-09","pass",1,1,0,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0],["NGT","Vân","2026-02-09","partial",1,0,1,0,0,0,0,0,0,0,0,1,0,1,1,1,0,0],["NGT","Vân","2026-02-09","partial",1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],["NGT","Vân","2026-02-09","partial",1,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["NGT","Vân","2026-02-10","pass",1,1,0,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0],["NGT","Vân","2026-02-10","pass",1,1,1,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0],["NGT","Vân","2026-02-10","pass",1,1,1,0,1,0,0,0,0,0,1,0,0,0,1,1,1,1],["NGT","Vân","2026-02-10","pass",1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1,1],["NGT","Vân","2026-02-10","none",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-10","partial",1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-07","pass",1,1,1,1,1,1,0,0,0,1,1,0,0,0,0,0,1,1],["NGT","Uyên","2026-02-07","pass",1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1],["NGT","Uyên","2026-02-07","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-07","pass",1,1,1,1,0,1,1,0,0,1,1,1,1,1,0,1,1,1],["NGT","Uyên","2026-02-07","pass",1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0],["NGT","Uyên","2026-02-07","partial",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,0],["NGT","Uyên","2026-02-07","pass",1,1,1,1,0,1,0,0,0,0,0,1,1,1,0,0,1,1],["NGT","Uyên","2026-02-07","pass",1,1,0,1,1,1,0,0,0,1,1,0,0,0,1,0,1,1],["NGT","Uyên","2026-02-07","partial",1,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,0,1],["NGT","Uyên","2026-02-07","pass",1,1,1,1,0,0,1,0,0,0,0,1,1,1,1,1,0,0],["NGT","Uyên","2026-02-07","none",1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-07","pass",1,1,1,0,0,0,0,1,1,1,1,1,0,1,0,0,1,1],["NGT","Uyên","2026-02-07","partial",1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0],["NGT","Uyên","2026-02-07","partial",1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1],["NGT","Uyên","2026-02-07","none",1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["NGT","Uyên","2026-02-07","pass",1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0],["NGT","Uyên","2026-02-07","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-06","pass",1,0,0,1,1,0,1,0,0,1,1,0,0,0,0,0,0,1],["NGT","Hiếu","2026-02-06","pass",1,0,0,1,1,1,1,0,0,1,1,1,1,0,1,1,1,1],["NGT","Hiếu","2026-02-06","pass",1,0,0,0,1,1,1,0,0,1,1,0,0,0,0,0,1,0],["NGT","Hiếu","2026-02-06","partial",1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,0],["NGT","Uyên","2026-02-06","none",1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-06","none",1,0,0,0,1,1,0,0,0,1,1,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-07","pass",1,0,0,1,1,1,0,1,1,1,1,0,0,0,1,1,0,0],["NGT","Hiếu","2026-02-07","pass",1,0,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1],["NGT","Hiếu","2026-02-07","pass",1,0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],["NGT","Hiếu","2026-02-07","pass",1,1,1,1,1,1,0,0,0,1,0,1,1,1,0,0,0,0],["NGT","Hiếu","2026-02-07","pass",1,1,1,1,0,1,1,0,0,1,1,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-07","nozalo",1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-08","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-02-09","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Thanh","2026-02-04","pass",1,1,1,1,1,1,1,0,1,0,1,0,0,0,0,1,1,1],["CTE","Thanh","2026-02-04","pass",1,1,1,1,1,0,1,0,0,1,0,0,0,0,0,0,0,0],["CTE","Thanh","2026-02-05","pass",1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0],["CTE","Thanh","2026-02-06","pass",1,0,1,1,1,1,1,0,0,1,1,1,1,1,0,0,1,1],["CTE","Thanh","2026-02-07","pass",1,1,1,0,1,0,1,0,0,1,1,1,1,0,0,0,1,1],["CTE","Thanh","2026-02-07","pass",1,1,1,1,1,1,0,1,1,1,1,1,0,0,1,0,1,1],["CTE","Thanh","2026-02-07","pass",1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1],["CTE","Ngân","2026-02-02","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-02-02","pass",1,1,1,0,1,1,1,0,0,0,1,0,0,0,1,1,0,0],["CTE","Ngân","2026-02-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CTE","Ngân","2026-02-03","pass",1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1],["CTE","Ngân","2026-02-04","pass",1,0,1,1,1,0,1,0,0,1,1,1,0,0,0,1,0,0],["CTE","Ngân","2026-02-04","partial",1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0],["CTE","Ngân","2026-02-05","pass",1,0,1,1,1,1,1,0,0,1,1,1,1,1,0,0,1,1],["ND","Phương Linh","2026-02-26","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1],["ND","Thùy Linh","2026-02-27","pass",1,1,1,0,1,0,0,1,1,0,0,0,0,0,0,0,1,1],["ND","Thùy Linh","2026-02-27","pass",1,1,0,1,1,0,1,1,1,0,0,0,0,0,0,0,0,1],["ND","Phương Linh","2026-02-27","partial",1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],["ND","Thùy Linh","2026-02-27","pass",1,0,1,1,1,0,0,1,1,0,0,0,0,0,1,0,0,1],["ND","Thùy Linh","2026-02-27","pass",1,1,1,1,1,0,0,1,0,0,0,1,1,1,1,1,1,1],["ND","Phương Linh","2026-02-27","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],["ND","Phương Linh","2026-02-28","pass",1,1,0,1,1,0,1,0,0,0,0,1,0,0,0,1,0,0],["ND","Phương Linh","2026-02-28","pass",1,1,1,0,1,1,1,0,0,0,0,1,1,1,0,0,0,1],["ND","Phương Linh","2026-02-28","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0],["ND","Thùy Linh","2026-02-28","partial",1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1,1],["ND","Thùy Linh","2026-02-28","pass",1,0,1,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0],["ND","Phương Linh","2026-03-02","partial",1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0],["ND","Thùy Linh","2026-03-02","partial",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-03-03","pass",1,1,0,1,0,1,1,0,0,0,0,0,0,0,1,1,1,0],["ND","Phương Linh","2026-03-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["ND","Phương Linh","2026-03-03","pass",1,1,1,0,1,1,1,0,0,0,0,0,1,0,1,1,1,1],["ND","Thùy Linh","2026-03-03","partial",1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],["LTR","Thu Hiền","2026-03-02","pass",1,1,1,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0],["LTR","Diễm","2026-03-02","partial",1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],["LTR","Tiên","2026-03-02","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1],["LTR","Thu Hiền","2026-03-02","pass",1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0],["LTR","Diễm","2026-03-02","pass",1,1,0,0,0,1,1,0,1,0,0,1,1,1,0,0,1,1],["LTR","Diễm","2026-03-03","pass",1,0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,0],["LTR","Thu Hiền","2026-03-03","pass",1,1,1,0,1,0,1,0,1,0,0,1,1,1,0,0,0,0],["LTR","Tiên","2026-03-03","pass",1,1,1,1,1,0,1,0,0,0,0,1,1,1,0,0,0,0],["LTR","Bảo Trâm","2026-03-03","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0],["LTR","Mai Trâm","2026-03-03","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-03-04","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0],["LTR","Diễm","2026-03-04","pass",1,1,1,1,0,1,1,0,0,0,0,0,0,1,0,0,0,0],["LTR","Diễm","2026-03-04","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,0,1,1],["LTR","Mai Trâm","2026-03-04","pass",1,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,1,1],["LTR","Diễm","2026-03-04","pass",1,1,0,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1],["LTR","Thu Hiền","2026-03-04","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-03-04","pass",1,1,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0],["LTR","Diễm","2026-03-05","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,1,1,1],["LTR","Diễm","2026-03-05","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-03-05","partial",1,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],["LTR","Mai Trâm","2026-03-05","pass",1,1,1,1,1,1,1,0,0,0,0,1,1,1,0,1,0,1],["LTR","Diễm","2026-03-05","partial",1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Thu Hiền","2026-03-06","partial",1,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1],["LTR","Mai Trâm","2026-03-06","partial",1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],["LTR","Diễm","2026-03-06","partial",1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0],["LTR","Mai Trâm","2026-03-06","partial",1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],["LTR","Bảo Trâm","2026-03-06","pass",1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1],["NGT","Uyên","2026-02-28","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-28","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-28","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-28","none",1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-28","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-28","none",1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-28","none",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-02-27","nozalo",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-03-02","none",1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1],["NGT","Uyên","2026-03-03","partial",1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-03-03","partial",1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["NGT","Uyên","2026-03-03","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-27","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-27","pass",1,1,1,0,0,1,1,1,1,0,0,1,1,1,0,0,0,0],["NGT","Vân","2026-02-27","pass",1,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0],["NGT","Vân","2026-02-28","partial",1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,1,1,0,0,1,1,1,0,0,1,1],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,0,1,0,0,0,0,0,1,1,0,0],["NGT","Vân","2026-02-28","partial",1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1],["NGT","Vân","2026-02-28","pass",1,1,1,0,0,1,1,1,1,0,0,1,0,0,0,0,0,0],["NGT","Vân","2026-02-28","partial",1,1,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1],["NGT","Vân","2026-02-28","partial",1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],["NGT","Vân","2026-02-28","partial",1,0,0,0,0,1,1,1,1,0,0,1,1,1,1,0,1,1],["NGT","Vân","2026-02-28","none",1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1],["NGT","Hiếu","2026-02-28","pass",1,1,1,1,1,1,1,1,0,0,0,1,1,1,0,0,0,0],["NGT","Hiếu","2026-02-28","pass",1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0],["NGT","Hiếu","2026-02-28","pass",1,1,1,1,0,1,1,1,1,0,0,0,1,0,1,1,0,0],["NGT","Hiếu","2026-02-28","pass",1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,1,1,1],["NGT","Hiếu","2026-02-28","pass",1,1,0,1,0,1,1,1,0,0,0,1,1,0,0,1,0,1],["NGT","Hiếu","2026-02-28","pass",1,1,0,1,1,0,0,0,1,0,0,0,0,1,1,1,0,0],["NGT","Hiếu","2026-02-28","pass",1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1],["NGT","Hiếu","2026-02-28","pass",1,1,1,1,1,1,1,0,1,0,0,1,1,1,1,1,1,0],["NGT","Hiếu","2026-03-03","partial",1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1],["NGT","Hiếu","2026-03-03","partial",1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],["NGT","Hiếu","2026-03-03","partial",1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0],["NGT","Hiếu","2026-03-04","pass",1,1,0,0,1,0,1,0,0,0,0,1,1,1,1,1,0,0],["NGT","Hiếu","2026-03-04","pass",1,1,1,0,1,0,1,0,0,0,0,1,1,1,1,1,1,1],["NGT","Hiếu","2026-03-04","partial",1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0],["NGT","Hiếu","2026-03-04","pass",1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-11","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-12","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-13","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-13","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Oanh","2026-02-13","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-09","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-10","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["SH","Ngọc Thủy","2026-02-10","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Tân","2026-03-27","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["CMTT","Hoàng","2026-02-28","unknown",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]};
+  var TOUCH = DATA.touch;                 /* [label, [[cpKey, tag], ...]] */
+  var CASES = DATA.cases;                 /* [clinic, rep, date, verdict, scored, ...checkpoints] */
+  var TODAY = "2026-03-27";
+  var TARGET = 80, CRITICAL = 70, MIN_SAMPLE = 20;
 
-  var CKEYS = ["CMTT","CT","CTE","LA","LTR","ND","NGT","NT","SH","VI"];
-  var STEPS = ["D1","D2-D4","D6","D15","<D25"];
+  var CP_OFFSET = 5;
+  var CP_TOTAL = 0, CP_INDEX = [];
+  TOUCH.forEach(function(t){ CP_INDEX.push(CP_TOTAL); CP_TOTAL += t[1].length; });
 
   var L = {
     en:{
@@ -273,396 +281,396 @@
       signin:"Sign in", signingin:"Signing in…", signout:"Sign out",
       badlogin:"Incorrect password. Please try again.",
       glede:"Sign in to view the QC audit.", lpass:"Password",
-      allm:"All months", allmLong:"all months", mtd:"MTD", through:"through day", pMtd:"Month to date", pMonth:"By month", pMonthH:"SOP pass rate, cases below each bar", vsPrev:"vs same point last month", prevFull:"Last month, full", months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], mtdNote:"Compared like for like: {a} to day {d} against {b} to day {d}, so a partial month is not judged against a full one.", allc:"All clinics", scopeAll:"Viewing all 10 clinics combined", scopeOne:"Viewing",
-      passrate:"SOP pass rate",
-      hero:function(p,n,f){return "<b>"+p+"</b> of <b>"+n+"</b> audited cases met the SOP standard of at least four touchpoints out of five. <b>"+f+"</b> fell below it.";},
-      lpass2:"Passed (4+ of 5)", lfail:"Failed (3 or fewer)",
-      dq:"Cases needing a second look", dqp:"Patterns that look like recording gaps rather than performance. Worth confirming before anyone is measured on these numbers.",
-      fPerfect:"Clinics scoring a flawless 100%", fZero:"Touchpoint columns entirely blank", fNoName:"Audited cases with no patient name",
-      pFunnel:"Where the SOP breaks down", pFunnelH:"Share of audited cases completing each touchpoint",
-      pClinic:"By clinic", pClinicH:"Sorted by SOP pass rate — pass is 4 or more touchpoints of 5",
-      pHeat:"Touchpoint completion by clinic", pHeatH:"Percentage of that clinic's audited cases. Red means the column is entirely blank.",
-      pReps:"By customer service rep", pRepsH:"Ten cases sampled per rep",
-      thClinic:"Clinic", thRep:"CS rep", thN:"Cases", thPass:"Passed", thRate:"Pass rate", thNamed:"Named", thTot:"Total",
-      tasks:["Check-in and send medication instructions",
-             "Eye care instructions and VIP programme",
-             "Remind follow-up visit, and VIP",
-             "Check-in and suggest referral",
-             "Remind follow-up visit, check-in and suggest referral again"],
-      obs:"What stands out", obsH:"Read before drawing conclusions"
+      allc:"All clinics", allm:"All months", allmLong:"all months",
+      scopeAll:"Viewing all clinics", scopeOne:"Viewing", mtd:"MTD", through:"through day",
+      sopScore:"Average SOP score",
+      heroLine:function(cp,tot,n){return "<b>"+cp+"</b> of <b>"+tot+"</b> required checkpoints were completed across <b>"+n+"</b> scoreable cases. Each touchpoint is scored on the share of its checkpoints done, so a half-finished touch earns half a point.";},
+      target:"Target", critical:"Retrain",
+      lScored:"Scoreable cases", lPass:"Meet full SOP rule",
+      dq:"Cases that cannot be scored", dqp:"These carry a verdict but no touchpoint detail, so the new per-checkpoint scoring has nothing to read. They are excluded from every score on this page.",
+      fVerdict:"Verdict recorded, touchpoints blank", fNoZalo:"Customer Zalo never found", fNoVerdict:"No verdict recorded", fCoverage:"Scoreable share of audit",
+      pLadder:"Checkpoint completion, D1 to D90", pLadderH:"Each bar is the share of checkpoints completed at that touchpoint",
+      pRule:"Full SOP rule", pRuleH:"All four conditions must hold",
+      r1:"6+ follow-ups in total", r2:"4+ touches within D30", r3:"2+ touches in D30–D90",
+      r4:"3+ touches carrying VIP content", r5:"3+ touches suggesting a referral",
+      rMet:"cases meeting this",
+      pMtd:"Month to date", pMonth:"By month", pMonthH:"Average SOP score, cases below each bar",
+      vsPrev:"vs same point last month", prevFull:"Last month, full", thN:"Cases", thPass:"Pass",
+      mtdNote:"Compared like for like: {a} to day {d} against {b} to day {d}.",
+      pClinic:"By clinic", pClinicH:"Bar shows SOP score; the line marks the 80% target",
+      pReps:"By customer service rep", pRepsH:"Minimum 20 cases needed for a rank to count",
+      thClinic:"Clinic", thRep:"CS rep", thScore:"SOP score", thRule:"Full rule", thCases:"Scoreable", thAudited:"Audited",
+      thTot:"Total", lowSample:"Low sample",
+      months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      cp:{checkin:"Check-in", meds:"Medication guide", eyecare:"Eye care guide",
+          vipintro:"VIP programme", recall:"Follow-up reminder", vip:"VIP",
+          referral:"Referral request", recall1m:"1-month reminder",
+          habit:"Eye care habit guide", vipben:"VIP benefits",
+          recall3m:"3-month reminder", msgapp:"MSG app profile update"},
+      phase:["Within D30","Within D30","Within D30","Within D30","Within D30","D30–D90","D30–D90","After D90 re-exam"]
     },
     vi:{
       title:"Tuân thủ SOP Lasik", sub:"Kiểm tra chất lượng",
       signin:"Đăng nhập", signingin:"Đang đăng nhập…", signout:"Đăng xuất",
       badlogin:"Mật khẩu không đúng. Vui lòng thử lại.",
       glede:"Đăng nhập để xem kết quả kiểm tra.", lpass:"Mật khẩu",
-      allm:"Tất cả các tháng", allmLong:"tất cả các tháng", mtd:"Đến nay", through:"đến ngày", pMtd:"Từ đầu tháng đến nay", pMonth:"Theo tháng", pMonthH:"Tỷ lệ đạt SOP, số ca dưới mỗi cột", vsPrev:"so với cùng kỳ tháng trước", prevFull:"Tháng trước, cả tháng", months:["Th1","Th2","Th3","Th4","Th5","Th6","Th7","Th8","Th9","Th10","Th11","Th12"], mtdNote:"So sánh tương đương: {a} tính đến ngày {d} với {b} cũng đến ngày {d}, để không so tháng dở dang với tháng đủ.", allc:"Tất cả phòng khám", scopeAll:"Đang xem gộp cả 10 phòng khám", scopeOne:"Đang xem",
-      passrate:"Tỷ lệ đạt SOP",
-      hero:function(p,n,f){return "<b>"+p+"</b> trong <b>"+n+"</b> ca được kiểm tra đạt chuẩn SOP với ít nhất 4 trên 5 điểm chạm. <b>"+f+"</b> ca không đạt.";},
-      lpass2:"Đạt (4+ / 5)", lfail:"Không đạt (≤3)",
-      dq:"Ca cần xem lại", dqp:"Những mẫu hình có vẻ là lỗi ghi nhận hơn là hiệu suất thật. Nên xác minh trước khi dùng số liệu này để đánh giá ai.",
-      fPerfect:"Phòng khám đạt 100% tuyệt đối", fZero:"Cột điểm chạm bỏ trống hoàn toàn", fNoName:"Ca kiểm tra không có tên khách",
-      pFunnel:"SOP đứt gãy ở đâu", pFunnelH:"Tỷ lệ ca hoàn thành từng điểm chạm",
-      pClinic:"Theo phòng khám", pClinicH:"Xếp theo tỷ lệ đạt SOP — đạt là từ 4/5 điểm chạm trở lên",
-      pHeat:"Hoàn thành điểm chạm theo phòng khám", pHeatH:"Phần trăm số ca của phòng khám đó. Màu đỏ nghĩa là cột bỏ trống hoàn toàn.",
-      pReps:"Theo nhân viên CSKH", pRepsH:"Mỗi nhân viên lấy mẫu 10 ca",
-      thClinic:"Phòng khám", thRep:"NV CSKH", thN:"Số ca", thPass:"Đạt", thRate:"Tỷ lệ đạt", thNamed:"Có tên", thTot:"Tổng",
-      tasks:["Hỏi thăm và gửi hướng dẫn dùng thuốc",
-             "Hướng dẫn chăm sóc mắt và chương trình VIP",
-             "Nhắc tái khám, và VIP",
-             "Hỏi thăm và gợi ý giới thiệu",
-             "Nhắc tái khám, hỏi thăm và gợi ý giới thiệu lần nữa"],
-      obs:"Điểm đáng chú ý", obsH:"Nên đọc trước khi kết luận"
+      allc:"Tất cả phòng khám", allm:"Tất cả các tháng", allmLong:"tất cả các tháng",
+      scopeAll:"Đang xem tất cả phòng khám", scopeOne:"Đang xem", mtd:"Đến nay", through:"đến ngày",
+      sopScore:"Điểm SOP trung bình",
+      heroLine:function(cp,tot,n){return "Đã hoàn thành <b>"+cp+"</b> trên <b>"+tot+"</b> đầu mục bắt buộc, trên <b>"+n+"</b> ca chấm được. Mỗi điểm chạm được tính theo tỷ lệ đầu mục đã làm, nên làm một nửa thì được nửa điểm.";},
+      target:"Mục tiêu", critical:"Đào tạo lại",
+      lScored:"Ca chấm được", lPass:"Đạt đủ quy tắc SOP",
+      dq:"Ca không chấm được", dqp:"Những ca này có kết luận nhưng không có chi tiết điểm chạm, nên cách chấm theo đầu mục không đọc được gì. Chúng bị loại khỏi mọi điểm số trên trang này.",
+      fVerdict:"Có kết luận, điểm chạm bỏ trống", fNoZalo:"Không tìm thấy Zalo khách", fNoVerdict:"Không có kết luận", fCoverage:"Tỷ lệ chấm được",
+      pLadder:"Hoàn thành đầu mục, D1 đến D90", pLadderH:"Mỗi thanh là tỷ lệ đầu mục đã hoàn thành tại điểm chạm đó",
+      pRule:"Quy tắc SOP đầy đủ", pRuleH:"Phải đạt cả bốn điều kiện",
+      r1:"Tối thiểu 6 lần follow-up", r2:"Tối thiểu 4 lần chạm trong D30", r3:"Tối thiểu 2 lần chạm D30–D90",
+      r4:"Tối thiểu 3 lần có nội dung VIP", r5:"Tối thiểu 3 lần gợi ý giới thiệu",
+      rMet:"ca đạt điều kiện này",
+      pMtd:"Từ đầu tháng đến nay", pMonth:"Theo tháng", pMonthH:"Điểm SOP trung bình, số ca dưới mỗi cột",
+      vsPrev:"so với cùng kỳ tháng trước", prevFull:"Tháng trước, cả tháng", thN:"Số ca", thPass:"Đạt",
+      mtdNote:"So sánh tương đương: {a} đến ngày {d} với {b} đến ngày {d}.",
+      pClinic:"Theo phòng khám", pClinicH:"Thanh là điểm SOP; vạch là mục tiêu 80%",
+      pReps:"Theo nhân viên CSKH", pRepsH:"Cần tối thiểu 20 ca để tính xếp hạng",
+      thClinic:"Phòng khám", thRep:"NV CSKH", thScore:"Điểm SOP", thRule:"Đủ quy tắc", thCases:"Chấm được", thAudited:"Đã kiểm",
+      thTot:"Tổng", lowSample:"Ít mẫu",
+      months:["Th1","Th2","Th3","Th4","Th5","Th6","Th7","Th8","Th9","Th10","Th11","Th12"],
+      cp:{checkin:"Hỏi thăm", meds:"HD sử dụng thuốc", eyecare:"HD chăm sóc mắt",
+          vipintro:"Giới thiệu VIP", recall:"Nhắc tái khám", vip:"VIP",
+          referral:"Gợi ý giới thiệu", recall1m:"Nhắc tái khám 1 tháng",
+          habit:"HD thói quen chăm sóc mắt", vipben:"Quyền lợi VIP",
+          recall3m:"Nhắc tái khám 3 tháng", msgapp:"Cập nhật hồ sơ app MSG"},
+      phase:["Trong D30","Trong D30","Trong D30","Trong D30","Trong D30","D30–D90","D30–D90","Sau tái khám D90"]
     },
     zh:{
       title:"Lasik SOP 合规稽核", sub:"质量检查",
       signin:"登录", signingin:"正在登录…", signout:"退出",
       badlogin:"密码不正确，请重试。",
       glede:"登录以查看质检结果。", lpass:"密码",
-      allm:"全部月份", allmLong:"全部月份", mtd:"本月至今", through:"截至", pMtd:"本月至今", pMonth:"按月份", pMonthH:"SOP 达标率，柱下为案例数", vsPrev:"较上月同期", prevFull:"上月整月", months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"], mtdNote:"同口径对比：{a} 截至 {d} 日 与 {b} 截至 {d} 日，避免用不完整月份对比完整月份。", allc:"全部诊所", scopeAll:"正在查看 10 家诊所合计", scopeOne:"正在查看",
-      passrate:"SOP 达标率",
-      hero:function(p,n,f){return "在 <b>"+n+"</b> 例受检案例中，<b>"+p+"</b> 例达到 SOP 标准（五个触点中至少完成四个），<b>"+f+"</b> 例未达标。";},
-      lpass2:"达标（5个中至少4个）", lfail:"未达标（≤3个）",
-      dq:"需要复核的案例", dqp:"以下模式更像是记录缺失而非真实表现。在以这些数字考核任何人之前，建议先行核实。",
-      fPerfect:"满分 100% 的诊所", fZero:"整列空白的触点", fNoName:"无客户姓名的受检案例",
-      pFunnel:"SOP 在哪里断裂", pFunnelH:"各触点完成案例占比",
-      pClinic:"按诊所", pClinicH:"按 SOP 达标率排序 — 五个触点中完成四个及以上为达标",
-      pHeat:"各诊所触点完成率", pHeatH:"占该诊所受检案例的百分比。红色表示整列空白。",
-      pReps:"按客服人员", pRepsH:"每位客服抽检十例",
-      thClinic:"诊所", thRep:"客服", thN:"案例数", thPass:"达标", thRate:"达标率", thNamed:"有姓名", thTot:"合计",
-      tasks:["问候并发送用药说明书","护眼护理指导及VIP项目","提醒复诊，以及VIP",
-             "问候并建议转介绍","提醒复诊、问候并再次建议转介绍"],
-      obs:"值得注意之处", obsH:"下结论前请先阅读"
+      allc:"全部诊所", allm:"全部月份", allmLong:"全部月份",
+      scopeAll:"正在查看全部诊所", scopeOne:"正在查看", mtd:"本月至今", through:"截至",
+      sopScore:"SOP 平均得分",
+      heroLine:function(cp,tot,n){return "在 <b>"+n+"</b> 例可评分案例中，<b>"+tot+"</b> 项必需事项完成了 <b>"+cp+"</b> 项。每个触点按其事项完成比例计分，做一半得一半。";},
+      target:"目标", critical:"需重训",
+      lScored:"可评分案例", lPass:"完全符合 SOP",
+      dq:"无法评分的案例", dqp:"这些案例有结论但无触点明细，新的逐项评分无从读取，因此不计入本页任何得分。",
+      fVerdict:"有结论，触点空白", fNoZalo:"未找到客户 Zalo", fNoVerdict:"无结论记录", fCoverage:"可评分占比",
+      pLadder:"事项完成情况，D1 至 D90", pLadderH:"每条为该触点已完成事项的占比",
+      pRule:"完整 SOP 规则", pRuleH:"四项条件须全部满足",
+      r1:"累计至少 6 次跟进", r2:"D30 内至少 4 次触达", r3:"D30–D90 至少 2 次触达",
+      r4:"至少 3 次含 VIP 内容", r5:"至少 3 次含转介绍邀请",
+      rMet:"例满足此条",
+      pMtd:"本月至今", pMonth:"按月份", pMonthH:"SOP 平均得分，柱下为案例数",
+      vsPrev:"较上月同期", prevFull:"上月整月", thN:"案例数", thPass:"达标",
+      mtdNote:"同口径对比：{a} 截至 {d} 日 与 {b} 截至 {d} 日。",
+      pClinic:"按诊所", pClinicH:"柱为 SOP 得分；竖线为 80% 目标",
+      pReps:"按客服人员", pRepsH:"至少 20 例方可计入排名",
+      thClinic:"诊所", thRep:"客服", thScore:"SOP 得分", thRule:"完整规则", thCases:"可评分", thAudited:"已稽核",
+      thTot:"合计", lowSample:"样本不足",
+      months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+      cp:{checkin:"问候", meds:"用药说明", eyecare:"护眼指导",
+          vipintro:"VIP 项目介绍", recall:"复诊提醒", vip:"VIP",
+          referral:"转介绍邀请", recall1m:"一个月复诊提醒",
+          habit:"护眼习惯指导", vipben:"VIP 权益",
+          recall3m:"三个月复诊提醒", msgapp:"MSG 应用资料更新"},
+      phase:["D30 内","D30 内","D30 内","D30 内","D30 内","D30–D90","D30–D90","D90 复诊后"]
     }
   };
 
   var PW_HASH = "477e4382ecb1452ce2d033c89b11ac6e223e293c39b7466ee420c66cce6233f3";
-  var lang = "en", clinic = "all", month = "all", session = null;
+  var lang="en", clinic="all", month="all", session=null;
   function T(){ return L[lang]; }
   function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]}); }
+  function pct(a,b){ return b ? Math.round(a/b*1000)/10 : 0; }
 
-  function utf8(str){
-    var out="",i,c;
-    for(i=0;i<str.length;i++){ c=str.charCodeAt(i);
-      if(c<128){ out+=String.fromCharCode(c); }
-      else if(c<2048){ out+=String.fromCharCode(192|(c>>6),128|(c&63)); }
-      else { out+=String.fromCharCode(224|(c>>12),128|((c>>6)&63),128|(c&63)); } }
-    return out;
-  }
-  function sha256sync(ascii){
-    function rr(v,a){ return (v>>>a)|(v<<(32-a)); }
-    var mm=Math.pow, mp=mm(2,32), i, j, result="", words=[], bitLen=ascii.length*8;
-    var hash=sha256sync.h, k=sha256sync.k;
-    if(!hash){
-      hash=sha256sync.h=[]; k=sha256sync.k=[];
-      var n=0, isComp={};
-      for(var cand=2;n<64;cand++){
-        if(!isComp[cand]){
-          for(i=0;i<313;i+=cand) isComp[i]=cand;
-          hash[n]=(mm(cand,.5)*mp)|0; k[n++]=(mm(cand,1/3)*mp)|0;
-        }
-      }
-      hash=hash.slice(0,8); sha256sync.h=hash;
-    }
-    ascii+="\x80";
-    while(ascii.length%64-56) ascii+="\x00";
-    for(i=0;i<ascii.length;i++){ j=ascii.charCodeAt(i); if(j>>8) return null;
-      words[i>>2]|=j<<((3-i)%4)*8; }
-    words[words.length]=(bitLen/mp)|0; words[words.length]=bitLen;
-    var h=hash.slice(0);
-    for(j=0;j<words.length;){
-      var w=words.slice(j,j+=16), old=h.slice(0);
-      for(i=0;i<64;i++){
-        var w15=w[i-15], w2=w[i-2], a=h[0], e=h[4];
-        var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]
-          +(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]
+  function utf8(str){var o="",i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i);
+    if(c<128)o+=String.fromCharCode(c);else if(c<2048)o+=String.fromCharCode(192|(c>>6),128|(c&63));
+    else o+=String.fromCharCode(224|(c>>12),128|((c>>6)&63),128|(c&63));}return o;}
+  function sha256sync(a){function rr(v,x){return(v>>>x)|(v<<(32-x));}
+    var mm=Math.pow,mp=mm(2,32),i,j,res="",w=[],bl=a.length*8,h=sha256sync.h,k=sha256sync.k;
+    if(!h){h=sha256sync.h=[];k=sha256sync.k=[];var n=0,ic={};
+      for(var cd=2;n<64;cd++){if(!ic[cd]){for(i=0;i<313;i+=cd)ic[i]=cd;
+        h[n]=(mm(cd,.5)*mp)|0;k[n++]=(mm(cd,1/3)*mp)|0;}}h=h.slice(0,8);sha256sync.h=h;}
+    a+="\x80";while(a.length%64-56)a+="\x00";
+    for(i=0;i<a.length;i++){j=a.charCodeAt(i);if(j>>8)return null;w[i>>2]|=j<<((3-i)%4)*8;}
+    w[w.length]=(bl/mp)|0;w[w.length]=bl;var H=h.slice(0);
+    for(j=0;j<w.length;){var ww=w.slice(j,j+=16),old=H.slice(0);
+      for(i=0;i<64;i++){var w15=ww[i-15],w2=ww[i-2],A=H[0],E=H[4];
+        var t1=H[7]+(rr(E,6)^rr(E,11)^rr(E,25))+((E&H[5])^((~E)&H[6]))+k[i]
+          +(ww[i]=(i<16)?ww[i]:(ww[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+ww[i-7]
             +(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
-        var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&h[1])^(a&h[2])^(h[1]&h[2]));
-        h=[(t1+t2)|0].concat(h); h[4]=(h[4]+t1)|0; h.length=8;
-      }
-      for(i=0;i<8;i++) h[i]=(h[i]+old[i])|0;
-    }
-    for(i=0;i<8;i++) for(j=3;j+1;j--){ var b=(h[i]>>(j*8))&255;
-      result+=((b<16)?"0":"")+b.toString(16); }
-    return result;
+        var t2=(rr(A,2)^rr(A,13)^rr(A,22))+((A&H[1])^(A&H[2])^(H[1]&H[2]));
+        H=[(t1+t2)|0].concat(H);H[4]=(H[4]+t1)|0;H.length=8;}
+      for(i=0;i<8;i++)H[i]=(H[i]+old[i])|0;}
+    for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(H[i]>>(j*8))&255;res+=((b<16)?"0":"")+b.toString(16);}
+    return res;}
+  function sha256(t){if(window.crypto&&crypto.subtle&&window.isSecureContext){try{
+      return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){
+        return Array.prototype.map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,"0")}).join("");
+      }).catch(function(){return sha256sync(utf8(t))});}catch(e){}}
+    return Promise.resolve(sha256sync(utf8(t)));}
+
+  /* ---------------- data helpers ---------------- */
+  function ym(c){ return c[2].slice(0,7); }
+  function day(c){ return +c[2].slice(8,10); }
+  function scored(c){ return c[4] === 1; }
+  function cpAt(c, ti, ci){ return c[CP_OFFSET + CP_INDEX[ti] + ci]; }
+  function tpDone(c, ti){
+    for(var i=0;i<TOUCH[ti][1].length;i++) if(cpAt(c,ti,i)) return true;
+    return false;
   }
-  function sha256(txt){
-    if(window.crypto && crypto.subtle && window.isSecureContext){
-      try{
-        return crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt)).then(function(buf){
-          return Array.prototype.map.call(new Uint8Array(buf), function(b){
-            return b.toString(16).padStart(2,"0"); }).join("");
-        }).catch(function(){ return sha256sync(utf8(txt)); });
-      }catch(e){}
-    }
-    return Promise.resolve(sha256sync(utf8(txt)));
+  function caseScore(c){
+    var d=0; for(var i=CP_OFFSET;i<CP_OFFSET+CP_TOTAL;i++) d+=c[i];
+    return d;
   }
-
-  var NAMELESS = {NGT:true};   /* clinics whose sheet has no patient names */
-
-  function passed(c){ return c[2]+c[3]+c[4]+c[5]+c[6] >= 4; }
-  function ym(c){ return c[7].slice(0,7); }
-  function day(c){ return +c[7].slice(8,10); }
-
+  function tagCount(c, tag){
+    var n=0;
+    TOUCH.forEach(function(t,ti){
+      for(var i=0;i<t[1].length;i++) if(t[1][i][1]===tag && cpAt(c,ti,i)){ n++; return; }
+    });
+    return n;
+  }
+  function ruleParts(c){
+    var early=0, late=0;
+    for(var i=0;i<8;i++){ if(tpDone(c,i)){ if(i<5) early++; else late++; } }
+    return {early:early, late:late, total:early+late,
+            vip:tagCount(c,"vip"), ref:tagCount(c,"ref")};
+  }
+  function fullPass(c){
+    var p=ruleParts(c);
+    return p.total>=6 && p.early>=4 && p.late>=2 && p.vip>=3 && p.ref>=3;
+  }
   function MONTHS(){
-    var seen = {}, out = [];
-    CASES.forEach(function(c){ var k=ym(c); if(!seen[k]){ seen[k]=1; out.push(k); } });
+    var seen={}, out=[];
+    CASES.forEach(function(c){ var k=ym(c); if(!seen[k]){seen[k]=1;out.push(k);} });
     return out.sort();
   }
-  function monthLabel(k){
-    var names = T().months;
-    return names[+k.slice(5,7)-1] + " " + k.slice(0,4);
-  }
-  function sel(clinicKey, monthKey){
+  function monthLabel(k){ return T().months[+k.slice(5,7)-1]+" "+k.slice(0,4); }
+  function sel(cl, mo, onlyScored){
     return CASES.filter(function(c){
-      if(clinicKey && clinicKey !== "all" && c[0] !== clinicKey) return false;
-      if(monthKey && monthKey !== "all" && ym(c) !== monthKey) return false;
+      if(cl && cl!=="all" && c[0]!==cl) return false;
+      if(mo && mo!=="all" && ym(c)!==mo) return false;
+      if(onlyScored && !scored(c)) return false;
       return true;
     });
   }
   function agg(list){
-    var tp=[0,0,0,0,0], pass=0, named=0;
-    list.forEach(function(c){
-      for(var i=0;i<5;i++) tp[i]+=c[2+i];
-      if(passed(c)) pass++;
-      if(!NAMELESS[c[0]]) named++;
-    });
-    return {n:list.length, tp:tp, pass:pass, named:named};
+    var done=0, pass=0;
+    list.forEach(function(c){ done+=caseScore(c); if(fullPass(c)) pass++; });
+    return {n:list.length, done:done, req:list.length*CP_TOTAL,
+            score:pct(done, list.length*CP_TOTAL), pass:pass};
   }
-  function byKey(list, idx){
-    var m = {};
-    list.forEach(function(c){
-      var k = c[idx];
-      if(!m[k]) m[k] = {n:0, pass:0, tp:[0,0,0,0,0], clinic:c[0]};
-      m[k].n++;
-      if(passed(c)) m[k].pass++;
-      for(var i=0;i<5;i++) m[k].tp[i]+=c[2+i];
-    });
-    return m;
-  }
-  function view(){ return agg(sel(clinic, month)); }
-  function pct(a,b){ return b ? Math.round(a/b*1000)/10 : 0; }
-  /* Render a flag list, trimmed so a long one cannot swamp the card. */
-  function listOf(arr, cap){
-    if(!arr.length) return "—";
-    cap = cap || 6;
-    if(arr.length <= cap) return esc(arr.join(", "));
-    return esc(arr.slice(0, cap).join(", ")) + ' <span style="opacity:.75">+'
-      + (arr.length - cap) + "</span>";
-  }
-  function heatCls(p, zero){
-    if(zero) return "v0";
-    return p>=95?"v4":p>=80?"v3":p>=55?"v2":"v1";
-  }
+  function scoreColour(s){ return s>=TARGET ? "var(--ok)" : s>=CRITICAL ? "var(--warn)" : "var(--bad)"; }
 
+  /* ---------------- render ---------------- */
   function render(){
-    var t=T(), v=view(), fail=v.n - v.pass, rate=pct(v.pass, v.n);
-    document.getElementById("pgTitle").textContent = t.title;
-    document.getElementById("pgSub").textContent = t.sub;
+    var t=T();
+    document.getElementById("pgTitle").textContent=t.title;
+    document.getElementById("pgSub").textContent=t.sub;
     document.body.className = lang==="zh" ? "lang-zh" : "";
     document.getElementById("scopebar").innerHTML =
       (clinic==="all" ? esc(t.scopeAll) : esc(t.scopeOne)+' <b>'+esc(clinic)+'</b>')
       + ' &middot; ' + (month==="all" ? esc(t.allmLong) : '<b>'+esc(monthLabel(month))+'</b>');
 
-    var h = "";
+    var all=sel(clinic,month,false), sc=sel(clinic,month,true), a=agg(sc);
+    var h="";
 
-    /* hero + data-quality */
-    h += '<div class="herorow"><div class="hero"><div>'
-      + '<div class="bignum">'+rate+'<span style="font-size:1.4rem">%</span></div>'
-      + '<div class="biglab">'+esc(t.passrate)+'</div></div><div>'
-      + '<p class="sideline">'+t.hero(v.pass, v.n, fail)+'</p>'
-      + '<div class="passbar">'
-      + '<div class="sg" style="flex:'+Math.max(v.pass,1)+';background:var(--ok)">'+rate+'%</div>'
-      + '<div class="sg" style="flex:'+Math.max(fail,1)+';background:var(--bad)">'+(Math.round((100-rate)*10)/10)+'%</div>'
-      + '</div><div class="barlegend">'
-      + '<span class="i"><span class="sw" style="background:var(--ok)"></span>'+esc(t.lpass2)+' <b class="num">'+v.pass+'</b></span>'
-      + '<span class="i"><span class="sw" style="background:var(--bad)"></span>'+esc(t.lfail)+' <b class="num">'+fail+'</b></span>'
-      + '</div></div></div>';
+    /* hero + unscoreable */
+    h += '<div class="herorow"><div class="hero"><div class="heroTop"><div>'
+      + '<div class="bignum" style="color:'+scoreColour(a.score)+'">'+a.score+'<span style="font-size:1.35rem">%</span></div>'
+      + '<div class="biglab">'+esc(t.sopScore)+'</div></div><div>'
+      + '<p class="sideline">'+t.heroLine(a.done, a.req, a.n)+'</p>'
+      + '<div class="gauge">'
+      + '<div class="gfill" style="width:'+Math.max(a.score,1)+'%;background:'+scoreColour(a.score)+'"></div>'
+      + '<div class="gtarget" style="left:'+TARGET+'%"></div>'
+      + '<div class="gtlab" style="left:'+TARGET+'%">'+esc(t.target)+' '+TARGET+'%</div>'
+      + '</div><div class="glegend">'
+      + '<span>'+esc(t.lScored)+' <b>'+a.n+'</b></span>'
+      + '<span>'+esc(t.lPass)+' <b>'+a.pass+'</b> ('+pct(a.pass,a.n)+'%)</span>'
+      + '</div></div></div></div>';
 
-    var scopeCases = sel(clinic, month);
-    var perClinic = byKey(scopeCases, 0);
-    var scopedPerfect = [], scopedZero = [];
-    Object.keys(perClinic).sort().forEach(function(k){
-      var g = perClinic[k];
-      if(g.n > 0 && g.pass === g.n) scopedPerfect.push(k);
-      g.tp.forEach(function(val,i){ if(g.n > 0 && val === 0) scopedZero.push(k+" "+STEPS[i]); });
-    });
-    var scopedNoName = scopeCases.filter(function(c){ return NAMELESS[c[0]]; }).length;
-    var dqTotal = scopedPerfect.length + scopedZero.length + (scopedNoName>0?1:0);
-
-    h += '<div class="flagcard"><div><div class="fnum">'+dqTotal+'</div>'
+    var unsc = all.length - sc.length;
+    var noZalo = all.filter(function(c){ return c[3]==="nozalo"; }).length;
+    var noVerd = all.filter(function(c){ return c[3]==="unknown"; }).length;
+    h += '<div class="flagcard"><div><div class="fnum">'+unsc+'</div>'
       + '<div class="flab">'+esc(t.dq)+'</div></div><p>'+esc(t.dqp)+'</p><div class="flist">'
-      + '<div class="fr"><span>'+esc(t.fPerfect)+'</span><span class="fv">'
-        + listOf(scopedPerfect)+'</span></div>'
-      + '<div class="fr"><span>'+esc(t.fZero)+'</span><span class="fv">'
-        + listOf(scopedZero)+'</span></div>'
-      + '<div class="fr"><span>'+esc(t.fNoName)+'</span><span class="fv">'+scopedNoName+'</span></div>'
+      + '<div class="fr"><span>'+esc(t.fVerdict)+'</span><span class="fv">'+unsc+'</span></div>'
+      + '<div class="fr"><span>'+esc(t.fNoZalo)+'</span><span class="fv">'+noZalo+'</span></div>'
+      + '<div class="fr"><span>'+esc(t.fNoVerdict)+'</span><span class="fv">'+noVerd+'</span></div>'
+      + '<div class="fr"><span>'+esc(t.fCoverage)+'</span><span class="fv">'+pct(sc.length,all.length)+'%</span></div>'
       + '</div></div></div>';
 
-    /* ---- month to date + monthly trend ---- */
-    var curM = TODAY.slice(0,7), curDay = +TODAY.slice(8,10);
-    var ms = MONTHS(), prevM = ms[ms.indexOf(curM)-1];
-    var mtdList  = sel(clinic, curM);
-    var mtdAgg   = agg(mtdList);
-    var prevFull = prevM ? agg(sel(clinic, prevM)) : null;
-    var prevSame = prevM ? agg(sel(clinic, prevM).filter(function(c){ return day(c) <= curDay; })) : null;
-    var mtdRate  = pct(mtdAgg.pass, mtdAgg.n);
-    var delta    = prevSame && prevSame.n ? Math.round((mtdRate - pct(prevSame.pass, prevSame.n))*10)/10 : null;
+    /* MTD + by month */
+    var curM=TODAY.slice(0,7), curDay=+TODAY.slice(8,10), ms=MONTHS();
+    var idx=ms.indexOf(curM), prevM = idx>0 ? ms[idx-1] : null;
+    var mtdA=agg(sel(clinic,curM,true));
+    var prevFullA = prevM ? agg(sel(clinic,prevM,true)) : null;
+    var prevSameA = prevM ? agg(sel(clinic,prevM,true).filter(function(c){return day(c)<=curDay;})) : null;
+    var delta = (prevSameA && prevSameA.n) ? Math.round((mtdA.score-prevSameA.score)*10)/10 : null;
 
     h += '<div class="grid2" style="margin-bottom:18px">';
-
     h += '<div class="panel" style="margin:0"><h3><span>'+esc(t.pMtd)+'</span>'
       + '<span class="hint">'+esc(monthLabel(curM))+' &middot; '+esc(t.through)+' '+curDay+'</span></h3>'
-      + '<div class="pad"><div class="mtdgrid">'
-      + '<div><div class="mtdnum">'+mtdRate+'<span style="font-size:1.2rem">%</span></div>'
-      + '<div class="mtdlab">'+esc(t.passrate)+'</div></div>'
-      + '<div class="mtdside">'
-      + '<div class="mtdrow"><span>'+esc(t.thN)+'</span><b class="num">'+mtdAgg.n+'</b></div>'
-      + '<div class="mtdrow"><span>'+esc(t.thPass)+'</span><b class="num">'+mtdAgg.pass+'</b></div>';
-    if(delta !== null){
-      var up = delta >= 0;
-      h += '<div class="mtdrow"><span>'+esc(t.vsPrev)+'</span>'
-        + '<b class="num" style="color:'+(up?'var(--ok)':'var(--bad)')+'">'
-        + (up?'▲ +':'▼ ')+delta+'%</b></div>';
-    }
-    if(prevFull && prevFull.n){
-      h += '<div class="mtdrow"><span>'+esc(t.prevFull)+'</span><b class="num">'
-        + pct(prevFull.pass, prevFull.n)+'%</b></div>';
-    }
+      + '<div class="pad"><div class="mtdgrid"><div>'
+      + '<div class="mtdnum" style="color:'+scoreColour(mtdA.score)+'">'+mtdA.score+'<span style="font-size:1.15rem">%</span></div>'
+      + '<div class="mtdlab">'+esc(t.sopScore)+'</div></div><div>'
+      + '<div class="mtdrow"><span>'+esc(t.thCases)+'</span><b>'+mtdA.n+'</b></div>'
+      + '<div class="mtdrow"><span>'+esc(t.thPass)+'</span><b>'+mtdA.pass+'</b></div>';
+    if(delta!==null) h += '<div class="mtdrow"><span>'+esc(t.vsPrev)+'</span><b style="color:'
+      +(delta>=0?'var(--ok)':'var(--bad)')+'">'+(delta>=0?'▲ +':'▼ ')+delta+'%</b></div>';
+    if(prevFullA && prevFullA.n) h += '<div class="mtdrow"><span>'+esc(t.prevFull)+'</span><b>'+prevFullA.score+'%</b></div>';
     h += '</div></div>';
-    if(delta !== null){
-      h += '<p class="mtdnote">'+esc(t.mtdNote
-            .replace("{a}", monthLabel(curM)).replace("{b}", monthLabel(prevM)).replace("{d}", curDay))+'</p>';
-    }
+    if(delta!==null) h += '<p class="mtdnote">'+esc(t.mtdNote.replace("{a}",monthLabel(curM))
+      .replace("{b}",monthLabel(prevM)).replace("{d}",curDay))+'</p>';
     h += '</div></div>';
 
     h += '<div class="panel" style="margin:0"><h3><span>'+esc(t.pMonth)+'</span>'
-      + '<span class="hint">'+esc(t.pMonthH)+'</span></h3><div class="pad"><div class="mtrend">';
-    var maxN = Math.max.apply(null, ms.map(function(k){ return sel(clinic,k).length; }).concat([1]));
+      + '<span class="hint">'+esc(t.pMonthH)+'</span></h3><div class="pad"><div class="mtrend">'
+      + '<div class="tline" style="bottom:'+(TARGET/100*120)+'px"></div>'
+      + '<div class="tlineLab" style="bottom:'+(TARGET/100*120)+'px">'+esc(t.target)+' '+TARGET+'%</div>';
     ms.forEach(function(k){
-      var a = agg(sel(clinic, k)), r = pct(a.pass, a.n), isCur = k===curM;
-      var col = a.n===0 ? "var(--surface-3)" : r>=88 ? "var(--ok)" : r>=78 ? "var(--g3)" : "var(--warn)";
+      var g=agg(sel(clinic,k,true)), isCur=k===curM;
       h += '<div class="mcol"><span class="mval"'+(isCur?' style="color:var(--accent)"':'')+'>'
-        + (a.n? r+'%' : '—')+'</span>'
-        + '<div class="mbar" style="height:'+(a.n? Math.max(Math.round(r/100*96),4) : 3)+'px;background:'+col+'"></div>'
+        + (g.n? g.score+'%' : '—')+'</span>'
+        + '<div class="mbar" style="height:'+(g.n?Math.max(Math.round(g.score/100*120),3):3)
+        + 'px;background:'+(g.n?scoreColour(g.score):"var(--surface-3)")+'"></div>'
         + '<span class="mlab"'+(isCur?' style="color:var(--accent);font-weight:600"':'')+'>'
-        + esc(monthLabel(k).split(" ")[0])+'</span>'
-        + '<span class="mn">'+a.n+'</span></div>';
+        + esc(monthLabel(k).split(" ")[0])+'</span><span class="mn">'+g.n+'</span></div>';
     });
     h += '</div></div></div></div>';
 
-    /* funnel */
-    h += '<div class="panel"><h3><span>'+esc(t.pFunnel)+'</span><span class="hint">'+esc(t.pFunnelH)+'</span></h3>'
-      + '<div class="pad"><div class="funnel">';
-    STEPS.forEach(function(st,i){
-      var done=v.tp[i], p=pct(done,v.n);
-      var col = done===0 ? "var(--bad)" : p>=90 ? "var(--ok)" : p>=75 ? "var(--warn)" : "var(--bad)";
-      h += '<div class="fstep"><span class="fd">'+esc(st)+'</span>'
-        + '<div class="ftrack"><div class="ffill" style="width:'+Math.max(p,1.5)+'%;background:'+col+'"></div></div>'
-        + '<span class="fnums"><b>'+p+'%</b> <span style="color:var(--muted)">'+done+'/'+v.n+'</span></span>'
-        + '<span class="ftask">'+esc(t.tasks[i])+'</span></div>';
+    /* checkpoint ladder */
+    h += '<div class="panel"><h3><span>'+esc(t.pLadder)+'</span><span class="hint">'+esc(t.pLadderH)+'</span></h3>';
+    TOUCH.forEach(function(tp,ti){
+      var defs=tp[1], nCp=defs.length, doneCp=0;
+      var perCp=defs.map(function(){return 0;});
+      sc.forEach(function(c){
+        for(var i=0;i<nCp;i++) if(cpAt(c,ti,i)){ perCp[i]++; doneCp++; }
+      });
+      var reqCp = sc.length*nCp, score = pct(doneCp, reqCp);
+      h += '<div class="tp"><div class="tphead">'
+        + '<span class="tpname">'+esc(tp[0])+'<span class="ph">'+esc(t.phase[ti])+'</span></span>'
+        + '<div class="tptrack">';
+      perCp.forEach(function(v,i){
+        var w = sc.length ? (v/sc.length)*(100/nCp) : 0;
+        h += '<div class="tpseg" style="width:'+w+'%;background:'
+          + (defs[i][1]==="vip" ? "var(--accent)" : defs[i][1]==="ref" ? "var(--ok)" : "var(--inert)")
+          + ';opacity:'+(0.55+0.45*(i%2))+'"></div>';
+      });
+      h += '</div><span class="tpnums"><b style="color:'+scoreColour(score)+'">'+score+'%</b> '
+        + '<span style="color:var(--muted)">'+doneCp+'/'+reqCp+'</span></span></div><div class="cps">';
+      defs.forEach(function(d,i){
+        h += '<span class="cp'+(d[1]?' '+d[1]:'')+'">'+esc(t.cp[d[0]]||d[0])
+          + (d[1]?' <span class="tag">'+esc(d[1])+'</span>':'')
+          + ' <span class="pcv">'+pct(perCp[i],sc.length)+'%</span></span>';
+      });
+      h += '</div></div>';
     });
+    h += '</div>';
+
+    /* full rule */
+    var conds=[0,0,0,0,0];
+    sc.forEach(function(c){ var p=ruleParts(c);
+      if(p.total>=6)conds[0]++; if(p.early>=4)conds[1]++; if(p.late>=2)conds[2]++;
+      if(p.vip>=3)conds[3]++; if(p.ref>=3)conds[4]++; });
+    var labels=[t.r1,t.r2,t.r3,t.r4,t.r5];
+    h += '<div class="grid2"><div class="panel" style="margin:0"><h3><span>'+esc(t.pRule)+'</span>'
+      + '<span class="hint">'+esc(t.pRuleH)+'</span></h3><div class="pad"><div class="rulebox">';
+    labels.forEach(function(lb,i){
+      var r=pct(conds[i],sc.length);
+      h += '<div class="rulerow"><span class="tick" style="color:'+scoreColour(r)+'">'
+        + (r>=TARGET?'✓':'✕')+'</span><span>'+esc(lb)+'</span>'
+        + '<span class="rn" style="color:'+scoreColour(r)+'">'+r+'%</span></div>';
+    });
+    h += '<div class="rulerow" style="border-top:1px solid var(--rule);padding-top:9px;margin-top:3px">'
+      + '<span class="tick"></span><span><b>'+esc(t.lPass)+'</b></span>'
+      + '<span class="rn">'+pct(a.pass,a.n)+'%</span></div>';
     h += '</div></div></div>';
 
-    /* clinic table + heatmap (all view only) */
-    if(clinic === "all"){
-      var rows = Object.keys(perClinic).map(function(k){ var g=perClinic[k];
-        return {k:k, n:g.n, pass:g.pass, rate:pct(g.pass,g.n),
-                named: NAMELESS[k] ? 0 : g.n, tp:g.tp};
-      }).sort(function(a,b){ return b.rate-a.rate; });
+    /* by clinic */
+    var byC={};
+    sc.forEach(function(c){ (byC[c[0]] = byC[c[0]] || []).push(c); });
+    var allByC={}; all.forEach(function(c){ (allByC[c[0]] = allByC[c[0]] || []).push(c); });
+    var crows=Object.keys(byC).map(function(k){ var g=agg(byC[k]);
+      return {k:k, score:g.score, n:g.n, pass:g.pass, audited:(allByC[k]||[]).length}; })
+      .sort(function(x,y){ return y.score-x.score; });
+    h += '<div class="panel" style="margin:0"><h3><span>'+esc(t.pClinic)+'</span>'
+      + '<span class="hint">'+esc(t.pClinicH)+'</span></h3><div class="tblwrap"><table><thead><tr>'
+      + '<th>'+esc(t.thClinic)+'</th><th class="n">'+esc(t.thScore)+'</th>'
+      + '<th style="width:30%"></th><th class="n">'+esc(t.thCases)+'</th>'
+      + '<th class="n">'+esc(t.thAudited)+'</th></tr></thead><tbody>';
+    crows.forEach(function(r){
+      h += '<tr><td><b>'+esc(r.k)+'</b></td>'
+        + '<td class="n" style="color:'+scoreColour(r.score)+'">'+r.score+'%</td>'
+        + '<td><div class="barw"><div class="barf" style="width:'+Math.max(r.score,1)+'%;background:'
+        + scoreColour(r.score)+'"></div><div class="bart" style="left:'+TARGET+'%"></div></div></td>'
+        + '<td class="n">'+r.n+'</td><td class="n" style="color:var(--muted)">'+r.audited+'</td></tr>';
+    });
+    h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+a.score+'%</td><td></td>'
+      + '<td class="n">'+a.n+'</td><td class="n">'+all.length+'</td></tr></tbody></table></div></div></div>';
 
-      h += '<div class="panel"><h3><span>'+esc(t.pClinic)+'</span><span class="hint">'+esc(t.pClinicH)+'</span></h3>'
-        + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thClinic)+'</th>'
-        + '<th class="n">'+esc(t.thN)+'</th><th class="n">'+esc(t.thPass)+'</th>'
-        + '<th class="n">'+esc(t.thRate)+'</th><th style="width:26%"></th>'
-        + '<th class="n">'+esc(t.thNamed)+'</th></tr></thead><tbody>';
-      rows.forEach(function(r){
-        h += '<tr><td><b>'+esc(r.k)+'</b></td><td class="n">'+r.n+'</td><td class="n">'+r.pass+'</td>'
-          + '<td class="n"><span class="pill '+(r.rate>=80?'p-ok':r.rate>=40?'p-warn':'p-bad')+'">'+r.rate+'%</span></td>'
-          + '<td><span class="bar'+(r.rate<40?' barn':'')+'" style="width:'+Math.max(r.rate,1)+'%"></span></td>'
-          + '<td class="n">'+(r.named<r.n ? '<span class="pill p-bad">'+r.named+'/'+r.n+'</span>' : r.named)+'</td></tr>';
-      });
-      h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+v.n+'</td><td class="n">'+v.pass+'</td>'
-        + '<td class="n">'+rate+'%</td><td></td><td class="n">'+v.named+'</td></tr>'
-        + '</tbody></table></div></div>';
-
-      h += '<div class="panel"><h3><span>'+esc(t.pHeat)+'</span><span class="hint">'+esc(t.pHeatH)+'</span></h3>'
-        + '<div class="tblwrap"><table class="heat"><thead><tr><th>'+esc(t.thClinic)+'</th>';
-      STEPS.forEach(function(st){ h += '<th class="c">'+esc(st)+'</th>'; });
-      h += '<th class="c">'+esc(t.thRate)+'</th></tr></thead><tbody>';
-      rows.forEach(function(r){
-        h += '<tr><td><b>'+esc(r.k)+'</b></td>';
-        r.tp.forEach(function(val,i){
-          var p=pct(val,r.n);
-          h += '<td class="c '+heatCls(p, val===0)+'">'+p+'%</td>';
-        });
-        h += '<td class="c '+heatCls(r.rate,false)+'">'+r.rate+'%</td></tr>';
-      });
-      h += '</tbody></table></div><div class="heatkey"><span>&lt;55%</span>'
-        + '<i style="background:var(--g1)"></i><i style="background:var(--g2)"></i>'
-        + '<i style="background:var(--g3)"></i><i style="background:var(--g4)"></i><span>100%</span>'
-        + '<i style="background:var(--bad-soft);margin-left:14px"></i><span>column blank</span></div></div>';
-    }
-
-    /* rep table */
-    var repMap = byKey(scopeCases, 1), repRows = [];
-    Object.keys(repMap).forEach(function(name){ var g=repMap[name];
-      repRows.push({c:g.clinic, name:name, n:g.n, pass:g.pass, rate:pct(g.pass,g.n)}); });
-    repRows.sort(function(a,b){ return b.rate-a.rate || b.n-a.n; });
+    /* by rep */
+    var byR={};
+    sc.forEach(function(c){ (byR[c[1]] = byR[c[1]] || []).push(c); });
+    var rrows=Object.keys(byR).map(function(k){ var g=agg(byR[k]);
+      return {k:k, c:byR[k][0][0], score:g.score, n:g.n, pass:g.pass}; })
+      .sort(function(x,y){ return y.score-x.score || y.n-x.n; });
     h += '<div class="panel"><h3><span>'+esc(t.pReps)+'</span><span class="hint">'+esc(t.pRepsH)+'</span></h3>'
       + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thRep)+'</th><th>'+esc(t.thClinic)+'</th>'
-      + '<th class="n">'+esc(t.thN)+'</th><th class="n">'+esc(t.thPass)+'</th>'
-      + '<th class="n">'+esc(t.thRate)+'</th><th style="width:24%"></th></tr></thead><tbody>';
-    repRows.forEach(function(r){
-      h += '<tr><td>'+esc(r.name)+'</td><td style="color:var(--muted)">'+esc(r.c)+'</td>'
-        + '<td class="n">'+r.n+'</td><td class="n">'+r.pass+'</td>'
-        + '<td class="n"><span class="pill '+(r.rate>=80?'p-ok':r.rate>=40?'p-warn':'p-bad')+'">'+r.rate+'%</span></td>'
-        + '<td><span class="bar'+(r.rate<40?' barn':'')+'" style="width:'+Math.max(r.rate,1)+'%"></span></td></tr>';
+      + '<th class="n">'+esc(t.thScore)+'</th><th style="width:26%"></th>'
+      + '<th class="n">'+esc(t.thRule)+'</th><th class="n">'+esc(t.thCases)+'</th></tr></thead><tbody>';
+    rrows.forEach(function(r){
+      h += '<tr><td>'+esc(r.k)+'</td><td style="color:var(--muted)">'+esc(r.c)+'</td>'
+        + '<td class="n" style="color:'+scoreColour(r.score)+'">'+r.score+'%</td>'
+        + '<td><div class="barw"><div class="barf" style="width:'+Math.max(r.score,1)+'%;background:'
+        + scoreColour(r.score)+'"></div><div class="bart" style="left:'+TARGET+'%"></div></div></td>'
+        + '<td class="n">'+pct(r.pass,r.n)+'%</td>'
+        + '<td class="n">'+r.n+(r.n<MIN_SAMPLE?' <span class="pill p-warn">'+esc(t.lowSample)+'</span>':'')+'</td></tr>';
     });
     h += '</tbody></table></div></div>';
 
-    document.getElementById("app").innerHTML = h;
+    document.getElementById("app").innerHTML=h;
     renderWho();
   }
 
   function renderWho(){
     var el=document.getElementById("whoami");
-    if(!el) return;
     el.innerHTML = session ? '<button type="button" id="soBtn">'+esc(T().signout)+'</button>' : "";
-    if(session) document.getElementById("soBtn").onclick = signOut;
+    if(session) document.getElementById("soBtn").onclick=signOut;
   }
   function buildMonthBar(){
     var t=T(), h='', ms=MONTHS(), cur=TODAY.slice(0,7);
     h += '<button data-m="all" aria-pressed="'+(month==="all")+'">'+esc(t.allm)+'</button>';
     ms.forEach(function(k){
-      var n = sel("all", k).length;
-      h += '<button data-m="'+k+'" aria-pressed="'+(month===k)+'">'+esc(monthLabel(k))
-        + (k===cur ? ' <span class="mtdtag">'+esc(t.mtd)+'</span>' : '')
+      var n = sel("all",k,true).length;
+      h += '<button data-m="'+k+'" aria-pressed="'+(month===k)+'"'+(n?'':' disabled')+'>'
+        + esc(monthLabel(k))
+        + (k===cur?' <span class="mtdtag">'+esc(t.mtd)+'</span>':'')
         + ' <span class="cn">'+n+'</span></button>';
     });
     var bar=document.getElementById("monthbar");
     bar.innerHTML=h;
     bar.querySelectorAll("button").forEach(function(b){
-      b.onclick=function(){
-        month=b.dataset.m;
-        if(clinic!=="all" && !sel(clinic,month).length) clinic="all";
-        buildMonthBar(); buildClinicBar(); render();
-      };
+      b.onclick=function(){ month=b.dataset.m;
+        if(clinic!=="all" && !sel(clinic,month,true).length) clinic="all";
+        buildMonthBar(); buildClinicBar(); render(); };
     });
   }
   function buildClinicBar(){
-    var t=T(), h='';
-    var inMonth = sel("all", month), counts = byKey(inMonth, 0);
-    h += '<button data-c="all" aria-pressed="'+(clinic==="all")+'">'+esc(t.allc)+' <span class="cn">'+inMonth.length+'</span></button>';
-    CKEYS.forEach(function(k){
-      var n = counts[k] ? counts[k].n : 0;
-      h += '<button data-c="'+k+'" aria-pressed="'+(clinic===k)+'"'+(n?'':' disabled style="opacity:.4"')+'>'
+    var t=T(), h='', ks={};
+    CASES.forEach(function(c){ ks[c[0]]=1; });
+    var keys=Object.keys(ks).sort();
+    h += '<button data-c="all" aria-pressed="'+(clinic==="all")+'">'+esc(t.allc)
+      + ' <span class="cn">'+sel("all",month,true).length+'</span></button>';
+    keys.forEach(function(k){
+      var n=sel(k,month,true).length;
+      h += '<button data-c="'+k+'" aria-pressed="'+(clinic===k)+'"'+(n?'':' disabled')+'>'
         + esc(k)+' <span class="cn">'+n+'</span></button>';
     });
     var bar=document.getElementById("clinicbar");
     bar.innerHTML=h;
     bar.querySelectorAll("button").forEach(function(b){
-      b.onclick=function(){ clinic=b.dataset.c; buildMonthBar(); buildClinicBar(); render(); };
+      b.onclick=function(){ clinic=b.dataset.c; buildClinicBar(); render(); };
     });
   }
   function applyGateLang(){
@@ -672,48 +680,35 @@
     var b=document.getElementById("gateBtn");
     if(!b.disabled) b.textContent=t.signin;
   }
-  function saveSession(){ session={ok:true}; try{ sessionStorage.setItem("lasik_session","1"); }catch(e){} }
-  function loadSession(){ try{ if(sessionStorage.getItem("lasik_session")==="1"){ session={ok:true}; return true; } }catch(e){} return false; }
-  function signOut(){
-    session=null; clinic="all"; month="all";
-    try{ sessionStorage.removeItem("lasik_session"); }catch(e){}
+  function saveSession(){ session={ok:1}; try{sessionStorage.setItem("lasik_session","1")}catch(e){} }
+  function loadSession(){ try{ if(sessionStorage.getItem("lasik_session")==="1"){session={ok:1};return true;} }catch(e){} return false; }
+  function signOut(){ session=null; clinic="all"; month="all";
+    try{sessionStorage.removeItem("lasik_session")}catch(e){}
     document.getElementById("wrap").hidden=true;
     document.getElementById("gate").classList.remove("gone");
-    var gp=document.getElementById("gp"); gp.value=""; gp.focus();
-  }
+    var g=document.getElementById("gp"); g.value=""; g.focus(); }
   function enterApp(){
     document.getElementById("gate").classList.add("gone");
     document.getElementById("wrap").hidden=false;
-    buildMonthBar(); buildClinicBar(); render();
-  }
+    buildMonthBar(); buildClinicBar(); render(); }
 
-  document.getElementById("gateform").addEventListener("submit", function(ev){
+  document.getElementById("gateform").addEventListener("submit",function(ev){
     ev.preventDefault();
     var t=T(), btn=document.getElementById("gateBtn"), err=document.getElementById("gateErr");
-    var pass=document.getElementById("gp").value;
     btn.disabled=true; btn.textContent=t.signingin; err.classList.remove("on");
-    sha256(pass).then(function(hh){
+    sha256(document.getElementById("gp").value).then(function(hh){
       btn.disabled=false; btn.textContent=t.signin;
-      if(hh !== PW_HASH){
-        err.textContent=t.badlogin; err.classList.add("on");
-        var gp=document.getElementById("gp"); gp.value=""; gp.focus();
-        return;
-      }
+      if(hh!==PW_HASH){ err.textContent=t.badlogin; err.classList.add("on");
+        var g=document.getElementById("gp"); g.value=""; g.focus(); return; }
       saveSession(); enterApp();
-    }).catch(function(){
-      btn.disabled=false; btn.textContent=t.signin;
-      err.textContent=t.badlogin; err.classList.add("on");
-    });
+    }).catch(function(){ btn.disabled=false; btn.textContent=t.signin;
+      err.textContent=t.badlogin; err.classList.add("on"); });
   });
-
   document.getElementById("langseg").querySelectorAll("button").forEach(function(b){
-    b.onclick=function(){
-      lang=b.dataset.l;
+    b.onclick=function(){ lang=b.dataset.l;
       document.getElementById("langseg").querySelectorAll("button").forEach(function(x){
-        x.setAttribute("aria-pressed", String(x===b)); });
-      applyGateLang();
-      if(session){ buildMonthBar(); buildClinicBar(); render(); }
-    };
+        x.setAttribute("aria-pressed",String(x===b)); });
+      applyGateLang(); if(session){ buildMonthBar(); buildClinicBar(); render(); } };
   });
 
   applyGateLang();
