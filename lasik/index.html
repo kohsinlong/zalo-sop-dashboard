@@ -1,0 +1,723 @@
+<title>Lasik SOP Compliance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap">
+
+<style>
+  :root{
+    --ground:#FBFAF8; --surface:#FFFFFF; --surface-2:#F3F2EE; --surface-3:#E7E5DF;
+    --ink:#14151C; --ink-2:#3B3E4C; --muted:#6A6F80;
+    --rule:#DEDCD6; --rule-2:#EAE8E3;
+    --accent:#2438B8; --accent-soft:#E7E9F8;
+    --mark:#E6EE6B; --mark-ink:#2B2C0E;
+    --ok:#17795E; --ok-soft:#E2F0EA;
+    --warn:#A6690A; --warn-soft:#F7EEDC; --warn-mid:#EFDCBB;
+    --bad:#AE2E48; --bad-soft:#F8E6EA;
+    --g1:#E8F0EA; --g2:#BFDCCB; --g3:#83BFA0; --g4:#2F9673;
+    --inert:#5A6072; --inert-soft:#EBECEF;
+    --shadow:0 1px 2px rgba(20,21,28,.05), 0 8px 24px -18px rgba(20,21,28,.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+      --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+      --rule:#2B2E3A; --rule-2:#23262F;
+      --accent:#8D99F7; --accent-soft:#1D2140;
+      --mark:#C6CE55; --mark-ink:#14150A;
+      --ok:#5FC7A4; --ok-soft:#12291F;
+      --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+      --bad:#F0819A; --bad-soft:#2E141B;
+      --g1:#14211B; --g2:#1B3A2C; --g3:#255744; --g4:#37836423;
+      --g4:#2F7A5E;
+      --inert:#98A0B4; --inert-soft:#1F2129;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+    --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+    --rule:#2B2E3A; --rule-2:#23262F;
+    --accent:#8D99F7; --accent-soft:#1D2140;
+    --mark:#C6CE55; --mark-ink:#14150A;
+    --ok:#5FC7A4; --ok-soft:#12291F;
+    --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+    --bad:#F0819A; --bad-soft:#2E141B;
+    --g1:#14211B; --g2:#1B3A2C; --g3:#255744; --g4:#2F7A5E;
+    --inert:#98A0B4; --inert-soft:#1F2129;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body.lang-zh{font-family:"IBM Plex Sans","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .num{font-variant-numeric:tabular-nums}
+  button{font-family:inherit;font-size:inherit;cursor:pointer}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+  .wrap{max-width:1300px;margin:0 auto;padding:0 24px 90px}
+
+  /* gate */
+  #gate{position:fixed;inset:0;z-index:100;background:var(--ground);
+    display:flex;align-items:center;justify-content:center;padding:24px}
+  #gate.gone{display:none}
+  .gatecard{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--rule);
+    border-radius:6px;box-shadow:var(--shadow);padding:34px 32px}
+  .gatecard .brand{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+  .gatecard h2{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.42rem;
+    letter-spacing:-.015em;margin:0 0 7px;line-height:1.2}
+  .gatecard .lede{font-size:.88rem;color:var(--muted);margin:0 0 24px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .field input{width:100%;padding:10px 12px;font-family:inherit;font-size:.92rem;
+    background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:4px}
+  .field input:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+  .gatebtn{width:100%;padding:11px;background:var(--accent);color:var(--surface);border:0;
+    border-radius:4px;font-weight:600;font-size:.92rem;margin-top:6px}
+  .gatebtn:disabled{opacity:.55;cursor:default}
+  .gateerr{background:var(--bad-soft);color:var(--bad);border-radius:4px;padding:9px 12px;
+    font-size:.84rem;margin-bottom:15px;display:none}
+  .gateerr.on{display:block}
+  .who{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;color:var(--muted)}
+  .who button{background:none;border:1px solid var(--rule);border-radius:4px;padding:4px 10px;
+    color:var(--muted);font-size:10.5px;font-family:inherit}
+  .who button:hover{color:var(--ink);border-color:var(--muted)}
+
+  header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;padding:32px 0 16px}
+  .titleblock h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.7rem;letter-spacing:-.015em;margin:0 0 5px}
+  .titleblock .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:var(--surface)}
+  .seg button{background:none;border:0;padding:7px 12px;color:var(--muted);font-size:12.5px;font-weight:500;border-right:1px solid var(--rule)}
+  .seg button:last-child{border-right:0}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+
+  .clinics{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 10px}
+  .clinics button{background:var(--surface);border:1px solid var(--rule);border-radius:20px;
+    padding:6px 14px;font-size:.85rem;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+  .clinics button .cn{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--ok)}
+  .clinics button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .clinics button[aria-pressed="true"] .cn{color:var(--surface)}
+  .scopebar{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:20px}
+  .scopebar b{color:var(--accent);font-weight:600}
+
+  .herorow{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-bottom:18px;align-items:stretch}
+  @media (max-width:940px){.herorow{grid-template-columns:1fr}}
+  .hero{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--accent);
+    border-radius:4px;box-shadow:var(--shadow);padding:24px 28px;
+    display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
+  @media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px;padding:20px}}
+  .hero .bignum{font-size:4.1rem;font-weight:600;letter-spacing:-.045em;line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
+  .hero .biglab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .hero .sideline{font-size:.98rem;color:var(--ink-2);margin:0 0 14px;max-width:56ch}
+  .hero .sideline b{color:var(--ink);font-weight:600}
+  .passbar{display:flex;height:32px;gap:3px;margin:0 0 8px}
+  .passbar .sg{border-radius:2px;min-width:3px;display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:#fff}
+  .barlegend{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem}
+  .barlegend span.i{display:flex;gap:7px;align-items:center}
+  .barlegend .sw{width:10px;height:10px;border-radius:2px}
+
+  .flagcard{background:var(--warn-soft);border:1px solid var(--warn);border-left:4px solid var(--warn);
+    border-radius:4px;box-shadow:var(--shadow);padding:20px 22px;display:flex;flex-direction:column;
+    gap:11px;min-width:0;overflow-wrap:anywhere}
+  .flagcard .fnum{font-size:2.5rem;font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--warn);font-variant-numeric:tabular-nums}
+  .flagcard .flab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--warn);font-weight:600}
+  .flagcard p{margin:0;font-size:.83rem;color:var(--ink-2)}
+  .flist{display:flex;flex-direction:column;min-width:0}
+  .flist .fr{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;
+    gap:2px 12px;font-size:.81rem;padding:6px 0;border-bottom:1px solid var(--warn-mid);min-width:0}
+  .flist .fr:last-child{border-bottom:0}
+  .flist .fr > span:first-child{flex:1 1 auto;min-width:0}
+  .flist .fv{font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums;
+    white-space:normal;overflow-wrap:anywhere;text-align:right;max-width:100%;line-height:1.45}
+
+  .panel{background:var(--surface);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);margin-bottom:18px}
+  .panel > h3{margin:0;padding:14px 20px;border-bottom:1px solid var(--rule-2);font-size:.92rem;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .panel > h3 .hint{font-weight:400;font-size:.79rem;color:var(--muted)}
+  .pad{padding:18px 20px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  @media (max-width:940px){.grid2{grid-template-columns:1fr}}
+
+  /* funnel */
+  .funnel{display:grid;gap:12px}
+  .fstep{display:grid;grid-template-columns:76px 1fr 92px;gap:14px;align-items:center}
+  @media (max-width:640px){.fstep{grid-template-columns:64px 1fr 72px;gap:9px}}
+  .fstep .fd{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.85rem}
+  .fstep .ftrack{height:26px;background:var(--surface-3);border-radius:3px;overflow:hidden;position:relative}
+  .fstep .ffill{height:100%;border-radius:3px}
+  .fstep .fnums{font-family:"IBM Plex Mono",monospace;font-size:.82rem;text-align:right;font-variant-numeric:tabular-nums}
+  .fstep .fnums b{font-weight:600}
+  .ftask{grid-column:2/-1;font-size:.79rem;color:var(--muted);margin-top:-6px;line-height:1.4}
+
+  .tblwrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.875rem}
+  th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--rule-2)}
+  thead th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;background:var(--surface-2);white-space:nowrap;border-bottom:1px solid var(--rule)}
+  tbody tr:last-child td{border-bottom:0}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+  td.n{font-family:"IBM Plex Mono",monospace}
+  tbody tr.tot td{background:var(--surface-2);font-weight:600;border-top:1px solid var(--rule)}
+  table.heat td.c{text-align:center;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+    font-weight:600;border-left:1px solid var(--rule-2)}
+  table.heat th.c{text-align:center}
+  table.heat td.v0{background:var(--bad-soft);color:var(--bad)}
+  table.heat td.v1{background:var(--g1)}
+  table.heat td.v2{background:var(--g2)}
+  table.heat td.v3{background:var(--g3)}
+  table.heat td.v4{background:var(--g4);color:#fff}
+  :root[data-theme="dark"] table.heat td.v4,
+  :root:not([data-theme="light"]) table.heat td.v4{color:var(--ink)}
+  .heatkey{display:flex;gap:8px;align-items:center;padding:12px 20px;border-top:1px solid var(--rule-2);
+    font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .heatkey i{width:22px;height:11px;border-radius:2px;display:inline-block}
+
+  .bar{display:inline-block;height:7px;border-radius:2px;background:var(--ok);vertical-align:middle;min-width:2px}
+  .barn{background:var(--bad)}
+  .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.05em;
+    padding:2px 7px;border-radius:3px;font-weight:600;white-space:nowrap}
+  .p-ok{background:var(--ok-soft);color:var(--ok)}
+  .p-bad{background:var(--bad-soft);color:var(--bad)}
+  .p-warn{background:var(--warn-soft);color:var(--warn)}
+  .p-inert{background:var(--inert-soft);color:var(--inert)}
+
+  .note{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px;padding:15px 18px;margin-bottom:20px;font-size:.87rem}
+  .note p{margin:0}
+  .months button .cn{color:var(--accent)}
+  .months button[aria-pressed="true"] .cn{color:var(--surface)}
+  .mtdtag{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.08em;
+    background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:3px;font-weight:600}
+  .months button[aria-pressed="true"] .mtdtag{background:rgba(255,255,255,.22);color:var(--surface)}
+  .mtdgrid{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center}
+  @media (max-width:520px){.mtdgrid{grid-template-columns:1fr;gap:16px}}
+  .mtdnum{font-size:3.1rem;font-weight:600;letter-spacing:-.04em;line-height:.95;
+    color:var(--accent);font-variant-numeric:tabular-nums}
+  .mtdlab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);margin-top:8px}
+  .mtdside{display:flex;flex-direction:column;gap:0}
+  .mtdrow{display:flex;justify-content:space-between;gap:14px;font-size:.85rem;
+    padding:6px 0;border-bottom:1px solid var(--rule-2)}
+  .mtdrow:last-child{border-bottom:0}
+  .mtdrow b{font-family:"IBM Plex Mono",monospace}
+  .mtdnote{margin:14px 0 0;font-size:.8rem;color:var(--muted);line-height:1.5}
+  .mtrend{display:flex;align-items:flex-end;gap:10px;height:150px}
+  .mcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;justify-content:flex-end}
+  .mbar{width:100%;max-width:46px;border-radius:2px 2px 0 0}
+  .mval{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600}
+  .mlab{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted)}
+  .mn{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);opacity:.75}
+  .hidden{display:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media (max-width:640px){
+    .wrap{padding:0 16px 60px}
+    .titleblock h1{font-size:1.3rem}
+    .hero .bignum{font-size:3.2rem}
+  }
+</style>
+
+<div id="gate">
+  <form class="gatecard" id="gateform" autocomplete="on">
+    <div class="brand">Bệnh viện Mắt Sài Gòn</div>
+    <h2>Lasik SOP Compliance</h2>
+    <p class="lede" id="gateLede">Sign in to view the QC audit.</p>
+    <div class="gateerr" id="gateErr"></div>
+    <div class="field">
+      <label for="gp" id="lpass">Password</label>
+      <input type="password" id="gp" name="password" autocomplete="current-password" required autofocus>
+    </div>
+    <button type="submit" class="gatebtn" id="gateBtn">Sign in</button>
+  </form>
+</div>
+
+<div class="wrap" id="wrap" hidden>
+  <header class="top">
+    <div class="titleblock">
+      <h1 id="pgTitle">Lasik SOP Compliance</h1>
+      <div class="sub"><span id="pgSub">QC audit</span> &middot; 26 Aug 2026</div>
+    </div>
+    <div class="controls">
+      <span class="who" id="whoami"></span>
+      <div class="seg" id="langseg" role="group" aria-label="Language">
+        <button data-l="en" aria-pressed="true">EN</button>
+        <button data-l="vi" aria-pressed="false">Tiếng Việt</button>
+        <button data-l="zh" aria-pressed="false">中文</button>
+      </div>
+    </div>
+  </header>
+  <div class="clinics months" id="monthbar" role="group" aria-label="Month"></div>
+  <div class="clinics" id="clinicbar" role="group" aria-label="Clinic"></div>
+  <div class="scopebar" id="scopebar"></div>
+  <div id="app"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var TODAY = "2026-08-26";
+  /* [clinic, rep, D1, D2-D4, D6, D15, <D25, auditDate] */
+  var CASES = [["LTR","BT",1,1,1,1,1,"2026-04-01"],["ND","Thùy Linh",1,1,1,1,1,"2026-04-02"],["SH","Thủy",1,1,0,0,1,"2026-04-02"],["NT","Ngân",1,0,0,0,1,"2026-04-03"],["LA","Vân Anh",1,0,1,1,1,"2026-04-03"],["CMTT","Phúc",1,1,1,1,0,"2026-04-04"],["LTR","TH",1,1,1,1,1,"2026-04-04"],["NGT","Uyên",0,1,0,0,0,"2026-04-05"],["NT","Ngân",1,0,0,0,1,"2026-04-05"],["LTR","MD",1,1,1,1,1,"2026-04-05"],["NGT","Vân",1,1,1,1,1,"2026-04-08"],["ND","Phương Linh",1,1,1,1,1,"2026-04-08"],["LTR","CT",1,1,1,1,1,"2026-04-09"],["CT","Nhi",1,1,1,1,1,"2026-04-10"],["NGT","Uyên",1,1,1,0,0,"2026-04-10"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-04-10"],["CMTT","Tân",1,0,0,0,0,"2026-04-11"],["VI","Liên",1,1,1,0,1,"2026-04-11"],["CMTT","Hoàng",1,1,1,0,0,"2026-04-14"],["CMTT","Tân",1,1,1,0,1,"2026-04-15"],["NGT","Vân",1,1,1,1,0,"2026-04-15"],["LTR","TH",1,1,1,1,1,"2026-04-16"],["CT","Tuyền",1,1,1,0,1,"2026-04-17"],["NGT","Uyên",1,1,1,1,0,"2026-04-18"],["CT","Nhi",1,1,1,1,1,"2026-04-19"],["ND","Phương Linh",1,1,1,1,1,"2026-04-19"],["CT","Nhi",1,1,1,1,1,"2026-04-21"],["ND","Phương Linh",1,1,1,1,1,"2026-04-21"],["NGT","Hiếu",1,1,1,1,1,"2026-04-21"],["CMTT","Tân",1,1,1,0,0,"2026-04-22"],["ND","Phương Linh",1,1,1,1,1,"2026-04-22"],["NT","Huấn",1,1,1,0,0,"2026-04-23"],["CMTT","Thanh",1,1,1,1,0,"2026-04-24"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-04-24"],["NT","Huấn",1,1,1,1,1,"2026-04-25"],["CMTT","Phúc",1,1,1,1,0,"2026-04-26"],["LTR","BT",1,1,1,1,1,"2026-04-26"],["VI","Duyên",0,1,1,1,1,"2026-04-26"],["CMTT","Hoàng",1,1,1,1,0,"2026-04-27"],["LA","Vân Anh",1,0,1,1,1,"2026-04-28"],["SH","Oanh",1,1,1,0,0,"2026-05-01"],["LTR","MD",1,1,1,1,1,"2026-05-01"],["SH","Oanh",1,1,1,0,1,"2026-05-01"],["VI","Liên",1,1,1,0,1,"2026-05-04"],["CMTT","Hoàng",1,1,1,0,1,"2026-05-06"],["CT","Tuyền",1,0,0,0,1,"2026-05-07"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-05-08"],["NGT","Vân",1,1,1,1,0,"2026-05-08"],["LTR","CT",1,1,1,1,1,"2026-05-09"],["VI","Liên",1,1,1,1,1,"2026-05-11"],["CMTT","Hoàng",1,1,1,1,0,"2026-05-11"],["SH","Oanh",1,1,1,0,1,"2026-05-11"],["NGT","Uyên",1,1,1,1,1,"2026-05-13"],["NGT","Uyên",1,1,1,0,1,"2026-05-13"],["LA","Vân Anh",1,0,1,1,1,"2026-05-13"],["SH","Thủy",1,1,0,0,1,"2026-05-14"],["CMTT","Tân",1,1,1,0,1,"2026-05-14"],["NGT","Vân",1,1,1,0,0,"2026-05-14"],["CT","Nhi",1,1,1,1,1,"2026-05-15"],["SH","Oanh",1,1,0,0,1,"2026-05-15"],["LA","Vân Anh",1,0,0,1,1,"2026-05-15"],["CT","Nhi",1,1,1,1,1,"2026-05-15"],["NGT","Hiếu",1,1,1,1,1,"2026-05-15"],["NGT","Vân",1,1,1,1,0,"2026-05-16"],["VI","Duyên",1,1,1,1,1,"2026-05-16"],["CMTT","Thanh",1,1,1,1,0,"2026-05-17"],["VI","Liên",1,1,1,1,1,"2026-05-17"],["ND","Thùy Linh",1,1,1,1,1,"2026-05-18"],["SH","Oanh",1,1,1,0,1,"2026-05-18"],["NT","Huấn",1,1,1,1,1,"2026-05-19"],["LTR","MT",1,1,1,1,1,"2026-05-19"],["LTR","CT",1,1,1,1,1,"2026-05-19"],["CT","Tuyền",1,0,0,1,1,"2026-05-19"],["NT","Ngân",1,0,0,0,1,"2026-05-19"],["SH","Oanh",1,1,1,0,1,"2026-05-19"],["VI","Duyên",1,1,1,1,1,"2026-05-22"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-05-22"],["NGT","Hiếu",1,1,1,1,1,"2026-05-23"],["ND","Thùy Linh",1,1,1,1,1,"2026-05-23"],["CT","Tuyền",1,1,1,0,1,"2026-05-24"],["LTR","CT",1,1,1,1,1,"2026-05-25"],["NT","Huấn",1,1,1,1,1,"2026-05-25"],["LTR","TH",1,1,1,1,1,"2026-05-25"],["NGT","Hiếu",1,1,1,1,1,"2026-05-27"],["NGT","Hiếu",1,1,0,0,0,"2026-05-28"],["VI","Duyên",1,1,1,1,1,"2026-06-01"],["LTR","CT",1,1,1,1,1,"2026-06-02"],["CMTT","Thanh",1,1,1,1,0,"2026-06-02"],["SH","Thủy",1,1,1,0,1,"2026-06-04"],["NGT","Vân",1,1,1,1,0,"2026-06-04"],["ND","Phương Linh",1,1,1,1,1,"2026-06-04"],["VI","Liên",1,1,1,1,1,"2026-06-06"],["ND","Phương Linh",1,1,1,1,1,"2026-06-06"],["CT","Nhi",1,1,1,1,1,"2026-06-06"],["VI","Duyên",1,1,1,1,1,"2026-06-07"],["NGT","Uyên",1,1,1,0,1,"2026-06-07"],["CMTT","Hoàng",1,0,0,0,0,"2026-06-07"],["LTR","MD",1,1,1,1,1,"2026-06-07"],["NGT","Uyên",1,1,1,0,1,"2026-06-07"],["NGT","Vân",1,1,1,1,0,"2026-06-09"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-06-09"],["LTR","MD",1,1,1,1,1,"2026-06-09"],["VI","Liên",1,1,1,1,1,"2026-06-09"],["NT","Huấn",1,1,1,0,1,"2026-06-10"],["ND","Thùy Linh",1,1,1,1,1,"2026-06-10"],["CMTT","Hoàng",1,1,1,1,0,"2026-06-11"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-06-11"],["CMTT","Tân",1,1,1,0,1,"2026-06-13"],["CTE","Diễm Thanh",1,1,1,0,0,"2026-06-14"],["CMTT","Thanh",1,1,1,1,0,"2026-06-14"],["NT","Ngân",0,0,1,1,1,"2026-06-15"],["CMTT","Hoàng",1,1,1,1,0,"2026-06-16"],["ND","Thùy Linh",1,1,1,1,1,"2026-06-16"],["LA","Vân Anh",1,0,1,1,1,"2026-06-17"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-06-17"],["SH","Oanh",1,1,1,0,0,"2026-06-17"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-06-18"],["LTR","MT",1,1,1,1,1,"2026-06-18"],["NGT","Hiếu",0,0,1,1,0,"2026-06-18"],["LTR","CT",1,1,1,1,1,"2026-06-19"],["NT","Ngân",0,0,0,0,0,"2026-06-20"],["CT","Tuyền",1,1,1,0,1,"2026-06-21"],["NGT","Hiếu",0,0,0,0,0,"2026-06-21"],["VI","Duyên",1,1,1,1,1,"2026-06-22"],["CMTT","Thanh",1,1,1,1,0,"2026-06-22"],["CMTT","Tân",1,1,1,0,1,"2026-06-23"],["LTR","BT",1,1,1,1,1,"2026-06-24"],["NT","Huấn",1,1,1,1,1,"2026-06-24"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-06-24"],["CTE","Diễm Thanh",1,1,1,1,0,"2026-06-27"],["CT","Nhi",1,1,1,1,1,"2026-06-27"],["CMTT","Tân",1,0,0,1,0,"2026-06-27"],["NT","Huấn",1,1,1,1,1,"2026-06-28"],["LTR","MD",1,1,1,1,1,"2026-07-01"],["LTR","MD",1,1,1,1,1,"2026-07-01"],["LTR","TH",1,1,1,1,1,"2026-07-02"],["LTR","BT",1,1,1,1,1,"2026-07-03"],["SH","Thủy",1,1,1,0,0,"2026-07-03"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-07-03"],["LTR","BT",1,1,1,1,1,"2026-07-03"],["CMTT","Tân",1,1,1,0,1,"2026-07-03"],["CMTT","Thanh",1,1,1,1,0,"2026-07-03"],["LTR","BT",1,1,1,1,1,"2026-07-05"],["LTR","MT",1,1,1,1,1,"2026-07-05"],["CMTT","Phúc",1,1,1,1,0,"2026-07-06"],["CT","Nhi",1,1,1,1,1,"2026-07-06"],["LTR","MT",1,1,1,1,1,"2026-07-06"],["LTR","TH",1,1,1,1,1,"2026-07-06"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-07-07"],["LTR","MD",1,1,1,1,1,"2026-07-07"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-07-08"],["LTR","MD",1,1,1,1,1,"2026-07-08"],["LA","Vân Anh",1,0,1,1,1,"2026-07-08"],["NGT","Vân",1,1,1,1,0,"2026-07-08"],["NT","Ngân",1,0,0,0,1,"2026-07-11"],["VI","Duyên",1,1,1,1,1,"2026-07-12"],["SH","Oanh",1,1,1,0,1,"2026-07-13"],["NGT","Uyên",1,1,1,0,0,"2026-07-15"],["CT","Tuyền",1,1,1,1,1,"2026-07-15"],["SH","Oanh",1,1,1,0,1,"2026-07-16"],["SH","Thủy",1,1,1,0,1,"2026-07-16"],["LA","Vân Anh",1,0,1,1,1,"2026-07-16"],["NGT","Vân",1,1,1,1,0,"2026-07-16"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-07-17"],["LTR","MT",1,1,1,1,1,"2026-07-17"],["NT","Ngân",1,1,1,1,1,"2026-07-18"],["NT","Ngân",1,1,1,0,1,"2026-07-18"],["LTR","BT",1,1,1,1,1,"2026-07-18"],["LTR","MT",1,1,1,1,1,"2026-07-18"],["SH","Thủy",1,1,0,0,1,"2026-07-18"],["ND","Phương Linh",1,1,1,1,1,"2026-07-20"],["CT","Nhi",1,1,1,1,1,"2026-07-20"],["LTR","TH",1,1,1,1,1,"2026-07-22"],["NGT","Hiếu",1,1,1,0,0,"2026-07-22"],["NGT","Hiếu",1,1,1,1,1,"2026-07-24"],["CMTT","Tân",1,1,1,0,1,"2026-07-24"],["CMTT","Tân",1,1,1,1,0,"2026-07-25"],["CTE","Diễm Thanh",1,1,1,1,0,"2026-07-25"],["VI","Liên",1,1,1,1,1,"2026-07-25"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-07-26"],["SH","Thủy",1,1,1,0,1,"2026-07-26"],["CMTT","Thanh",1,1,1,1,0,"2026-07-26"],["CMTT","Thanh",1,1,1,0,0,"2026-07-27"],["LA","Vân Anh",1,0,1,1,1,"2026-07-27"],["VI","Duyên",1,1,1,1,1,"2026-07-27"],["LA","Trúc Quỳnh",0,0,1,1,1,"2026-07-28"],["NGT","Uyên",1,1,1,1,1,"2026-07-28"],["CMTT","Phúc",1,1,1,1,1,"2026-08-01"],["NT","Huấn",1,0,0,0,1,"2026-08-01"],["CMTT","Phúc",1,1,1,1,1,"2026-08-02"],["VI","Duyên",1,1,1,1,1,"2026-08-02"],["LTR","TH",1,1,1,1,1,"2026-08-02"],["LTR","MD",1,1,1,1,1,"2026-08-02"],["LTR","MT",1,1,1,1,1,"2026-08-03"],["LA","Vân Anh",0,0,0,0,0,"2026-08-03"],["LTR","MT",1,1,1,1,1,"2026-08-03"],["LA","Vân Anh",1,0,1,1,1,"2026-08-04"],["LTR","CT",1,1,1,1,1,"2026-08-04"],["CT","Tuyền",1,1,1,1,1,"2026-08-05"],["CT","Tuyền",1,1,1,1,1,"2026-08-05"],["CMTT","Phúc",1,1,1,1,1,"2026-08-05"],["CMTT","Phúc",1,1,1,1,0,"2026-08-06"],["CMTT","Phúc",1,1,1,1,0,"2026-08-06"],["CMTT","Thanh",1,1,1,1,0,"2026-08-06"],["NT","Huấn",1,1,1,1,1,"2026-08-07"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-08"],["CMTT","Thanh",1,1,1,1,0,"2026-08-09"],["NGT","Uyên",1,1,1,0,1,"2026-08-10"],["NGT","Hiếu",1,1,1,1,1,"2026-08-11"],["LTR","MT",1,1,1,1,1,"2026-08-11"],["LTR","CT",1,1,1,1,1,"2026-08-11"],["NT","Huấn",1,1,1,1,1,"2026-08-13"],["ND","Phương Linh",1,1,1,1,1,"2026-08-13"],["LTR","MT",1,1,1,1,1,"2026-08-14"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-14"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-14"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-15"],["LTR","CT",1,1,1,1,1,"2026-08-15"],["ND","Phương Linh",1,1,1,1,1,"2026-08-16"],["LTR","CT",1,1,1,1,1,"2026-08-17"],["VI","Liên",1,1,1,1,1,"2026-08-18"],["SH","Thủy",1,1,1,0,1,"2026-08-19"],["CTE","Diễm Thanh",1,1,1,0,1,"2026-08-19"],["CT","Tuyền",1,1,1,1,1,"2026-08-20"],["LTR","TH",1,1,1,1,1,"2026-08-21"],["LTR","BT",1,1,1,1,1,"2026-08-21"],["CT","Tuyền",1,0,0,0,1,"2026-08-21"],["VI","Duyên",1,1,1,1,1,"2026-08-21"],["CMTT","Phúc",1,1,1,1,1,"2026-08-22"],["ND","Thùy Linh",1,1,1,1,1,"2026-08-22"],["CMTT","Phúc",1,1,1,1,0,"2026-08-22"],["CT","Nhi",1,1,1,1,1,"2026-08-23"],["LTR","TH",1,1,1,1,1,"2026-08-23"],["VI","Liên",0,0,0,0,0,"2026-08-23"],["LTR","TH",1,1,1,1,1,"2026-08-23"],["NT","Ngân",1,1,1,1,1,"2026-08-23"],["LA","Trúc Quỳnh",1,0,1,1,1,"2026-08-24"],["SH","Oanh",1,1,1,0,1,"2026-08-24"],["CMTT","Hoàng",1,1,1,0,0,"2026-08-24"],["ND","Phương Linh",1,1,1,1,1,"2026-08-24"],["SH","Thủy",1,1,1,0,1,"2026-08-24"],["NGT","Vân",1,1,1,1,0,"2026-08-24"],["LTR","BT",1,1,1,1,1,"2026-08-25"],["CMTT","Hoàng",1,1,1,1,1,"2026-08-25"],["NT","Ngân",1,1,1,1,1,"2026-08-25"],["CMTT","Hoàng",1,1,1,1,0,"2026-08-26"],["SH","Thủy",1,1,1,0,1,"2026-08-26"],["VI","Liên",1,1,1,1,1,"2026-08-26"],["LTR","MD",1,1,1,1,1,"2026-08-26"]];
+
+  var CKEYS = ["CMTT","CT","CTE","LA","LTR","ND","NGT","NT","SH","VI"];
+  var STEPS = ["D1","D2-D4","D6","D15","<D25"];
+
+  var L = {
+    en:{
+      title:"Lasik SOP Compliance", sub:"QC audit",
+      signin:"Sign in", signingin:"Signing in…", signout:"Sign out",
+      badlogin:"Incorrect password. Please try again.",
+      glede:"Sign in to view the QC audit.", lpass:"Password",
+      allm:"All months", allmLong:"all months", mtd:"MTD", through:"through day", pMtd:"Month to date", pMonth:"By month", pMonthH:"SOP pass rate, cases below each bar", vsPrev:"vs same point last month", prevFull:"Last month, full", months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], mtdNote:"Compared like for like: {a} to day {d} against {b} to day {d}, so a partial month is not judged against a full one.", allc:"All clinics", scopeAll:"Viewing all 10 clinics combined", scopeOne:"Viewing",
+      passrate:"SOP pass rate",
+      hero:function(p,n,f){return "<b>"+p+"</b> of <b>"+n+"</b> audited cases met the SOP standard of at least four touchpoints out of five. <b>"+f+"</b> fell below it.";},
+      lpass2:"Passed (4+ of 5)", lfail:"Failed (3 or fewer)",
+      dq:"Cases needing a second look", dqp:"Patterns that look like recording gaps rather than performance. Worth confirming before anyone is measured on these numbers.",
+      fPerfect:"Clinics scoring a flawless 100%", fZero:"Touchpoint columns entirely blank", fNoName:"Audited cases with no patient name",
+      pFunnel:"Where the SOP breaks down", pFunnelH:"Share of audited cases completing each touchpoint",
+      pClinic:"By clinic", pClinicH:"Sorted by SOP pass rate — pass is 4 or more touchpoints of 5",
+      pHeat:"Touchpoint completion by clinic", pHeatH:"Percentage of that clinic's audited cases. Red means the column is entirely blank.",
+      pReps:"By customer service rep", pRepsH:"Ten cases sampled per rep",
+      thClinic:"Clinic", thRep:"CS rep", thN:"Cases", thPass:"Passed", thRate:"Pass rate", thNamed:"Named", thTot:"Total",
+      tasks:["Check-in and send medication instructions",
+             "Eye care instructions and VIP programme",
+             "Remind follow-up visit, and VIP",
+             "Check-in and suggest referral",
+             "Remind follow-up visit, check-in and suggest referral again"],
+      obs:"What stands out", obsH:"Read before drawing conclusions"
+    },
+    vi:{
+      title:"Tuân thủ SOP Lasik", sub:"Kiểm tra chất lượng",
+      signin:"Đăng nhập", signingin:"Đang đăng nhập…", signout:"Đăng xuất",
+      badlogin:"Mật khẩu không đúng. Vui lòng thử lại.",
+      glede:"Đăng nhập để xem kết quả kiểm tra.", lpass:"Mật khẩu",
+      allm:"Tất cả các tháng", allmLong:"tất cả các tháng", mtd:"Đến nay", through:"đến ngày", pMtd:"Từ đầu tháng đến nay", pMonth:"Theo tháng", pMonthH:"Tỷ lệ đạt SOP, số ca dưới mỗi cột", vsPrev:"so với cùng kỳ tháng trước", prevFull:"Tháng trước, cả tháng", months:["Th1","Th2","Th3","Th4","Th5","Th6","Th7","Th8","Th9","Th10","Th11","Th12"], mtdNote:"So sánh tương đương: {a} tính đến ngày {d} với {b} cũng đến ngày {d}, để không so tháng dở dang với tháng đủ.", allc:"Tất cả phòng khám", scopeAll:"Đang xem gộp cả 10 phòng khám", scopeOne:"Đang xem",
+      passrate:"Tỷ lệ đạt SOP",
+      hero:function(p,n,f){return "<b>"+p+"</b> trong <b>"+n+"</b> ca được kiểm tra đạt chuẩn SOP với ít nhất 4 trên 5 điểm chạm. <b>"+f+"</b> ca không đạt.";},
+      lpass2:"Đạt (4+ / 5)", lfail:"Không đạt (≤3)",
+      dq:"Ca cần xem lại", dqp:"Những mẫu hình có vẻ là lỗi ghi nhận hơn là hiệu suất thật. Nên xác minh trước khi dùng số liệu này để đánh giá ai.",
+      fPerfect:"Phòng khám đạt 100% tuyệt đối", fZero:"Cột điểm chạm bỏ trống hoàn toàn", fNoName:"Ca kiểm tra không có tên khách",
+      pFunnel:"SOP đứt gãy ở đâu", pFunnelH:"Tỷ lệ ca hoàn thành từng điểm chạm",
+      pClinic:"Theo phòng khám", pClinicH:"Xếp theo tỷ lệ đạt SOP — đạt là từ 4/5 điểm chạm trở lên",
+      pHeat:"Hoàn thành điểm chạm theo phòng khám", pHeatH:"Phần trăm số ca của phòng khám đó. Màu đỏ nghĩa là cột bỏ trống hoàn toàn.",
+      pReps:"Theo nhân viên CSKH", pRepsH:"Mỗi nhân viên lấy mẫu 10 ca",
+      thClinic:"Phòng khám", thRep:"NV CSKH", thN:"Số ca", thPass:"Đạt", thRate:"Tỷ lệ đạt", thNamed:"Có tên", thTot:"Tổng",
+      tasks:["Hỏi thăm và gửi hướng dẫn dùng thuốc",
+             "Hướng dẫn chăm sóc mắt và chương trình VIP",
+             "Nhắc tái khám, và VIP",
+             "Hỏi thăm và gợi ý giới thiệu",
+             "Nhắc tái khám, hỏi thăm và gợi ý giới thiệu lần nữa"],
+      obs:"Điểm đáng chú ý", obsH:"Nên đọc trước khi kết luận"
+    },
+    zh:{
+      title:"Lasik SOP 合规稽核", sub:"质量检查",
+      signin:"登录", signingin:"正在登录…", signout:"退出",
+      badlogin:"密码不正确，请重试。",
+      glede:"登录以查看质检结果。", lpass:"密码",
+      allm:"全部月份", allmLong:"全部月份", mtd:"本月至今", through:"截至", pMtd:"本月至今", pMonth:"按月份", pMonthH:"SOP 达标率，柱下为案例数", vsPrev:"较上月同期", prevFull:"上月整月", months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"], mtdNote:"同口径对比：{a} 截至 {d} 日 与 {b} 截至 {d} 日，避免用不完整月份对比完整月份。", allc:"全部诊所", scopeAll:"正在查看 10 家诊所合计", scopeOne:"正在查看",
+      passrate:"SOP 达标率",
+      hero:function(p,n,f){return "在 <b>"+n+"</b> 例受检案例中，<b>"+p+"</b> 例达到 SOP 标准（五个触点中至少完成四个），<b>"+f+"</b> 例未达标。";},
+      lpass2:"达标（5个中至少4个）", lfail:"未达标（≤3个）",
+      dq:"需要复核的案例", dqp:"以下模式更像是记录缺失而非真实表现。在以这些数字考核任何人之前，建议先行核实。",
+      fPerfect:"满分 100% 的诊所", fZero:"整列空白的触点", fNoName:"无客户姓名的受检案例",
+      pFunnel:"SOP 在哪里断裂", pFunnelH:"各触点完成案例占比",
+      pClinic:"按诊所", pClinicH:"按 SOP 达标率排序 — 五个触点中完成四个及以上为达标",
+      pHeat:"各诊所触点完成率", pHeatH:"占该诊所受检案例的百分比。红色表示整列空白。",
+      pReps:"按客服人员", pRepsH:"每位客服抽检十例",
+      thClinic:"诊所", thRep:"客服", thN:"案例数", thPass:"达标", thRate:"达标率", thNamed:"有姓名", thTot:"合计",
+      tasks:["问候并发送用药说明书","护眼护理指导及VIP项目","提醒复诊，以及VIP",
+             "问候并建议转介绍","提醒复诊、问候并再次建议转介绍"],
+      obs:"值得注意之处", obsH:"下结论前请先阅读"
+    }
+  };
+
+  var PW_HASH = "477e4382ecb1452ce2d033c89b11ac6e223e293c39b7466ee420c66cce6233f3";
+  var lang = "en", clinic = "all", month = "all", session = null;
+  function T(){ return L[lang]; }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]}); }
+
+  function utf8(str){
+    var out="",i,c;
+    for(i=0;i<str.length;i++){ c=str.charCodeAt(i);
+      if(c<128){ out+=String.fromCharCode(c); }
+      else if(c<2048){ out+=String.fromCharCode(192|(c>>6),128|(c&63)); }
+      else { out+=String.fromCharCode(224|(c>>12),128|((c>>6)&63),128|(c&63)); } }
+    return out;
+  }
+  function sha256sync(ascii){
+    function rr(v,a){ return (v>>>a)|(v<<(32-a)); }
+    var mm=Math.pow, mp=mm(2,32), i, j, result="", words=[], bitLen=ascii.length*8;
+    var hash=sha256sync.h, k=sha256sync.k;
+    if(!hash){
+      hash=sha256sync.h=[]; k=sha256sync.k=[];
+      var n=0, isComp={};
+      for(var cand=2;n<64;cand++){
+        if(!isComp[cand]){
+          for(i=0;i<313;i+=cand) isComp[i]=cand;
+          hash[n]=(mm(cand,.5)*mp)|0; k[n++]=(mm(cand,1/3)*mp)|0;
+        }
+      }
+      hash=hash.slice(0,8); sha256sync.h=hash;
+    }
+    ascii+="\x80";
+    while(ascii.length%64-56) ascii+="\x00";
+    for(i=0;i<ascii.length;i++){ j=ascii.charCodeAt(i); if(j>>8) return null;
+      words[i>>2]|=j<<((3-i)%4)*8; }
+    words[words.length]=(bitLen/mp)|0; words[words.length]=bitLen;
+    var h=hash.slice(0);
+    for(j=0;j<words.length;){
+      var w=words.slice(j,j+=16), old=h.slice(0);
+      for(i=0;i<64;i++){
+        var w15=w[i-15], w2=w[i-2], a=h[0], e=h[4];
+        var t1=h[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&h[5])^((~e)&h[6]))+k[i]
+          +(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]
+            +(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+        var t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&h[1])^(a&h[2])^(h[1]&h[2]));
+        h=[(t1+t2)|0].concat(h); h[4]=(h[4]+t1)|0; h.length=8;
+      }
+      for(i=0;i<8;i++) h[i]=(h[i]+old[i])|0;
+    }
+    for(i=0;i<8;i++) for(j=3;j+1;j--){ var b=(h[i]>>(j*8))&255;
+      result+=((b<16)?"0":"")+b.toString(16); }
+    return result;
+  }
+  function sha256(txt){
+    if(window.crypto && crypto.subtle && window.isSecureContext){
+      try{
+        return crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt)).then(function(buf){
+          return Array.prototype.map.call(new Uint8Array(buf), function(b){
+            return b.toString(16).padStart(2,"0"); }).join("");
+        }).catch(function(){ return sha256sync(utf8(txt)); });
+      }catch(e){}
+    }
+    return Promise.resolve(sha256sync(utf8(txt)));
+  }
+
+  var NAMELESS = {NGT:true};   /* clinics whose sheet has no patient names */
+
+  function passed(c){ return c[2]+c[3]+c[4]+c[5]+c[6] >= 4; }
+  function ym(c){ return c[7].slice(0,7); }
+  function day(c){ return +c[7].slice(8,10); }
+
+  function MONTHS(){
+    var seen = {}, out = [];
+    CASES.forEach(function(c){ var k=ym(c); if(!seen[k]){ seen[k]=1; out.push(k); } });
+    return out.sort();
+  }
+  function monthLabel(k){
+    var names = T().months;
+    return names[+k.slice(5,7)-1] + " " + k.slice(0,4);
+  }
+  function sel(clinicKey, monthKey){
+    return CASES.filter(function(c){
+      if(clinicKey && clinicKey !== "all" && c[0] !== clinicKey) return false;
+      if(monthKey && monthKey !== "all" && ym(c) !== monthKey) return false;
+      return true;
+    });
+  }
+  function agg(list){
+    var tp=[0,0,0,0,0], pass=0, named=0;
+    list.forEach(function(c){
+      for(var i=0;i<5;i++) tp[i]+=c[2+i];
+      if(passed(c)) pass++;
+      if(!NAMELESS[c[0]]) named++;
+    });
+    return {n:list.length, tp:tp, pass:pass, named:named};
+  }
+  function byKey(list, idx){
+    var m = {};
+    list.forEach(function(c){
+      var k = c[idx];
+      if(!m[k]) m[k] = {n:0, pass:0, tp:[0,0,0,0,0], clinic:c[0]};
+      m[k].n++;
+      if(passed(c)) m[k].pass++;
+      for(var i=0;i<5;i++) m[k].tp[i]+=c[2+i];
+    });
+    return m;
+  }
+  function view(){ return agg(sel(clinic, month)); }
+  function pct(a,b){ return b ? Math.round(a/b*1000)/10 : 0; }
+  /* Render a flag list, trimmed so a long one cannot swamp the card. */
+  function listOf(arr, cap){
+    if(!arr.length) return "—";
+    cap = cap || 6;
+    if(arr.length <= cap) return esc(arr.join(", "));
+    return esc(arr.slice(0, cap).join(", ")) + ' <span style="opacity:.75">+'
+      + (arr.length - cap) + "</span>";
+  }
+  function heatCls(p, zero){
+    if(zero) return "v0";
+    return p>=95?"v4":p>=80?"v3":p>=55?"v2":"v1";
+  }
+
+  function render(){
+    var t=T(), v=view(), fail=v.n - v.pass, rate=pct(v.pass, v.n);
+    document.getElementById("pgTitle").textContent = t.title;
+    document.getElementById("pgSub").textContent = t.sub;
+    document.body.className = lang==="zh" ? "lang-zh" : "";
+    document.getElementById("scopebar").innerHTML =
+      (clinic==="all" ? esc(t.scopeAll) : esc(t.scopeOne)+' <b>'+esc(clinic)+'</b>')
+      + ' &middot; ' + (month==="all" ? esc(t.allmLong) : '<b>'+esc(monthLabel(month))+'</b>');
+
+    var h = "";
+
+    /* hero + data-quality */
+    h += '<div class="herorow"><div class="hero"><div>'
+      + '<div class="bignum">'+rate+'<span style="font-size:1.4rem">%</span></div>'
+      + '<div class="biglab">'+esc(t.passrate)+'</div></div><div>'
+      + '<p class="sideline">'+t.hero(v.pass, v.n, fail)+'</p>'
+      + '<div class="passbar">'
+      + '<div class="sg" style="flex:'+Math.max(v.pass,1)+';background:var(--ok)">'+rate+'%</div>'
+      + '<div class="sg" style="flex:'+Math.max(fail,1)+';background:var(--bad)">'+(Math.round((100-rate)*10)/10)+'%</div>'
+      + '</div><div class="barlegend">'
+      + '<span class="i"><span class="sw" style="background:var(--ok)"></span>'+esc(t.lpass2)+' <b class="num">'+v.pass+'</b></span>'
+      + '<span class="i"><span class="sw" style="background:var(--bad)"></span>'+esc(t.lfail)+' <b class="num">'+fail+'</b></span>'
+      + '</div></div></div>';
+
+    var scopeCases = sel(clinic, month);
+    var perClinic = byKey(scopeCases, 0);
+    var scopedPerfect = [], scopedZero = [];
+    Object.keys(perClinic).sort().forEach(function(k){
+      var g = perClinic[k];
+      if(g.n > 0 && g.pass === g.n) scopedPerfect.push(k);
+      g.tp.forEach(function(val,i){ if(g.n > 0 && val === 0) scopedZero.push(k+" "+STEPS[i]); });
+    });
+    var scopedNoName = scopeCases.filter(function(c){ return NAMELESS[c[0]]; }).length;
+    var dqTotal = scopedPerfect.length + scopedZero.length + (scopedNoName>0?1:0);
+
+    h += '<div class="flagcard"><div><div class="fnum">'+dqTotal+'</div>'
+      + '<div class="flab">'+esc(t.dq)+'</div></div><p>'+esc(t.dqp)+'</p><div class="flist">'
+      + '<div class="fr"><span>'+esc(t.fPerfect)+'</span><span class="fv">'
+        + listOf(scopedPerfect)+'</span></div>'
+      + '<div class="fr"><span>'+esc(t.fZero)+'</span><span class="fv">'
+        + listOf(scopedZero)+'</span></div>'
+      + '<div class="fr"><span>'+esc(t.fNoName)+'</span><span class="fv">'+scopedNoName+'</span></div>'
+      + '</div></div></div>';
+
+    /* ---- month to date + monthly trend ---- */
+    var curM = TODAY.slice(0,7), curDay = +TODAY.slice(8,10);
+    var ms = MONTHS(), prevM = ms[ms.indexOf(curM)-1];
+    var mtdList  = sel(clinic, curM);
+    var mtdAgg   = agg(mtdList);
+    var prevFull = prevM ? agg(sel(clinic, prevM)) : null;
+    var prevSame = prevM ? agg(sel(clinic, prevM).filter(function(c){ return day(c) <= curDay; })) : null;
+    var mtdRate  = pct(mtdAgg.pass, mtdAgg.n);
+    var delta    = prevSame && prevSame.n ? Math.round((mtdRate - pct(prevSame.pass, prevSame.n))*10)/10 : null;
+
+    h += '<div class="grid2" style="margin-bottom:18px">';
+
+    h += '<div class="panel" style="margin:0"><h3><span>'+esc(t.pMtd)+'</span>'
+      + '<span class="hint">'+esc(monthLabel(curM))+' &middot; '+esc(t.through)+' '+curDay+'</span></h3>'
+      + '<div class="pad"><div class="mtdgrid">'
+      + '<div><div class="mtdnum">'+mtdRate+'<span style="font-size:1.2rem">%</span></div>'
+      + '<div class="mtdlab">'+esc(t.passrate)+'</div></div>'
+      + '<div class="mtdside">'
+      + '<div class="mtdrow"><span>'+esc(t.thN)+'</span><b class="num">'+mtdAgg.n+'</b></div>'
+      + '<div class="mtdrow"><span>'+esc(t.thPass)+'</span><b class="num">'+mtdAgg.pass+'</b></div>';
+    if(delta !== null){
+      var up = delta >= 0;
+      h += '<div class="mtdrow"><span>'+esc(t.vsPrev)+'</span>'
+        + '<b class="num" style="color:'+(up?'var(--ok)':'var(--bad)')+'">'
+        + (up?'▲ +':'▼ ')+delta+'%</b></div>';
+    }
+    if(prevFull && prevFull.n){
+      h += '<div class="mtdrow"><span>'+esc(t.prevFull)+'</span><b class="num">'
+        + pct(prevFull.pass, prevFull.n)+'%</b></div>';
+    }
+    h += '</div></div>';
+    if(delta !== null){
+      h += '<p class="mtdnote">'+esc(t.mtdNote
+            .replace("{a}", monthLabel(curM)).replace("{b}", monthLabel(prevM)).replace("{d}", curDay))+'</p>';
+    }
+    h += '</div></div>';
+
+    h += '<div class="panel" style="margin:0"><h3><span>'+esc(t.pMonth)+'</span>'
+      + '<span class="hint">'+esc(t.pMonthH)+'</span></h3><div class="pad"><div class="mtrend">';
+    var maxN = Math.max.apply(null, ms.map(function(k){ return sel(clinic,k).length; }).concat([1]));
+    ms.forEach(function(k){
+      var a = agg(sel(clinic, k)), r = pct(a.pass, a.n), isCur = k===curM;
+      var col = a.n===0 ? "var(--surface-3)" : r>=88 ? "var(--ok)" : r>=78 ? "var(--g3)" : "var(--warn)";
+      h += '<div class="mcol"><span class="mval"'+(isCur?' style="color:var(--accent)"':'')+'>'
+        + (a.n? r+'%' : '—')+'</span>'
+        + '<div class="mbar" style="height:'+(a.n? Math.max(Math.round(r/100*96),4) : 3)+'px;background:'+col+'"></div>'
+        + '<span class="mlab"'+(isCur?' style="color:var(--accent);font-weight:600"':'')+'>'
+        + esc(monthLabel(k).split(" ")[0])+'</span>'
+        + '<span class="mn">'+a.n+'</span></div>';
+    });
+    h += '</div></div></div></div>';
+
+    /* funnel */
+    h += '<div class="panel"><h3><span>'+esc(t.pFunnel)+'</span><span class="hint">'+esc(t.pFunnelH)+'</span></h3>'
+      + '<div class="pad"><div class="funnel">';
+    STEPS.forEach(function(st,i){
+      var done=v.tp[i], p=pct(done,v.n);
+      var col = done===0 ? "var(--bad)" : p>=90 ? "var(--ok)" : p>=75 ? "var(--warn)" : "var(--bad)";
+      h += '<div class="fstep"><span class="fd">'+esc(st)+'</span>'
+        + '<div class="ftrack"><div class="ffill" style="width:'+Math.max(p,1.5)+'%;background:'+col+'"></div></div>'
+        + '<span class="fnums"><b>'+p+'%</b> <span style="color:var(--muted)">'+done+'/'+v.n+'</span></span>'
+        + '<span class="ftask">'+esc(t.tasks[i])+'</span></div>';
+    });
+    h += '</div></div></div>';
+
+    /* clinic table + heatmap (all view only) */
+    if(clinic === "all"){
+      var rows = Object.keys(perClinic).map(function(k){ var g=perClinic[k];
+        return {k:k, n:g.n, pass:g.pass, rate:pct(g.pass,g.n),
+                named: NAMELESS[k] ? 0 : g.n, tp:g.tp};
+      }).sort(function(a,b){ return b.rate-a.rate; });
+
+      h += '<div class="panel"><h3><span>'+esc(t.pClinic)+'</span><span class="hint">'+esc(t.pClinicH)+'</span></h3>'
+        + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thClinic)+'</th>'
+        + '<th class="n">'+esc(t.thN)+'</th><th class="n">'+esc(t.thPass)+'</th>'
+        + '<th class="n">'+esc(t.thRate)+'</th><th style="width:26%"></th>'
+        + '<th class="n">'+esc(t.thNamed)+'</th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        h += '<tr><td><b>'+esc(r.k)+'</b></td><td class="n">'+r.n+'</td><td class="n">'+r.pass+'</td>'
+          + '<td class="n"><span class="pill '+(r.rate>=80?'p-ok':r.rate>=40?'p-warn':'p-bad')+'">'+r.rate+'%</span></td>'
+          + '<td><span class="bar'+(r.rate<40?' barn':'')+'" style="width:'+Math.max(r.rate,1)+'%"></span></td>'
+          + '<td class="n">'+(r.named<r.n ? '<span class="pill p-bad">'+r.named+'/'+r.n+'</span>' : r.named)+'</td></tr>';
+      });
+      h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+v.n+'</td><td class="n">'+v.pass+'</td>'
+        + '<td class="n">'+rate+'%</td><td></td><td class="n">'+v.named+'</td></tr>'
+        + '</tbody></table></div></div>';
+
+      h += '<div class="panel"><h3><span>'+esc(t.pHeat)+'</span><span class="hint">'+esc(t.pHeatH)+'</span></h3>'
+        + '<div class="tblwrap"><table class="heat"><thead><tr><th>'+esc(t.thClinic)+'</th>';
+      STEPS.forEach(function(st){ h += '<th class="c">'+esc(st)+'</th>'; });
+      h += '<th class="c">'+esc(t.thRate)+'</th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        h += '<tr><td><b>'+esc(r.k)+'</b></td>';
+        r.tp.forEach(function(val,i){
+          var p=pct(val,r.n);
+          h += '<td class="c '+heatCls(p, val===0)+'">'+p+'%</td>';
+        });
+        h += '<td class="c '+heatCls(r.rate,false)+'">'+r.rate+'%</td></tr>';
+      });
+      h += '</tbody></table></div><div class="heatkey"><span>&lt;55%</span>'
+        + '<i style="background:var(--g1)"></i><i style="background:var(--g2)"></i>'
+        + '<i style="background:var(--g3)"></i><i style="background:var(--g4)"></i><span>100%</span>'
+        + '<i style="background:var(--bad-soft);margin-left:14px"></i><span>column blank</span></div></div>';
+    }
+
+    /* rep table */
+    var repMap = byKey(scopeCases, 1), repRows = [];
+    Object.keys(repMap).forEach(function(name){ var g=repMap[name];
+      repRows.push({c:g.clinic, name:name, n:g.n, pass:g.pass, rate:pct(g.pass,g.n)}); });
+    repRows.sort(function(a,b){ return b.rate-a.rate || b.n-a.n; });
+    h += '<div class="panel"><h3><span>'+esc(t.pReps)+'</span><span class="hint">'+esc(t.pRepsH)+'</span></h3>'
+      + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thRep)+'</th><th>'+esc(t.thClinic)+'</th>'
+      + '<th class="n">'+esc(t.thN)+'</th><th class="n">'+esc(t.thPass)+'</th>'
+      + '<th class="n">'+esc(t.thRate)+'</th><th style="width:24%"></th></tr></thead><tbody>';
+    repRows.forEach(function(r){
+      h += '<tr><td>'+esc(r.name)+'</td><td style="color:var(--muted)">'+esc(r.c)+'</td>'
+        + '<td class="n">'+r.n+'</td><td class="n">'+r.pass+'</td>'
+        + '<td class="n"><span class="pill '+(r.rate>=80?'p-ok':r.rate>=40?'p-warn':'p-bad')+'">'+r.rate+'%</span></td>'
+        + '<td><span class="bar'+(r.rate<40?' barn':'')+'" style="width:'+Math.max(r.rate,1)+'%"></span></td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    document.getElementById("app").innerHTML = h;
+    renderWho();
+  }
+
+  function renderWho(){
+    var el=document.getElementById("whoami");
+    if(!el) return;
+    el.innerHTML = session ? '<button type="button" id="soBtn">'+esc(T().signout)+'</button>' : "";
+    if(session) document.getElementById("soBtn").onclick = signOut;
+  }
+  function buildMonthBar(){
+    var t=T(), h='', ms=MONTHS(), cur=TODAY.slice(0,7);
+    h += '<button data-m="all" aria-pressed="'+(month==="all")+'">'+esc(t.allm)+'</button>';
+    ms.forEach(function(k){
+      var n = sel("all", k).length;
+      h += '<button data-m="'+k+'" aria-pressed="'+(month===k)+'">'+esc(monthLabel(k))
+        + (k===cur ? ' <span class="mtdtag">'+esc(t.mtd)+'</span>' : '')
+        + ' <span class="cn">'+n+'</span></button>';
+    });
+    var bar=document.getElementById("monthbar");
+    bar.innerHTML=h;
+    bar.querySelectorAll("button").forEach(function(b){
+      b.onclick=function(){
+        month=b.dataset.m;
+        if(clinic!=="all" && !sel(clinic,month).length) clinic="all";
+        buildMonthBar(); buildClinicBar(); render();
+      };
+    });
+  }
+  function buildClinicBar(){
+    var t=T(), h='';
+    var inMonth = sel("all", month), counts = byKey(inMonth, 0);
+    h += '<button data-c="all" aria-pressed="'+(clinic==="all")+'">'+esc(t.allc)+' <span class="cn">'+inMonth.length+'</span></button>';
+    CKEYS.forEach(function(k){
+      var n = counts[k] ? counts[k].n : 0;
+      h += '<button data-c="'+k+'" aria-pressed="'+(clinic===k)+'"'+(n?'':' disabled style="opacity:.4"')+'>'
+        + esc(k)+' <span class="cn">'+n+'</span></button>';
+    });
+    var bar=document.getElementById("clinicbar");
+    bar.innerHTML=h;
+    bar.querySelectorAll("button").forEach(function(b){
+      b.onclick=function(){ clinic=b.dataset.c; buildMonthBar(); buildClinicBar(); render(); };
+    });
+  }
+  function applyGateLang(){
+    var t=T();
+    document.getElementById("gateLede").textContent=t.glede;
+    document.getElementById("lpass").textContent=t.lpass;
+    var b=document.getElementById("gateBtn");
+    if(!b.disabled) b.textContent=t.signin;
+  }
+  function saveSession(){ session={ok:true}; try{ sessionStorage.setItem("lasik_session","1"); }catch(e){} }
+  function loadSession(){ try{ if(sessionStorage.getItem("lasik_session")==="1"){ session={ok:true}; return true; } }catch(e){} return false; }
+  function signOut(){
+    session=null; clinic="all"; month="all";
+    try{ sessionStorage.removeItem("lasik_session"); }catch(e){}
+    document.getElementById("wrap").hidden=true;
+    document.getElementById("gate").classList.remove("gone");
+    var gp=document.getElementById("gp"); gp.value=""; gp.focus();
+  }
+  function enterApp(){
+    document.getElementById("gate").classList.add("gone");
+    document.getElementById("wrap").hidden=false;
+    buildMonthBar(); buildClinicBar(); render();
+  }
+
+  document.getElementById("gateform").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var t=T(), btn=document.getElementById("gateBtn"), err=document.getElementById("gateErr");
+    var pass=document.getElementById("gp").value;
+    btn.disabled=true; btn.textContent=t.signingin; err.classList.remove("on");
+    sha256(pass).then(function(hh){
+      btn.disabled=false; btn.textContent=t.signin;
+      if(hh !== PW_HASH){
+        err.textContent=t.badlogin; err.classList.add("on");
+        var gp=document.getElementById("gp"); gp.value=""; gp.focus();
+        return;
+      }
+      saveSession(); enterApp();
+    }).catch(function(){
+      btn.disabled=false; btn.textContent=t.signin;
+      err.textContent=t.badlogin; err.classList.add("on");
+    });
+  });
+
+  document.getElementById("langseg").querySelectorAll("button").forEach(function(b){
+    b.onclick=function(){
+      lang=b.dataset.l;
+      document.getElementById("langseg").querySelectorAll("button").forEach(function(x){
+        x.setAttribute("aria-pressed", String(x===b)); });
+      applyGateLang();
+      if(session){ buildMonthBar(); buildClinicBar(); render(); }
+    };
+  });
+
+  applyGateLang();
+  if(loadSession()) enterApp();
+  else document.getElementById("gp").focus();
+})();
+</script>
