@@ -183,6 +183,44 @@
 
   .note{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px;padding:15px 18px;margin-bottom:20px;font-size:.87rem}
   .note p{margin:0}
+
+  /* ---------- login gate ---------- */
+  #gate{position:fixed;inset:0;z-index:100;background:var(--ground);
+    display:flex;align-items:center;justify-content:center;padding:24px}
+  #gate.gone{display:none}
+  .gatecard{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--rule);
+    border-radius:6px;box-shadow:var(--shadow);padding:34px 32px}
+  .gatecard .brand{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+  .gatecard h2{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.42rem;
+    letter-spacing:-.015em;margin:0 0 7px;line-height:1.2}
+  .gatecard .lede{font-size:.88rem;color:var(--muted);margin:0 0 24px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .field input{width:100%;padding:10px 12px;font-family:inherit;font-size:.92rem;
+    background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:4px}
+  .field input:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+  .gatebtn{width:100%;padding:11px;background:var(--accent);color:var(--surface);border:0;
+    border-radius:4px;font-weight:600;font-size:.92rem;margin-top:6px}
+  .gatebtn:disabled{opacity:.55;cursor:default}
+  .gateerr{background:var(--bad-soft);color:var(--bad);border-radius:4px;padding:9px 12px;
+    font-size:.84rem;margin-bottom:15px;display:none}
+  .gateerr.on{display:block}
+  .gatefoot{margin-top:22px;padding-top:16px;border-top:1px solid var(--rule-2);
+    font-size:.79rem;color:var(--muted);line-height:1.5}
+  .gatefoot summary{cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:10px;
+    letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+  .gatefoot code{font-family:"IBM Plex Mono",monospace;background:var(--surface-2);
+    padding:1px 5px;border-radius:3px;font-size:.95em}
+  .gatefoot p{margin:9px 0 0}
+  .who{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;color:var(--muted)}
+  .who button{background:none;border:1px solid var(--rule);border-radius:4px;padding:4px 10px;
+    color:var(--muted);font-size:10.5px;font-family:inherit}
+  .who button:hover{color:var(--ink);border-color:var(--muted)}
+  .scopelock{background:var(--accent-soft);color:var(--accent);font-family:"IBM Plex Mono",monospace;
+    font-size:10px;letter-spacing:.06em;padding:2px 8px;border-radius:3px;font-weight:600}
   .hidden{display:none}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media (max-width:640px){
@@ -193,7 +231,33 @@
   }
 </style>
 
-<div class="wrap">
+<div id="gate">
+  <form class="gatecard" id="gateform" autocomplete="on">
+    <div class="brand">Bệnh viện Mắt Sài Gòn</div>
+    <h2>ZALO SOP Compliance</h2>
+    <p class="lede" id="gateLede">Sign in to view the weekly compliance report.</p>
+    <div class="gateerr" id="gateErr"></div>
+    <div class="field">
+      <label for="gu" id="luser">Email</label>
+      <input type="email" id="gu" name="username" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="gp" id="lpass">Password</label>
+      <input type="password" id="gp" name="password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="gatebtn" id="gateBtn">Sign in</button>
+    <div class="gatefoot">
+      <details>
+        <summary id="lDemo">Demo access</summary>
+        <p><code>manager@cte.vn</code> &mdash; all clinics<br>
+           <code>d5@cte.vn</code> &mdash; CTE D5 only<br>
+           Password <code>SOP2026demo</code></p>
+      </details>
+    </div>
+  </form>
+</div>
+
+<div class="wrap" id="wrap" hidden>
   <header class="top">
     <div class="titleblock">
       <h1 id="pgTitle">ZALO SOP Compliance</h1>
@@ -203,6 +267,7 @@
       <div class="weeknav">
         <button aria-label="Previous week">&#8249;</button><span class="lbl">W35</span><button aria-label="Next week">&#8250;</button>
       </div>
+      <span class="who" id="whoami"></span>
       <div class="seg" id="langseg" role="group" aria-label="Language">
         <button data-l="en" aria-pressed="true">EN</button>
         <button data-l="vi" aria-pressed="false">Tiếng Việt</button>
@@ -294,7 +359,7 @@
       noteMock:"<b>On the numbers:</b> every figure on this page is a placeholder. Send me this clinic's Membership tracker and the due counts, product split and data flags become real immediately.",
       pClinic:"By clinic", pClinicH:"Ranked by the share of outreach that never went out",
       pStaff:"By assistant", pStaffH:"Everything on this page is filtered to this clinic",
-      asst:"Assistant", thClinic:"Clinic", thStaff:"Assistant", thAssist:"Assistants", thDue:"Due", thSent:"Sent",
+      signin:"Sign in", signingin:"Signing in…", signout:"Sign out", badlogin:"That email and password do not match. Please try again.", glede:"Sign in to view the weekly compliance report.", luser:"Email", lpass:"Password", ldemo:"Demo access", asst:"Assistant", thClinic:"Clinic", thStaff:"Assistant", thAssist:"Assistants", thDue:"Due", thSent:"Sent",
       thMiss:"Not sent", thRate:"Miss rate", thFlags:"Flags", thSrc:"Source", thTot:"Total",
       mock:"Placeholder", realdue:"Due + flags real",
       pStageAll:"Where the misses are — stage × clinic", pStageAllH:"Follow-ups not sent. Darker means more missed.",
@@ -336,7 +401,7 @@
       noteMock:"<b>Về số liệu:</b> mọi con số trên trang này đều là số tạm. Gửi cho tôi bảng theo dõi Membership của phòng khám này thì số đến hạn, phân bổ sản phẩm và cờ dữ liệu sẽ thành số thật ngay.",
       pClinic:"Theo phòng khám", pClinicH:"Xếp theo tỷ lệ liên hệ chưa được gửi",
       pStaff:"Theo trợ lý", pStaffH:"Toàn bộ trang này đã lọc theo phòng khám đang chọn",
-      asst:"Trợ lý", thClinic:"Phòng khám", thStaff:"Trợ lý", thAssist:"Trợ lý", thDue:"Đến hạn", thSent:"Đã gửi",
+      signin:"Đăng nhập", signingin:"Đang đăng nhập…", signout:"Đăng xuất", badlogin:"Email hoặc mật khẩu không đúng. Vui lòng thử lại.", glede:"Đăng nhập để xem báo cáo tuân thủ hằng tuần.", luser:"Email", lpass:"Mật khẩu", ldemo:"Tài khoản demo", asst:"Trợ lý", thClinic:"Phòng khám", thStaff:"Trợ lý", thAssist:"Trợ lý", thDue:"Đến hạn", thSent:"Đã gửi",
       thMiss:"Chưa gửi", thRate:"Tỷ lệ sót", thFlags:"Cờ", thSrc:"Nguồn", thTot:"Tổng",
       mock:"Số tạm", realdue:"Đến hạn + cờ: thật",
       pStageAll:"Bỏ sót ở đâu — mốc × phòng khám", pStageAllH:"Follow-up chưa gửi. Màu càng đậm, sót càng nhiều.",
@@ -376,7 +441,7 @@
       noteMock:"<b>关于数据：</b>本页所有数字均为占位数据。提供该诊所的会员追踪表后，到期数、项目分布与数据标记可立即变为真实数据。",
       pClinic:"按诊所", pClinicH:"按未发送外联的占比排序",
       pStaff:"按助理", pStaffH:"本页所有内容已按所选诊所筛选",
-      asst:"助理", thClinic:"诊所", thStaff:"助理", thAssist:"助理", thDue:"应发", thSent:"已发",
+      signin:"登录", signingin:"正在登录…", signout:"退出", badlogin:"邮箱或密码不正确，请重试。", glede:"登录以查看每周合规报告。", luser:"邮箱", lpass:"密码", ldemo:"演示账号", asst:"助理", thClinic:"诊所", thStaff:"助理", thAssist:"助理", thDue:"应发", thSent:"已发",
       thMiss:"未发送", thRate:"漏发率", thFlags:"标记", thSrc:"数据来源", thTot:"合计",
       mock:"占位数据", realdue:"应发与标记为真实",
       pStageAll:"漏发分布 — 节点 × 诊所", pStageAllH:"未发送的随访。颜色越深，漏发越多。",
@@ -651,16 +716,192 @@
     h += '</div></div></div>';
 
     document.getElementById("app").innerHTML = h;
+    renderWho();
     document.querySelectorAll(".case").forEach(function(b){
       b.onclick = function(){ evCase = +b.dataset.case; render(); };
     });
   }
 
+
+  /* =====================================================================
+     ACCESS GATE
+     NOTE: this is a client-side deterrent, NOT a security control. On
+     static hosting the page and its data are readable regardless of this
+     form. Real enforcement belongs in front of the site (e.g. Cloudflare
+     Access) or behind a server that only returns data to an authenticated
+     session. Swap authenticate() for a real API call when that exists.
+     ===================================================================== */
+  var PW_HASH = "af7c839ac35bb6703a25480e40896d12227291f6a6dc882eec29a9f870b72967";
+  var USERS = {
+    "manager@cte.vn": {scope:"all", label:"Manager"},
+    "d5@cte.vn":      {scope:"d5",  label:"CTE D5"},
+    "d7@cte.vn":      {scope:"d7",  label:"CTE D7"},
+    "ngt@cte.vn":     {scope:"ngt", label:"NGT"},
+    "songhan@cte.vn": {scope:"sh",  label:"Song Han"},
+    "la@cte.vn":      {scope:"la",  label:"LA"}
+  };
+  var session = null;
+
+  /* SHA-256. Uses crypto.subtle where available (HTTPS / localhost) and
+     falls back to a pure-JS implementation otherwise, so the form still
+     works when the file is opened directly from disk. */
+  function utf8(str){
+    var out = "", i, c;
+    for(i = 0; i < str.length; i++){
+      c = str.charCodeAt(i);
+      if(c < 128){ out += String.fromCharCode(c); }
+      else if(c < 2048){
+        out += String.fromCharCode(192 | (c >> 6), 128 | (c & 63));
+      } else {
+        out += String.fromCharCode(224 | (c >> 12), 128 | ((c >> 6) & 63), 128 | (c & 63));
+      }
+    }
+    return out;
+  }
+  function sha256sync(ascii){
+    function rr(v, a){ return (v >>> a) | (v << (32 - a)); }
+    var mm = Math.pow, mp = mm(2, 32), i, j, result = "";
+    var words = [], bitLen = ascii.length * 8;
+    var hash = sha256sync.h, k = sha256sync.k;
+    if(!hash){
+      hash = sha256sync.h = []; k = sha256sync.k = [];
+      var n = 0, isComp = {};
+      for(var cand = 2; n < 64; cand++){
+        if(!isComp[cand]){
+          for(i = 0; i < 313; i += cand) isComp[i] = cand;
+          hash[n] = (mm(cand, .5) * mp) | 0;
+          k[n++] = (mm(cand, 1 / 3) * mp) | 0;
+        }
+      }
+      hash = hash.slice(0, 8);
+      sha256sync.h = hash;
+    }
+    ascii += "\x80";
+    while(ascii.length % 64 - 56) ascii += "\x00";
+    for(i = 0; i < ascii.length; i++){
+      j = ascii.charCodeAt(i);
+      if(j >> 8) return null;
+      words[i >> 2] |= j << ((3 - i) % 4) * 8;
+    }
+    words[words.length] = (bitLen / mp) | 0;
+    words[words.length] = bitLen;
+    var h = hash.slice(0);
+    for(j = 0; j < words.length;){
+      var w = words.slice(j, j += 16), old = h.slice(0);
+      for(i = 0; i < 64; i++){
+        var w15 = w[i - 15], w2 = w[i - 2], a = h[0], e = h[4];
+        var t1 = h[7] + (rr(e, 6) ^ rr(e, 11) ^ rr(e, 25)) + ((e & h[5]) ^ ((~e) & h[6])) + k[i]
+          + (w[i] = (i < 16) ? w[i]
+            : (w[i - 16] + (rr(w15, 7) ^ rr(w15, 18) ^ (w15 >>> 3)) + w[i - 7]
+               + (rr(w2, 17) ^ rr(w2, 19) ^ (w2 >>> 10))) | 0);
+        var t2 = (rr(a, 2) ^ rr(a, 13) ^ rr(a, 22))
+               + ((a & h[1]) ^ (a & h[2]) ^ (h[1] & h[2]));
+        h = [(t1 + t2) | 0].concat(h);
+        h[4] = (h[4] + t1) | 0;
+        h.length = 8;
+      }
+      for(i = 0; i < 8; i++) h[i] = (h[i] + old[i]) | 0;
+    }
+    for(i = 0; i < 8; i++)
+      for(j = 3; j + 1; j--){
+        var b = (h[i] >> (j * 8)) & 255;
+        result += ((b < 16) ? "0" : "") + b.toString(16);
+      }
+    return result;
+  }
+  function sha256(txt){
+    if(window.crypto && crypto.subtle && window.isSecureContext){
+      try{
+        return crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt))
+          .then(function(buf){
+            return Array.prototype.map.call(new Uint8Array(buf), function(b){
+              return b.toString(16).padStart(2, "0"); }).join("");
+          })
+          .catch(function(){ return sha256sync(utf8(txt)); });
+      }catch(e){ /* fall through */ }
+    }
+    return Promise.resolve(sha256sync(utf8(txt)));
+  }
+  function authenticate(email, pass){
+    var u = USERS[String(email).trim().toLowerCase()];
+    if(!u) return Promise.resolve(null);
+    return sha256(pass).then(function(h){ return h === PW_HASH ? u : null; });
+  }
+  function saveSession(email, u){
+    session = {email:email, scope:u.scope, label:u.label};
+    try{ sessionStorage.setItem("zsop_session", JSON.stringify(session)); }catch(e){}
+  }
+  function loadSession(){
+    try{
+      var raw = sessionStorage.getItem("zsop_session");
+      if(raw){ session = JSON.parse(raw); return !!(session && USERS[session.email]); }
+    }catch(e){}
+    return false;
+  }
+  function signOut(){
+    session = null;
+    try{ sessionStorage.removeItem("zsop_session"); }catch(e){}
+    clinic = "all";
+    document.getElementById("wrap").hidden = true;
+    document.getElementById("gate").classList.remove("gone");
+    document.getElementById("gp").value = "";
+    document.getElementById("gu").focus();
+  }
+  function enterApp(){
+    document.getElementById("gate").classList.add("gone");
+    document.getElementById("wrap").hidden = false;
+    if(session.scope !== "all") clinic = session.scope;
+    buildClinicBar(); render();
+  }
+  function renderWho(){
+    var t = T(), el = document.getElementById("whoami");
+    if(!el) return;
+    if(!session){ el.innerHTML = ""; return; }
+    el.innerHTML = "<span>" + esc(session.email) + "</span>"
+      + (session.scope !== "all" ? '<span class="scopelock">' + esc(session.label) + "</span>" : "")
+      + '<button type="button" id="soBtn">' + esc(t.signout) + "</button>";
+    document.getElementById("soBtn").onclick = signOut;
+  }
+  function applyGateLang(){
+    var t = T();
+    document.getElementById("gateLede").textContent = t.glede;
+    document.getElementById("luser").textContent = t.luser;
+    document.getElementById("lpass").textContent = t.lpass;
+    document.getElementById("lDemo").textContent = t.ldemo;
+    var b = document.getElementById("gateBtn");
+    if(!b.disabled) b.textContent = t.signin;
+  }
+
+  document.getElementById("gateform").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var t = T(), btn = document.getElementById("gateBtn"), err = document.getElementById("gateErr");
+    var email = document.getElementById("gu").value, pass = document.getElementById("gp").value;
+    btn.disabled = true; btn.textContent = t.signingin; err.classList.remove("on");
+    authenticate(email, pass).then(function(u){
+      btn.disabled = false; btn.textContent = t.signin;
+      if(!u){
+        err.textContent = t.badlogin; err.classList.add("on");
+        document.getElementById("gp").value = "";
+        document.getElementById("gp").focus();
+        return;
+      }
+      saveSession(String(email).trim().toLowerCase(), u);
+      enterApp();
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = t.signin;
+      err.textContent = t.badlogin; err.classList.add("on");
+    });
+  });
+
   function buildClinicBar(){
     var t = T(), h = '';
-    var totMiss = CKEYS.reduce(function(s,k){ return s+sum(C[k].miss); },0);
-    h += '<button data-c="all" aria-pressed="'+(clinic==="all")+'">'+esc(t.allc)+' <span class="cn">'+totMiss+'</span></button>';
-    CKEYS.forEach(function(k){
+    var scoped = session && session.scope !== "all";
+    var keys = scoped ? [session.scope] : CKEYS;
+    if(!scoped){
+      var totMiss = CKEYS.reduce(function(s,k){ return s+sum(C[k].miss); },0);
+      h += '<button data-c="all" aria-pressed="'+(clinic==="all")+'">'+esc(t.allc)+' <span class="cn">'+totMiss+'</span></button>';
+    }
+    keys.forEach(function(k){
       h += '<button data-c="'+k+'" aria-pressed="'+(clinic===k)+'">'+esc(C[k].name)+' <span class="cn">'+sum(C[k].miss)+'</span></button>';
     });
     var bar = document.getElementById("clinicbar");
@@ -676,11 +917,13 @@
       document.getElementById("langseg").querySelectorAll("button").forEach(function(x){
         x.setAttribute("aria-pressed", String(x === b));
       });
-      buildClinicBar(); render();
+      applyGateLang();
+      if(session){ buildClinicBar(); render(); }
     };
   });
 
-  buildClinicBar();
-  render();
+  applyGateLang();
+  if(loadSession()) enterApp();
+  else document.getElementById("gu").focus();
 })();
 </script>
