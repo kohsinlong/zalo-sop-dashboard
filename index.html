@@ -1,0 +1,686 @@
+<title>ZALO SOP Compliance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap">
+
+<style>
+  :root{
+    --ground:#FBFAF8; --surface:#FFFFFF; --surface-2:#F3F2EE; --surface-3:#E7E5DF;
+    --ink:#14151C; --ink-2:#3B3E4C; --muted:#6A6F80;
+    --rule:#DEDCD6; --rule-2:#EAE8E3;
+    --accent:#2438B8; --accent-soft:#E7E9F8;
+    --mark:#E6EE6B; --mark-ink:#2B2C0E;
+    --ok:#17795E; --ok-soft:#E2F0EA;
+    --warn:#A6690A; --warn-soft:#F7EEDC; --warn-mid:#EFDCBB;
+    --bad:#AE2E48; --bad-soft:#F8E6EA;
+    --h1c:#F6E4E8; --h2c:#EFC6CF; --h3c:#E29CAC; --h4c:#C9647C;
+    --inert:#5A6072; --inert-soft:#EBECEF;
+    --shadow:0 1px 2px rgba(20,21,28,.05), 0 8px 24px -18px rgba(20,21,28,.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+      --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+      --rule:#2B2E3A; --rule-2:#23262F;
+      --accent:#8D99F7; --accent-soft:#1D2140;
+      --mark:#C6CE55; --mark-ink:#14150A;
+      --ok:#5FC7A4; --ok-soft:#12291F;
+      --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+      --bad:#F0819A; --bad-soft:#2E141B;
+      --h1c:#26161B; --h2c:#3A1D26; --h3c:#552836; --h4c:#7C3A4C;
+      --inert:#98A0B4; --inert-soft:#1F2129;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+    --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+    --rule:#2B2E3A; --rule-2:#23262F;
+    --accent:#8D99F7; --accent-soft:#1D2140;
+    --mark:#C6CE55; --mark-ink:#14150A;
+    --ok:#5FC7A4; --ok-soft:#12291F;
+    --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+    --bad:#F0819A; --bad-soft:#2E141B;
+    --h1c:#26161B; --h2c:#3A1D26; --h3c:#552836; --h4c:#7C3A4C;
+    --inert:#98A0B4; --inert-soft:#1F2129;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body.lang-zh{font-family:"IBM Plex Sans","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .num{font-variant-numeric:tabular-nums}
+  button{font-family:inherit;font-size:inherit;cursor:pointer}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+  .wrap{max-width:1300px;margin:0 auto;padding:0 24px 90px}
+
+  header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;padding:32px 0 16px}
+  .titleblock h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.7rem;letter-spacing:-.015em;margin:0 0 5px}
+  .titleblock .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:var(--surface)}
+  .seg button{background:none;border:0;padding:7px 12px;color:var(--muted);font-size:12.5px;font-weight:500;border-right:1px solid var(--rule)}
+  .seg button:last-child{border-right:0}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+  .weeknav{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:5px 8px}
+  .weeknav .lbl{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;padding:0 4px}
+  .weeknav button{background:none;border:0;color:var(--muted);padding:2px 6px;font-size:14px;line-height:1}
+
+  .clinics{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 10px}
+  .clinics button{background:var(--surface);border:1px solid var(--rule);border-radius:20px;
+    padding:6px 15px;font-size:.85rem;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+  .clinics button .cn{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--bad)}
+  .clinics button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .clinics button[aria-pressed="true"] .cn{color:var(--surface)}
+  .scopebar{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:9px}
+  .scopebar b{color:var(--accent);font-weight:600}
+
+  .herorow{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-bottom:18px;align-items:stretch}
+  @media (max-width:940px){.herorow{grid-template-columns:1fr}}
+  .hero{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--bad);
+    border-radius:4px;box-shadow:var(--shadow);padding:24px 28px;
+    display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
+  @media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px;padding:20px}}
+  .hero .bignum{font-size:4.3rem;font-weight:600;letter-spacing:-.045em;line-height:.9;color:var(--bad);font-variant-numeric:tabular-nums}
+  .hero .biglab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .hero .sideline{font-size:.98rem;color:var(--ink-2);margin:0 0 14px;max-width:54ch}
+  .hero .sideline b{color:var(--ink);font-weight:600}
+  .sentbar{display:flex;height:32px;gap:3px;margin:0 0 8px}
+  .sentbar .sg{border-radius:2px;min-width:3px;display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:#fff}
+  .barlegend{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem}
+  .barlegend span.i{display:flex;gap:7px;align-items:center}
+  .barlegend .sw{width:10px;height:10px;border-radius:2px}
+
+  .flagcard{background:var(--warn-soft);border:1px solid var(--warn);border-left:4px solid var(--warn);
+    border-radius:4px;box-shadow:var(--shadow);padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+  .flagcard .fnum{font-size:2.6rem;font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--warn);font-variant-numeric:tabular-nums}
+  .flagcard .flab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--warn);font-weight:600}
+  .flagcard p{margin:0;font-size:.83rem;color:var(--ink-2)}
+  .flist{display:flex;flex-direction:column;margin-top:2px}
+  .flist .fr{display:flex;justify-content:space-between;gap:10px;font-size:.82rem;padding:5px 0;border-bottom:1px solid var(--warn-mid)}
+  .flist .fr:last-child{border-bottom:0}
+  .flist .fv{font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums}
+
+  .panel{background:var(--surface);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);margin-bottom:18px}
+  .panel > h3{margin:0;padding:14px 20px;border-bottom:1px solid var(--rule-2);font-size:.92rem;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .panel > h3 .hint{font-weight:400;font-size:.79rem;color:var(--muted)}
+  .pad{padding:18px 20px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  @media (max-width:940px){.grid2{grid-template-columns:1fr}}
+
+  .tblwrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.875rem}
+  th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--rule-2)}
+  thead th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;background:var(--surface-2);white-space:nowrap;border-bottom:1px solid var(--rule)}
+  tbody tr:last-child td{border-bottom:0}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+  td.n{font-family:"IBM Plex Mono",monospace}
+  tbody tr.tot td{background:var(--surface-2);font-weight:600;border-top:1px solid var(--rule)}
+  tbody tr.worst td{background:var(--bad-soft)}
+  .tagmono{font-family:"IBM Plex Mono",monospace;font-size:.78rem}
+  .bar{display:inline-block;height:7px;border-radius:2px;background:var(--bad);vertical-align:middle;min-width:2px}
+  .dim{color:var(--muted)}
+
+  table.heat td.c{text-align:center;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+    font-weight:600;border-left:1px solid var(--rule-2)}
+  table.heat th.c{text-align:center}
+  table.heat td.v0{color:var(--muted);font-weight:400;background:transparent}
+  table.heat td.v1{background:var(--h1c)}
+  table.heat td.v2{background:var(--h2c)}
+  table.heat td.v3{background:var(--h3c)}
+  table.heat td.v4{background:var(--h4c);color:#fff}
+  :root[data-theme="dark"] table.heat td.v4,
+  :root:not([data-theme="light"]) table.heat td.v4{color:var(--ink)}
+  table.heat td.tot,table.heat th.tot{background:var(--surface-2);font-weight:600}
+  .heatkey{display:flex;gap:8px;align-items:center;padding:12px 20px;border-top:1px solid var(--rule-2);
+    font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .heatkey i{width:22px;height:11px;border-radius:2px;display:inline-block}
+
+  .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.05em;
+    padding:2px 7px;border-radius:3px;font-weight:600;white-space:nowrap}
+  .p-ok{background:var(--ok-soft);color:var(--ok)}
+  .p-bad{background:var(--bad-soft);color:var(--bad)}
+  .p-warn{background:var(--warn-soft);color:var(--warn)}
+  .p-real{background:var(--ok-soft);color:var(--ok)}
+  .p-mock{background:var(--mark);color:var(--mark-ink)}
+
+  .trend{display:flex;align-items:flex-end;gap:11px;height:130px;padding-top:6px}
+  .tcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+  .tbar2{width:100%;max-width:44px;background:var(--h3c);border-radius:2px 2px 0 0}
+  .tlab{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted)}
+  .tval{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600}
+
+  .evgrid{display:grid;grid-template-columns:288px 1fr}
+  @media (max-width:860px){.evgrid{grid-template-columns:1fr}}
+  .evleft{border-right:1px solid var(--rule-2)}
+  @media (max-width:860px){.evleft{border-right:0;border-bottom:1px solid var(--rule-2)}}
+  .case{text-align:left;background:none;border:0;border-bottom:1px solid var(--rule-2);
+    padding:13px 18px;display:grid;grid-template-columns:1fr auto;gap:5px 10px;width:100%}
+  .case:hover{background:var(--surface-2)}
+  .case[aria-pressed="true"]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+  .case .cname{font-weight:600;font-size:.86rem}
+  .case .cmeta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);grid-column:1/-1}
+  .msg{padding:15px 20px;border-bottom:1px solid var(--rule-2)}
+  .msghead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);margin-bottom:9px}
+  .msghead .who{font-weight:600;color:var(--ink-2)}
+  .lang{margin-bottom:10px}
+  .lang:last-child{margin-bottom:0}
+  .lang .tg{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+  .lang p{margin:0;font-size:.89rem;line-height:1.6}
+  .empty{padding:32px 20px;text-align:center;color:var(--muted)}
+  .empty .big{font-family:"IBM Plex Mono",monospace;font-size:.95rem;color:var(--bad);font-weight:600;margin-bottom:6px}
+  .verdict{padding:15px 20px;border-top:1px solid var(--rule-2);display:grid;gap:8px}
+  .vrow{display:grid;grid-template-columns:120px 1fr;gap:12px;font-size:.85rem;align-items:baseline}
+  .vrow .vk{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+  .note{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px;padding:15px 18px;margin-bottom:20px;font-size:.87rem}
+  .note p{margin:0}
+  .hidden{display:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media (max-width:640px){
+    .wrap{padding:0 16px 60px}
+    .titleblock h1{font-size:1.3rem}
+    .hero .bignum{font-size:3.3rem}
+    .vrow{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="titleblock">
+      <h1 id="pgTitle">ZALO SOP Compliance</h1>
+      <div class="sub"><span id="pgSub">Weekly snapshot</span> &middot; 24&ndash;30 Aug 2026</div>
+    </div>
+    <div class="controls">
+      <div class="weeknav">
+        <button aria-label="Previous week">&#8249;</button><span class="lbl">W35</span><button aria-label="Next week">&#8250;</button>
+      </div>
+      <div class="seg" id="langseg" role="group" aria-label="Language">
+        <button data-l="en" aria-pressed="true">EN</button>
+        <button data-l="vi" aria-pressed="false">Tiếng Việt</button>
+        <button data-l="zh" aria-pressed="false">中文</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="clinics" id="clinicbar" role="group" aria-label="Clinic"></div>
+  <div class="scopebar" id="scopebar"></div>
+  <div id="app"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STAGES = ["D1","D6-7","CD","CDN","CD+1","CD+3-5","CD+7","CD+14","CD+30","CD+90","CD+180","CD+270","CD+365"];
+  var PRODUCTS = ["MC","Kính","Ortho-K","Atropine"];
+  var CKEYS = ["d5","d7","ngt","sh","la"];
+
+  var C = {
+    d5:{name:"CTE D5", real:true, staff:[[1,109,14]],
+        due:[10,12,14,2,2,19,6,26,18,0,0,0,0], miss:[0,1,0,0,0,3,1,5,4,0,0,0,0],
+        prodDue:[79,20,10,0], prodMiss:[10,3,1,0],
+        flags:[15,6,6,1], trend:[19,17,20,16,15,13,15,14]},
+    d7:{name:"CTE D7", real:false, staff:[[1,46,4],[2,42,4]],
+        due:[6,7,8,1,1,11,5,12,13,10,8,4,2], miss:[0,1,0,0,0,1,0,1,1,1,1,1,1],
+        prodDue:[50,20,14,4], prodMiss:[4,2,1,1],
+        flags:[6,3,2,1], trend:[12,11,13,9,10,9,9,8]},
+    ngt:{name:"NGT", real:false, staff:[[1,52,4],[2,48,4],[3,42,3]],
+        due:[9,11,12,2,2,17,8,19,21,17,13,7,4], miss:[0,0,0,0,0,1,0,1,2,2,2,2,1],
+        prodDue:[82,30,22,8], prodMiss:[5,3,2,1],
+        flags:[10,4,4,1], trend:[17,16,18,14,15,13,12,11]},
+    sh:{name:"Song Han", real:false, staff:[[1,50,10],[2,46,9]],
+        due:[5,6,7,1,1,10,5,11,13,13,11,8,5], miss:[0,1,0,0,0,2,0,1,2,2,3,4,4],
+        prodDue:[52,22,16,6], prodMiss:[9,5,3,2],
+        flags:[16,7,7,1], trend:[22,21,23,19,20,20,21,19]},
+    la:{name:"LA", real:false, staff:[[1,38,8],[2,33,7]],
+        due:[4,5,5,1,1,8,4,8,9,10,8,5,3], miss:[0,1,1,0,0,1,0,1,2,3,2,2,2],
+        prodDue:[38,16,12,5], prodMiss:[7,4,3,1],
+        flags:[5,2,2,0], trend:[14,14,14,14,15,15,14,15]}
+  };
+
+  var ACTIONS = {
+    d5:[["MCY-250824-…-Bé N.A.","MC","CD+30","26 Aug","4d",1,"28 Jul"],
+        ["MCY-260812-…-Bé T.H.","MC","CD+14","27 Aug","3d",1,"12 Aug"],
+        ["MCY-260810-…-Bé K.V.","MC","CD+14","27 Aug","3d",1,"10 Aug"],
+        ["MCY-260808-…-Bé Q.M.","MC","CD+14","28 Aug","2d",1,"08 Aug"],
+        ["MCY-260824-…-Bé L.P.","MC","CD+3-5","28 Aug","2d",1,"24 Aug"],
+        ["MCY-260823-…-Bé A.T.","MC","CD+3-5","28 Aug","2d",1,"23 Aug"],
+        ["KínhY-260820-…-A. Đ.","Kính","CD+7","27 Aug","3d",1,"20 Aug"],
+        ["OKN-260828-…-Bé M.C.","Ortho-K","D6-7","28 Aug","2d",1,"21 Aug"]],
+    d7:[["MCY-250901-…-Bé H.N.","MC","CD+365","24 Aug","6d",1,"03 Sep"],
+        ["OKY-251130-…-Bé P.L.","Ortho-K","CD+270","25 Aug","5d",2,"04 Jun"],
+        ["KínhY-260301-…-C. T.","Kính","CD+180","26 Aug","4d",1,"28 Feb"],
+        ["MCY-260527-…-Bé V.A.","MC","CD+90","26 Aug","4d",2,"29 May"],
+        ["AtrY-260728-…-Bé D.K.","Atropine","CD+30","27 Aug","3d",1,"28 Jul"]],
+    ngt:[["MCY-250902-…-Bé N.T.","MC","CD+365","24 Aug","6d",1,"05 Sep"],
+        ["MCY-251129-…-Bé T.Q.","MC","CD+270","25 Aug","5d",2,"01 Dec"],
+        ["OKY-251202-…-Bé H.M.","Ortho-K","CD+270","25 Aug","5d",3,"06 Dec"],
+        ["KínhY-260226-…-A. B.","Kính","CD+180","26 Aug","4d",1,"01 Mar"],
+        ["MCY-260302-…-Bé L.C.","MC","CD+180","26 Aug","4d",2,"04 Mar"]],
+    sh:[["MCY-250825-…-Bé P.N.","MC","CD+365","24 Aug","6d",1,"27 Aug"],
+        ["MCY-250828-…-Bé K.L.","MC","CD+365","24 Aug","6d",2,"30 Aug"],
+        ["OKY-250901-…-Bé T.V.","Ortho-K","CD+365","25 Aug","5d",1,"02 Sep"],
+        ["KínhY-250903-…-C. H.","Kính","CD+365","25 Aug","5d",2,"05 Sep"],
+        ["MCY-251126-…-Bé A.D.","MC","CD+270","26 Aug","4d",1,"28 Nov"],
+        ["MCY-251130-…-Bé M.T.","MC","CD+270","26 Aug","4d",2,"02 Dec"]],
+    la:[["MCY-250830-…-Bé V.H.","MC","CD+365","24 Aug","6d",1,"01 Sep"],
+        ["OKY-251128-…-Bé C.K.","Ortho-K","CD+270","25 Aug","5d",2,"30 Nov"],
+        ["MCY-260528-…-Bé N.P.","MC","CD+90","26 Aug","4d",1,"30 May"],
+        ["MCY-260601-…-Bé T.A.","MC","CD+90","26 Aug","4d",2,"03 Jun"],
+        ["KínhY-260229-…-A. L.","Kính","CD+180","27 Aug","3d",1,"02 Mar"]]
+  };
+
+  var L = {
+    en:{
+      title:"ZALO SOP Compliance", sub:"Weekly snapshot", allc:"All clinics",
+      scopeAll:"Viewing all 5 clinics combined", scopeOne:"Viewing",
+      notsent:"Follow-ups not sent",
+      hero:function(d,s,m,p){return "Out of <b>"+d+"</b> follow-ups due this week, <b>"+s+"</b> were sent and <b>"+m+"</b> were not — that is <b>"+p+"</b> of scheduled outreach that never reached the customer."},
+      onT:"Sent on time", lateT:"Sent late", missT:"Not sent",
+      dflags:"Data flags to fix",
+      dfp:"Broken Zalo tags. Each one stops a customer being scheduled at all — so these misses stay invisible until the tag is fixed.",
+      f:["Collected — set Y","Product ≠ tag","Missing Y/N","Unreadable tag"],
+      noteAll:"<b>On the numbers:</b> CTE D5's 109 due follow-ups and 28 data flags come from the live Membership tracker. The other four clinics, and every sent/not-sent figure, are placeholders until the Salework Zalo API is switched on.",
+      noteReal:"<b>On the numbers:</b> the due counts, product split and data flags on this page are real, from the live Membership tracker. Sent and not-sent are placeholders until the Salework Zalo API is switched on.",
+      noteMock:"<b>On the numbers:</b> every figure on this page is a placeholder. Send me this clinic's Membership tracker and the due counts, product split and data flags become real immediately.",
+      pClinic:"By clinic", pClinicH:"Ranked by the share of outreach that never went out",
+      pStaff:"By assistant", pStaffH:"Everything on this page is filtered to this clinic",
+      asst:"Assistant", thClinic:"Clinic", thStaff:"Assistant", thAssist:"Assistants", thDue:"Due", thSent:"Sent",
+      thMiss:"Not sent", thRate:"Miss rate", thFlags:"Flags", thSrc:"Source", thTot:"Total",
+      mock:"Placeholder", realdue:"Due + flags real",
+      pStageAll:"Where the misses are — stage × clinic", pStageAllH:"Follow-ups not sent. Darker means more missed.",
+      pStageOne:"Where the misses are — by stage", pStageOneH:"Due against not sent, this clinic only",
+      thStage:"Stage", hk:"Missed",
+      pProd:"By product", thProd:"Product",
+      pTrend:"Eight-week trend", pTrendAllH:"Not sent, all clinics", pTrendOneH:"Not sent, this clinic",
+      pAction:"Missed outreach — action list", pActionH:"These customers received nothing this week",
+      thTag:"Zalo tag", thDueD:"Due", thOver:"Overdue", thLast:"Last contact",
+      showing:function(a,b){return "Showing "+a+" of "+b+". Names shortened — the full list exports to the assistant's worklist."},
+      pEv:"How each call is decided", pEvH:"Sent, or not sent — with the evidence behind it",
+      cn:["Customer A","Customer B","Customer C"],
+      sent:"Sent", notsentS:"Not sent", lateS:"Sent late", cust:"Customer",
+      vres:"Result", vwin:"Window", vwhy:"Why it counts",
+      v1:"Due 24 Aug, sent 24 Aug — inside the window",
+      v2:"The assistant started the conversation and it addresses the CD+14 check.",
+      v3:"Due 27 Aug — no qualifying outreach found",
+      v4:"There was a message in the window, but the customer started it and it was about opening hours. The CD+7 outreach never went out.",
+      v5:"Due 22–24 Aug, sent 27 Aug — three days after the window closed",
+      v6:"Counted separately from \"not sent\" — the customer was reached, just later than intended.",
+      e1:"Nothing sent 22–24 Aug", e2:"The D6-7 window opened on 22 August and closed on 24 August with no message.",
+      m1:"Hello. It has been two weeks since your child started the myopia control lenses — has she mentioned any eye strain? Please remind her to wear them a full 12 hours each day.",
+      m2:"Hi, how late are you open tomorrow?", m3:"We're open until 4:30pm.",
+      m4:"Hello, your child's Ortho-K lenses have arrived — please bring her in to collect them.",
+      stageNote:"The pattern runs top-heavy across every clinic: the long-tail reminders at 6, 9 and 12 months are missed far more often than contact around collection.",
+      stageNoteD5:"CTE D5 has no milestones past CD+30 due this week — the clinic's customer base is new, so the long-tail reminders have not come round yet. That is why its miss rate looks better than the older clinics."
+    },
+    vi:{
+      title:"Tuân thủ SOP Zalo", sub:"Ảnh chụp theo tuần", allc:"Tất cả phòng khám",
+      scopeAll:"Đang xem gộp cả 5 phòng khám", scopeOne:"Đang xem",
+      notsent:"Follow-up chưa gửi",
+      hero:function(d,s,m,p){return "Trong <b>"+d+"</b> follow-up đến hạn tuần này, <b>"+s+"</b> đã gửi và <b>"+m+"</b> chưa gửi — tương đương <b>"+p+"</b> lượt liên hệ theo kế hoạch chưa đến được khách hàng."},
+      onT:"Gửi đúng hạn", lateT:"Gửi trễ", missT:"Chưa gửi",
+      dflags:"Cờ dữ liệu cần sửa",
+      dfp:"Tag Zalo bị lỗi. Mỗi lỗi khiến khách hàng không được lên lịch — nên những lượt bỏ sót này không hiện ra cho tới khi tag được sửa.",
+      f:["Đã nhận kính — đổi sang Y","Sản phẩm ≠ tag","Thiếu Y/N","Tag không đọc được"],
+      noteAll:"<b>Về số liệu:</b> 109 follow-up đến hạn và 28 cờ dữ liệu của CTE D5 lấy từ bảng theo dõi Membership thực tế. Bốn phòng khám còn lại và toàn bộ số đã gửi/chưa gửi là số tạm cho tới khi API Salework Zalo được kích hoạt.",
+      noteReal:"<b>Về số liệu:</b> số đến hạn, phân bổ sản phẩm và cờ dữ liệu trên trang này là số thật, lấy từ bảng theo dõi Membership. Đã gửi và chưa gửi là số tạm cho tới khi API Salework Zalo được kích hoạt.",
+      noteMock:"<b>Về số liệu:</b> mọi con số trên trang này đều là số tạm. Gửi cho tôi bảng theo dõi Membership của phòng khám này thì số đến hạn, phân bổ sản phẩm và cờ dữ liệu sẽ thành số thật ngay.",
+      pClinic:"Theo phòng khám", pClinicH:"Xếp theo tỷ lệ liên hệ chưa được gửi",
+      pStaff:"Theo trợ lý", pStaffH:"Toàn bộ trang này đã lọc theo phòng khám đang chọn",
+      asst:"Trợ lý", thClinic:"Phòng khám", thStaff:"Trợ lý", thAssist:"Trợ lý", thDue:"Đến hạn", thSent:"Đã gửi",
+      thMiss:"Chưa gửi", thRate:"Tỷ lệ sót", thFlags:"Cờ", thSrc:"Nguồn", thTot:"Tổng",
+      mock:"Số tạm", realdue:"Đến hạn + cờ: thật",
+      pStageAll:"Bỏ sót ở đâu — mốc × phòng khám", pStageAllH:"Follow-up chưa gửi. Màu càng đậm, sót càng nhiều.",
+      pStageOne:"Bỏ sót ở đâu — theo mốc", pStageOneH:"Đến hạn so với chưa gửi, chỉ phòng khám này",
+      thStage:"Mốc", hk:"Bỏ sót",
+      pProd:"Theo sản phẩm", thProd:"Sản phẩm",
+      pTrend:"Xu hướng 8 tuần", pTrendAllH:"Chưa gửi, tất cả phòng khám", pTrendOneH:"Chưa gửi, phòng khám này",
+      pAction:"Liên hệ bị bỏ sót — danh sách cần xử lý", pActionH:"Những khách này chưa nhận được liên hệ nào tuần này",
+      thTag:"Tag Zalo", thDueD:"Đến hạn", thOver:"Trễ", thLast:"Liên hệ gần nhất",
+      showing:function(a,b){return "Hiển thị "+a+" trong "+b+". Tên đã rút gọn — danh sách đầy đủ xuất sang bảng công việc của trợ lý."},
+      pEv:"Căn cứ của mỗi kết luận", pEvH:"Đã gửi hay chưa gửi — kèm bằng chứng",
+      cn:["Khách hàng A","Khách hàng B","Khách hàng C"],
+      sent:"Đã gửi", notsentS:"Chưa gửi", lateS:"Gửi trễ", cust:"Khách hàng",
+      vres:"Kết quả", vwin:"Cửa sổ", vwhy:"Vì sao tính như vậy",
+      v1:"Đến hạn 24/8, gửi 24/8 — nằm trong cửa sổ",
+      v2:"Trợ lý chủ động nhắn trước và nội dung đúng phần kiểm tra CD+14.",
+      v3:"Đến hạn 27/8 — không tìm thấy liên hệ hợp lệ",
+      v4:"Có tin nhắn trong cửa sổ, nhưng do khách hàng nhắn trước và nội dung là giờ mở cửa. Liên hệ CD+7 chưa từng được gửi.",
+      v5:"Đến hạn 22–24/8, gửi 27/8 — ba ngày sau khi cửa sổ đóng",
+      v6:"Tính riêng với «chưa gửi» — khách vẫn được liên hệ, chỉ là trễ.",
+      e1:"Không gửi gì trong 22–24/8", e2:"Cửa sổ D6-7 mở ngày 22/8 và đóng ngày 24/8 mà không có tin nhắn nào.",
+      m1:"", m2:"", m3:"", m4:"",
+      stageNote:"Mọi phòng khám đều lệch về phía sau: các mốc nhắc dài hạn 6, 9 và 12 tháng bị bỏ sót nhiều hơn hẳn so với liên hệ quanh lúc nhận kính.",
+      stageNoteD5:"CTE D5 tuần này không có mốc nào sau CD+30 — tệp khách của phòng khám còn mới nên các mốc nhắc dài hạn chưa tới. Vì vậy tỷ lệ sót trông thấp hơn các phòng khám lâu năm."
+    },
+    zh:{
+      title:"ZALO SOP 合规看板", sub:"每周快照", allc:"全部诊所",
+      scopeAll:"正在查看 5 家诊所合计", scopeOne:"正在查看",
+      notsent:"未发送的随访",
+      hero:function(d,s,m,p){return "本周应发送 <b>"+d+"</b> 次随访，其中 <b>"+s+"</b> 次已发送，<b>"+m+"</b> 次未发送 — 即 <b>"+p+"</b> 的计划外联从未送达客户。"},
+      onT:"按时发送", lateT:"逾期发送", missT:"未发送",
+      dflags:"待修正的数据标记",
+      dfp:"Zalo 标签有误。每一项都会导致客户完全无法被排程 — 在标签修正前，这些漏发是看不见的。",
+      f:["已取镜 — 应改为 Y","项目与标签不符","缺少 Y/N","标签无法识别"],
+      noteAll:"<b>关于数据：</b>CTE D5 的 109 次到期随访与 28 项数据标记取自实时会员追踪表。其余四家诊所以及所有「已发送／未发送」数字，在 Salework Zalo API 开通前均为占位数据。",
+      noteReal:"<b>关于数据：</b>本页的到期数、项目分布与数据标记均为真实数据，取自实时会员追踪表。已发送与未发送在 Salework Zalo API 开通前为占位数据。",
+      noteMock:"<b>关于数据：</b>本页所有数字均为占位数据。提供该诊所的会员追踪表后，到期数、项目分布与数据标记可立即变为真实数据。",
+      pClinic:"按诊所", pClinicH:"按未发送外联的占比排序",
+      pStaff:"按助理", pStaffH:"本页所有内容已按所选诊所筛选",
+      asst:"助理", thClinic:"诊所", thStaff:"助理", thAssist:"助理", thDue:"应发", thSent:"已发",
+      thMiss:"未发送", thRate:"漏发率", thFlags:"标记", thSrc:"数据来源", thTot:"合计",
+      mock:"占位数据", realdue:"应发与标记为真实",
+      pStageAll:"漏发分布 — 节点 × 诊所", pStageAllH:"未发送的随访。颜色越深，漏发越多。",
+      pStageOne:"漏发分布 — 按节点", pStageOneH:"应发与未发送对比，仅本诊所",
+      thStage:"节点", hk:"漏发",
+      pProd:"按项目", thProd:"项目",
+      pTrend:"八周趋势", pTrendAllH:"未发送数，全部诊所", pTrendOneH:"未发送数，本诊所",
+      pAction:"漏发外联 — 行动清单", pActionH:"这些客户本周未收到任何联系",
+      thTag:"Zalo 标签", thDueD:"到期", thOver:"逾期", thLast:"最近联系",
+      showing:function(a,b){return "显示 "+b+" 条中的 "+a+" 条。姓名已缩写 — 完整清单导出至助理工作表。"},
+      pEv:"每项判定的依据", pEvH:"已发送或未发送 — 附证据",
+      cn:["客户 A","客户 B","客户 C"],
+      sent:"已发送", notsentS:"未发送", lateS:"逾期发送", cust:"客户",
+      vres:"结果", vwin:"窗口", vwhy:"判定理由",
+      v1:"应发 8月24日，实发 8月24日 — 在窗口内",
+      v2:"由助理主动发起，且针对 CD+14 的状况询问。",
+      v3:"应发 8月27日 — 未找到合格外联",
+      v4:"窗口内确有消息，但由客户发起且内容为营业时间。CD+7 外联从未发出。",
+      v5:"应发 8月22–24日，实发 8月27日 — 窗口关闭后三天",
+      v6:"与「未发送」分开统计 — 客户仍被联系到，只是晚了。",
+      e1:"8月22–24日无任何发送", e2:"D6-7 窗口于 8 月 22 日开启、24 日关闭，期间没有消息。",
+      m1:"您好。孩子配戴近视防控镜已经两周了，有没有说眼睛疲劳？请提醒孩子每天配戴满12小时。",
+      m2:"您好，明天营业到几点？", m3:"我们营业到下午4点30分。",
+      m4:"您好，孩子的角膜塑形镜已到，请带孩子前来领取。",
+      stageNote:"各诊所呈现相同的头重脚轻：6、9、12 个月的长尾提醒漏发远多于取镜前后的联系。",
+      stageNoteD5:"CTE D5 本周没有 CD+30 之后的节点到期 — 该诊所客户群较新，长尾提醒尚未到期。因此其漏发率看起来优于成立较久的诊所。"
+    }
+  };
+  var VN_MSG = {
+    m1:"Dạ em chào chị ạ. Bé đeo kính kiểm soát cận được hai tuần rồi, bé có kêu mỏi mắt không ạ? Chị nhắc bé đeo đủ 12 tiếng mỗi ngày giúp em nhé ạ.",
+    m2:"Chị ơi mai bên mình mở cửa tới mấy giờ ạ?",
+    m3:"Dạ bên em mở tới 16h30 ạ.",
+    m4:"Dạ chị ơi, kính Ortho-K của bé đã về rồi ạ, chị sắp xếp cho bé qua nhận nhé ạ."
+  };
+
+  var lang = "en", clinic = "all", evCase = 1;
+  function T(){ return L[lang]; }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]}); }
+  function sum(a){ var t=0; for(var i=0;i<a.length;i++) t+=a[i]; return t; }
+  function agg(field){
+    var out=[]; for(var i=0;i<C.d5[field].length;i++){ var t=0;
+      CKEYS.forEach(function(k){ t+=C[k][field][i]; }); out.push(t); } return out;
+  }
+  function view(){
+    if(clinic !== "all") { var c=C[clinic];
+      return {name:c.name, due:c.due, miss:c.miss, prodDue:c.prodDue, prodMiss:c.prodMiss,
+              flags:c.flags, trend:c.trend, real:c.real, staff:c.staff}; }
+    return {name:T().allc, due:agg("due"), miss:agg("miss"), prodDue:agg("prodDue"),
+            prodMiss:agg("prodMiss"), flags:agg("flags"), trend:C.d5.trend.map(function(_,i){
+              return CKEYS.reduce(function(s,k){ return s+C[k].trend[i]; },0); }), real:false, staff:null};
+  }
+  function heatClass(v){ return v<=0?"v0":v===1?"v1":v===2?"v2":v===3?"v3":"v4"; }
+
+  function render(){
+    var t = T(), v = view();
+    var due = sum(v.due), miss = sum(v.miss), sent = due - miss;
+    var late = Math.round(miss * 0.9), onTime = sent - late;
+    var pct = (miss/due*100).toFixed(1) + "%";
+
+    document.getElementById("pgTitle").textContent = t.title;
+    document.getElementById("pgSub").textContent = t.sub;
+    document.body.className = lang === "zh" ? "lang-zh" : "";
+
+    document.getElementById("scopebar").innerHTML = clinic === "all"
+      ? esc(t.scopeAll)
+      : esc(t.scopeOne) + ' <b>' + esc(v.name) + '</b>';
+
+    var h = "";
+
+    /* hero + flags */
+    h += '<div class="herorow"><div class="hero"><div>'
+      + '<div class="bignum">' + miss + '</div>'
+      + '<div class="biglab">' + esc(t.notsent) + '</div></div><div>'
+      + '<p class="sideline">' + t.hero(due, sent, miss, pct) + '</p>'
+      + '<div class="sentbar">'
+      + '<div class="sg" style="flex:'+onTime+';background:var(--ok)">'+Math.round(onTime/due*100)+'%</div>'
+      + '<div class="sg" style="flex:'+late+';background:var(--warn)">'+Math.round(late/due*100)+'%</div>'
+      + '<div class="sg" style="flex:'+miss+';background:var(--bad)">'+Math.round(miss/due*100)+'%</div>'
+      + '</div><div class="barlegend">'
+      + '<span class="i"><span class="sw" style="background:var(--ok)"></span>'+esc(t.onT)+' <b class="num">'+onTime+'</b></span>'
+      + '<span class="i"><span class="sw" style="background:var(--warn)"></span>'+esc(t.lateT)+' <b class="num">'+late+'</b></span>'
+      + '<span class="i"><span class="sw" style="background:var(--bad)"></span>'+esc(t.missT)+' <b class="num">'+miss+'</b></span>'
+      + '</div></div></div>';
+
+    h += '<div class="flagcard"><div><div class="fnum">'+sum(v.flags)+'</div>'
+      + '<div class="flab">'+esc(t.dflags)+'</div></div><p>'+esc(t.dfp)+'</p><div class="flist">';
+    for(var fi=0; fi<4; fi++)
+      h += '<div class="fr"><span>'+esc(t.f[fi])+'</span><span class="fv">'+v.flags[fi]+'</span></div>';
+    h += '</div></div></div>';
+
+    /* provenance note */
+    var noteKey = clinic === "all" ? "noteAll" : (v.real ? "noteReal" : "noteMock");
+    h += '<div class="note"><p>' + t[noteKey] + '</p></div>';
+
+    /* clinic table OR staff table */
+    if(clinic === "all"){
+      var rows = CKEYS.map(function(k){
+        var c=C[k], d=sum(c.due), m=sum(c.miss);
+        return {k:k,name:c.name,staff:c.staff.length,due:d,sent:d-m,miss:m,
+                rate:(m/d*100),flags:sum(c.flags),real:c.real};
+      }).sort(function(a,b){ return b.rate-a.rate; });
+      var maxRate = rows[0].rate;
+      h += '<div class="panel"><h3><span>'+esc(t.pClinic)+'</span><span class="hint">'+esc(t.pClinicH)+'</span></h3>'
+        + '<div class="tblwrap"><table><thead><tr>'
+        + '<th>'+esc(t.thClinic)+'</th><th class="n">'+esc(t.thAssist)+'</th><th class="n">'+esc(t.thDue)+'</th>'
+        + '<th class="n">'+esc(t.thSent)+'</th><th class="n">'+esc(t.thMiss)+'</th><th class="n">'+esc(t.thRate)+'</th>'
+        + '<th class="n">'+esc(t.thFlags)+'</th><th style="width:16%"></th><th>'+esc(t.thSrc)+'</th></tr></thead><tbody>';
+      rows.forEach(function(r,i){
+        h += '<tr'+(i<2?' class="worst"':'')+'><td>'+esc(r.name)+'</td><td class="n">'+r.staff+'</td>'
+          + '<td class="n">'+r.due+'</td><td class="n">'+r.sent+'</td><td class="n">'+r.miss+'</td>'
+          + '<td class="n">'+r.rate.toFixed(1)+'%</td>'
+          + '<td class="n"><span class="pill '+(r.flags>20?'p-bad':'p-warn')+'">'+r.flags+'</span></td>'
+          + '<td><span class="bar" style="width:'+Math.round(r.rate/maxRate*100)+'%"></span></td>'
+          + '<td><span class="pill '+(r.real?'p-real':'p-mock')+'">'+esc(r.real?t.realdue:t.mock)+'</span></td></tr>';
+      });
+      h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+rows.reduce(function(s,r){return s+r.staff},0)+'</td>'
+        + '<td class="n">'+due+'</td><td class="n">'+sent+'</td><td class="n">'+miss+'</td>'
+        + '<td class="n">'+pct+'</td><td class="n">'+sum(v.flags)+'</td><td></td><td></td></tr>'
+        + '</tbody></table></div></div>';
+    } else {
+      h += '<div class="panel"><h3><span>'+esc(t.pStaff)+'</span><span class="hint">'+esc(t.pStaffH)+'</span></h3>'
+        + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thStaff)+'</th>'
+        + '<th class="n">'+esc(t.thDue)+'</th><th class="n">'+esc(t.thSent)+'</th>'
+        + '<th class="n">'+esc(t.thMiss)+'</th><th class="n">'+esc(t.thRate)+'</th>'
+        + '<th style="width:26%"></th></tr></thead><tbody>';
+      var mx = Math.max.apply(null, v.staff.map(function(s){ return s[2]/s[1]; }));
+      v.staff.forEach(function(s){
+        var rate = s[2]/s[1]*100;
+        h += '<tr><td>'+esc(t.asst+" "+s[0])+'</td><td class="n">'+s[1]+'</td><td class="n">'+(s[1]-s[2])+'</td>'
+          + '<td class="n">'+s[2]+'</td><td class="n">'+rate.toFixed(1)+'%</td>'
+          + '<td><span class="bar" style="width:'+Math.round(rate/(mx*100)*100)+'%"></span></td></tr>';
+      });
+      h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+due+'</td><td class="n">'+sent+'</td>'
+        + '<td class="n">'+miss+'</td><td class="n">'+pct+'</td><td></td></tr></tbody></table></div></div>';
+    }
+
+    /* stage panel */
+    if(clinic === "all"){
+      h += '<div class="panel"><h3><span>'+esc(t.pStageAll)+'</span><span class="hint">'+esc(t.pStageAllH)+'</span></h3>'
+        + '<div class="tblwrap"><table class="heat"><thead><tr><th>'+esc(t.thStage)+'</th>';
+      CKEYS.forEach(function(k){ h += '<th class="c">'+esc(C[k].name)+'</th>'; });
+      h += '<th class="c tot">'+esc(t.thTot)+'</th></tr></thead><tbody>';
+      for(var si=STAGES.length-1; si>=0; si--){
+        var rowTot = CKEYS.reduce(function(s,k){ return s+C[k].miss[si]; },0);
+        if(rowTot===0 && sum(agg("due").slice(si,si+1))===0) continue;
+        h += '<tr><td>'+STAGES[si]+'</td>';
+        CKEYS.forEach(function(k){
+          var mv=C[k].miss[si], dv=C[k].due[si];
+          h += '<td class="c '+(dv===0?"v0":heatClass(mv))+'">'+(dv===0?'<span class="dim">–</span>':mv)+'</td>';
+        });
+        h += '<td class="c tot">'+rowTot+'</td></tr>';
+      }
+      h += '<tr class="tot"><td>'+esc(t.thTot)+'</td>';
+      CKEYS.forEach(function(k){ h += '<td class="c">'+sum(C[k].miss)+'</td>'; });
+      h += '<td class="c tot">'+miss+'</td></tr></tbody></table></div>'
+        + '<div class="heatkey"><span>'+esc(t.hk)+'</span>'
+        + '<i style="background:var(--h1c)"></i><i style="background:var(--h2c)"></i>'
+        + '<i style="background:var(--h3c)"></i><i style="background:var(--h4c)"></i><span>1 &rarr; 4+</span></div>'
+        + '<div class="pad" style="border-top:1px solid var(--rule-2);color:var(--ink-2)">'
+        + '<p style="margin:0;font-size:.86rem">'+esc(t.stageNote)+'</p></div></div>';
+    } else {
+      var maxMiss = Math.max.apply(null, v.miss.concat([1]));
+      h += '<div class="panel"><h3><span>'+esc(t.pStageOne)+'</span><span class="hint">'+esc(t.pStageOneH)+'</span></h3>'
+        + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thStage)+'</th>'
+        + '<th class="n">'+esc(t.thDue)+'</th><th class="n">'+esc(t.thMiss)+'</th>'
+        + '<th class="n">'+esc(t.thRate)+'</th><th style="width:30%"></th></tr></thead><tbody>';
+      for(var sj=STAGES.length-1; sj>=0; sj--){
+        if(v.due[sj]===0) continue;
+        var mm=v.miss[sj], dd=v.due[sj];
+        h += '<tr><td>'+STAGES[sj]+'</td><td class="n">'+dd+'</td>'
+          + '<td class="n">'+(mm||'<span class="dim">0</span>')+'</td>'
+          + '<td class="n">'+(mm?((mm/dd*100).toFixed(0)+'%'):'<span class="dim">—</span>')+'</td>'
+          + '<td>'+(mm?'<span class="bar" style="width:'+Math.round(mm/maxMiss*100)+'%"></span>':'')+'</td></tr>';
+      }
+      h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+due+'</td><td class="n">'+miss+'</td>'
+        + '<td class="n">'+pct+'</td><td></td></tr></tbody></table></div>'
+        + '<div class="pad" style="border-top:1px solid var(--rule-2);color:var(--ink-2)">'
+        + '<p style="margin:0;font-size:.86rem">'+esc(clinic==="d5" ? t.stageNoteD5 : t.stageNote)+'</p></div></div>';
+    }
+
+    /* product + trend */
+    h += '<div class="grid2"><div class="panel"><h3><span>'+esc(t.pProd)+'</span></h3>'
+      + '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thProd)+'</th>'
+      + '<th class="n">'+esc(t.thDue)+'</th><th class="n">'+esc(t.thMiss)+'</th>'
+      + '<th class="n">'+esc(t.thRate)+'</th></tr></thead><tbody>';
+    PRODUCTS.forEach(function(p,i){
+      var pd=v.prodDue[i], pm=v.prodMiss[i];
+      if(pd===0){ h += '<tr><td>'+p+'</td><td class="n"><span class="dim">0</span></td>'
+        + '<td class="n"><span class="dim">—</span></td><td class="n"><span class="dim">—</span></td></tr>'; return; }
+      var r = pm/pd*100;
+      h += '<tr><td>'+p+'</td><td class="n">'+pd+'</td><td class="n">'+pm+'</td>'
+        + '<td class="n"><span class="pill '+(r>14?'p-bad':r>8?'p-warn':'p-ok')+'">'+r.toFixed(1)+'%</span></td></tr>';
+    });
+    h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+due+'</td><td class="n">'+miss+'</td>'
+      + '<td class="n">'+pct+'</td></tr></tbody></table></div></div>';
+
+    var wk = ["W28","W29","W30","W31","W32","W33","W34","W35"];
+    var mxT = Math.max.apply(null, v.trend);
+    h += '<div class="panel"><h3><span>'+esc(t.pTrend)+'</span><span class="hint">'
+      + esc(clinic==="all" ? t.pTrendAllH : t.pTrendOneH)+'</span></h3><div class="pad"><div class="trend">';
+    v.trend.forEach(function(val,i){
+      var last = i === v.trend.length-1;
+      h += '<div class="tcol"><span class="tval"'+(last?' style="color:var(--bad)"':'')+'>'+val+'</span>'
+        + '<div class="tbar2" style="height:'+Math.round(val/mxT*104)+'px'+(last?';background:var(--bad)':'')+'"></div>'
+        + '<span class="tlab"'+(last?' style="color:var(--bad);font-weight:600"':'')+'>'+wk[i]+'</span></div>';
+    });
+    h += '</div></div></div></div>';
+
+    /* action list */
+    var acts = clinic === "all"
+      ? CKEYS.reduce(function(a,k){ return a.concat(ACTIONS[k]); }, [])
+      : ACTIONS[clinic];
+    h += '<div class="panel"><h3><span>'+esc(t.pAction)+'</span><span class="hint">'
+      + esc(v.name) + ' &middot; ' + esc(t.pActionH)+'</span></h3><div class="tblwrap"><table><thead><tr>'
+      + '<th>'+esc(t.thTag)+'</th><th>'+esc(t.thProd)+'</th><th>'+esc(t.thStage)+'</th>'
+      + '<th>'+esc(t.thDueD)+'</th><th class="n">'+esc(t.thOver)+'</th>'
+      + '<th>'+esc(t.thStaff)+'</th><th>'+esc(t.thLast)+'</th></tr></thead><tbody>';
+    acts.forEach(function(r){
+      h += '<tr><td class="tagmono">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td>'
+        + '<td>'+esc(r[3])+'</td><td class="n">'+esc(r[4])+'</td><td>'+esc(t.asst+" "+r[5])+'</td>'
+        + '<td class="num">'+esc(r[6])+'</td></tr>';
+    });
+    h += '</tbody></table></div><div class="pad" style="border-top:1px solid var(--rule-2);color:var(--muted);font-size:.84rem">'
+      + '<p style="margin:0">'+esc(t.showing(acts.length, miss))+'</p></div></div>';
+
+    /* evidence */
+    var who = t.asst + " 1";
+    h += '<div class="panel"><h3><span>'+esc(t.pEv)+'</span><span class="hint">'+esc(t.pEvH)+'</span></h3>'
+      + '<div class="evgrid"><div class="evleft">';
+    var pills = [["p-ok",t.sent],["p-bad",t.notsentS],["p-warn",t.lateS]];
+    var metas = ["MC · CD+14 · 24 Aug","Kính · CD+7 · 27 Aug","Ortho-K · D6-7 · 22 Aug"];
+    for(var ci=0; ci<3; ci++){
+      h += '<button class="case" data-case="'+(ci+1)+'" aria-pressed="'+(evCase===ci+1)+'">'
+        + '<span class="cname">'+esc(t.cn[ci])+'</span>'
+        + '<span class="pill '+pills[ci][0]+'">'+esc(pills[ci][1])+'</span>'
+        + '<span class="cmeta">'+metas[ci]+'</span></button>';
+    }
+    h += '</div><div>';
+
+    function msgBlock(sender, when, vnKey, extra){
+      var s = '<div class="msg"><div class="msghead"><span class="who">'+esc(sender)+'</span><span>'+when+(extra||'')+'</span></div>';
+      s += '<div class="lang"><span class="tg">Tiếng Việt</span><p>'+esc(VN_MSG[vnKey])+'</p></div>';
+      if(lang === "en")
+        s += '<div class="lang"><span class="tg">English</span><p>'+esc(L.en[vnKey])+'</p></div>';
+      if(lang === "zh")
+        s += '<div class="lang"><span class="tg">中文</span><p>'+esc(L.zh[vnKey])+'</p></div>';
+      return s + '</div>';
+    }
+    function vrow(k, val){ return '<div class="vrow"><span class="vk">'+esc(k)+'</span><span>'+val+'</span></div>'; }
+
+    if(evCase === 1){
+      h += msgBlock(who, "24 Aug 2026 · 09:12", "m1")
+        + '<div class="verdict">'
+        + vrow(t.vres, '<span class="pill p-ok">'+esc(t.sent)+'</span>')
+        + vrow(t.vwin, esc(t.v1))
+        + vrow(t.vwhy, '<span style="color:var(--muted)">'+esc(t.v2)+'</span>') + '</div>';
+    } else if(evCase === 2){
+      h += msgBlock(t.cust, "27 Aug 2026 · 14:31", "m2")
+        + msgBlock(who, "27 Aug 2026 · 14:36", "m3")
+        + '<div class="verdict">'
+        + vrow(t.vres, '<span class="pill p-bad">'+esc(t.notsentS)+'</span>')
+        + vrow(t.vwin, esc(t.v3))
+        + vrow(t.vwhy, '<span style="color:var(--muted)">'+esc(t.v4)+'</span>') + '</div>';
+    } else {
+      h += '<div class="empty"><div class="big">'+esc(t.e1)+'</div><div>'+esc(t.e2)+'</div></div>'
+        + msgBlock(who, "27 Aug 2026 · 10:15", "m4", ' · <span style="color:var(--warn)">+3d</span>')
+        + '<div class="verdict">'
+        + vrow(t.vres, '<span class="pill p-warn">'+esc(t.lateS)+'</span>')
+        + vrow(t.vwin, esc(t.v5))
+        + vrow(t.vwhy, '<span style="color:var(--muted)">'+esc(t.v6)+'</span>') + '</div>';
+    }
+    h += '</div></div></div>';
+
+    document.getElementById("app").innerHTML = h;
+    document.querySelectorAll(".case").forEach(function(b){
+      b.onclick = function(){ evCase = +b.dataset.case; render(); };
+    });
+  }
+
+  function buildClinicBar(){
+    var t = T(), h = '';
+    var totMiss = CKEYS.reduce(function(s,k){ return s+sum(C[k].miss); },0);
+    h += '<button data-c="all" aria-pressed="'+(clinic==="all")+'">'+esc(t.allc)+' <span class="cn">'+totMiss+'</span></button>';
+    CKEYS.forEach(function(k){
+      h += '<button data-c="'+k+'" aria-pressed="'+(clinic===k)+'">'+esc(C[k].name)+' <span class="cn">'+sum(C[k].miss)+'</span></button>';
+    });
+    var bar = document.getElementById("clinicbar");
+    bar.innerHTML = h;
+    bar.querySelectorAll("button").forEach(function(b){
+      b.onclick = function(){ clinic = b.dataset.c; evCase = 1; buildClinicBar(); render(); };
+    });
+  }
+
+  document.getElementById("langseg").querySelectorAll("button").forEach(function(b){
+    b.onclick = function(){
+      lang = b.dataset.l;
+      document.getElementById("langseg").querySelectorAll("button").forEach(function(x){
+        x.setAttribute("aria-pressed", String(x === b));
+      });
+      buildClinicBar(); render();
+    };
+  });
+
+  buildClinicBar();
+  render();
+})();
+</script>
