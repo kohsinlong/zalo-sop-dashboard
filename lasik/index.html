@@ -217,6 +217,12 @@
   .rulerow .tick{font-family:"IBM Plex Mono",monospace;font-weight:600}
   .rulerow .rn{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-weight:600}
 
+  .stack{display:flex;height:9px;border-radius:2px;overflow:hidden;background:var(--surface-3);min-width:80px}
+  .stack span{display:block;height:100%}
+  .legend3{display:flex;gap:18px;flex-wrap:wrap;padding:12px 20px;border-top:1px solid var(--rule-2);
+    font-size:.8rem;color:var(--muted)}
+  .legend3 span{display:flex;align-items:center;gap:7px}
+  .legend3 i{width:10px;height:10px;border-radius:2px;display:inline-block}
   .hidden{display:none}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media (max-width:640px){
@@ -269,7 +275,7 @@
   var TOUCH = DATA.touch;                 /* [label, [[cpKey, tag], ...]] */
   var CASES = DATA.cases;                 /* [clinic, rep, date, verdict, scored, ...checkpoints] */
   var TODAY = "2026-08-27";
-  var TARGET = 80, CRITICAL = 70, MIN_SAMPLE = 20;
+  var TARGET = 80, CRITICAL = 70;
 
   /* A touchpoint only counts once its window has closed. Scoring a case
      on a touch that is not yet due marks people down for work that is not
@@ -292,14 +298,12 @@
       signin:"Sign in", signingin:"Signing in…", signout:"Sign out",
       badlogin:"Incorrect password. Please try again.",
       glede:"Sign in to view the QC audit.", lpass:"Password",
-      notDue:"not due yet", dueNow:"due", ofMature:"of mature cases", notYet:"not yet due", ruleNotYet:"No case has reached D90 yet, so the full rule cannot be assessed.", matureCases:"mature cases", allc:"All clinics", allm:"All months", allmLong:"all months",
+      notDue:"not due yet", dueNow:"due", ofMature:"of mature cases", notYet:"not yet due", ruleNotYet:"No case has reached D90 yet, so the full rule cannot be assessed.", matureCases:"mature cases", missTitle:"Cadences missed entirely", missDesc:"A cadence is missed when none of its checkpoints were done. Partial work counts toward the score but not here.", missOfDue:"Share of cadences due", pMissed:"Cadences missed entirely", pMissedH:"Of the cases where each cadence had come due", thCadence:"Cadence", thDueCases:"Due", thFull:"Complete", thPartial:"Partial", thMissed:"Missed", thMissedPct:"Miss rate", allc:"All clinics", allm:"All months", allmLong:"all months",
       scopeAll:"Viewing all clinics", scopeOne:"Viewing", mtd:"MTD", through:"through day",
       sopScore:"Average SOP score",
       heroLine:function(cp,tot,n){return "<b>"+cp+"</b> of <b>"+tot+"</b> checkpoints due so far were completed across <b>"+n+"</b> scoreable cases. Each touchpoint is scored on the share of its checkpoints done, so a half-finished touch earns half a point.";},
       target:"Target", critical:"Retrain",
       lScored:"Scoreable cases", lPass:"Meet full SOP rule",
-      dq:"Cases that cannot be scored", dqp:"These carry a verdict but no touchpoint detail, so the new per-checkpoint scoring has nothing to read. They are excluded from every score on this page.",
-      fVerdict:"Verdict recorded, touchpoints blank", fNoZalo:"Customer Zalo never found", fNoVerdict:"No verdict recorded", fCoverage:"Scoreable share of audit",
       pLadder:"Checkpoint completion, D1 to D90", pLadderH:"Each bar is the share of checkpoints completed at that touchpoint",
       pRule:"Full SOP rule", pRuleH:"All four conditions must hold",
       r1:"6+ follow-ups in total", r2:"4+ touches within D30", r3:"2+ touches in D30–D90",
@@ -309,9 +313,9 @@
       vsPrev:"vs same point last month", prevFull:"Last month, full", thN:"Cases", thPass:"Pass",
       mtdNote:"Compared like for like: {a} to day {d} against {b} to day {d}.",
       pClinic:"By clinic", pClinicH:"Bar shows SOP score; the line marks the 80% target",
-      pReps:"By customer service rep", pRepsH:"Minimum 20 cases needed for a rank to count",
+      pReps:"By customer service rep", pRepsH:"Ranked by SOP score",
       thClinic:"Clinic", thRep:"CS rep", thScore:"SOP score", thRule:"Full rule", thCases:"Scoreable", thAudited:"Audited",
-      thTot:"Total", lowSample:"Low sample",
+      thTot:"Total",
       months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
       cp:{checkin:"Check-in", meds:"Medication guide", eyecare:"Eye care guide",
           vipintro:"VIP programme", recall:"Follow-up reminder", vip:"VIP",
@@ -325,14 +329,12 @@
       signin:"Đăng nhập", signingin:"Đang đăng nhập…", signout:"Đăng xuất",
       badlogin:"Mật khẩu không đúng. Vui lòng thử lại.",
       glede:"Đăng nhập để xem kết quả kiểm tra.", lpass:"Mật khẩu",
-      notDue:"chưa tới hạn", dueNow:"tới hạn", ofMature:"trên số ca đủ kỳ", notYet:"chưa tới hạn", ruleNotYet:"Chưa ca nào đủ D90 nên chưa đánh giá được quy tắc đầy đủ.", matureCases:"ca đủ kỳ", allc:"Tất cả phòng khám", allm:"Tất cả các tháng", allmLong:"tất cả các tháng",
+      notDue:"chưa tới hạn", dueNow:"tới hạn", ofMature:"trên số ca đủ kỳ", notYet:"chưa tới hạn", ruleNotYet:"Chưa ca nào đủ D90 nên chưa đánh giá được quy tắc đầy đủ.", matureCases:"ca đủ kỳ", missTitle:"Chặng bị bỏ hoàn toàn", missDesc:"Một chặng bị bỏ khi không làm đầu mục nào. Làm một phần vẫn tính điểm nhưng không tính ở đây.", missOfDue:"Tỷ lệ trên số chặng tới hạn", pMissed:"Chặng bị bỏ hoàn toàn", pMissedH:"Trên số ca mà chặng đó đã tới hạn", thCadence:"Chặng", thDueCases:"Tới hạn", thFull:"Đủ", thPartial:"Một phần", thMissed:"Bỏ", thMissedPct:"Tỷ lệ bỏ", allc:"Tất cả phòng khám", allm:"Tất cả các tháng", allmLong:"tất cả các tháng",
       scopeAll:"Đang xem tất cả phòng khám", scopeOne:"Đang xem", mtd:"Đến nay", through:"đến ngày",
       sopScore:"Điểm SOP trung bình",
       heroLine:function(cp,tot,n){return "Đã hoàn thành <b>"+cp+"</b> trên <b>"+tot+"</b> đầu mục đã tới hạn, trên <b>"+n+"</b> ca chấm được. Mỗi điểm chạm được tính theo tỷ lệ đầu mục đã làm, nên làm một nửa thì được nửa điểm.";},
       target:"Mục tiêu", critical:"Đào tạo lại",
       lScored:"Ca chấm được", lPass:"Đạt đủ quy tắc SOP",
-      dq:"Ca không chấm được", dqp:"Những ca này có kết luận nhưng không có chi tiết điểm chạm, nên cách chấm theo đầu mục không đọc được gì. Chúng bị loại khỏi mọi điểm số trên trang này.",
-      fVerdict:"Có kết luận, điểm chạm bỏ trống", fNoZalo:"Không tìm thấy Zalo khách", fNoVerdict:"Không có kết luận", fCoverage:"Tỷ lệ chấm được",
       pLadder:"Hoàn thành đầu mục, D1 đến D90", pLadderH:"Mỗi thanh là tỷ lệ đầu mục đã hoàn thành tại điểm chạm đó",
       pRule:"Quy tắc SOP đầy đủ", pRuleH:"Phải đạt cả bốn điều kiện",
       r1:"Tối thiểu 6 lần follow-up", r2:"Tối thiểu 4 lần chạm trong D30", r3:"Tối thiểu 2 lần chạm D30–D90",
@@ -342,9 +344,9 @@
       vsPrev:"so với cùng kỳ tháng trước", prevFull:"Tháng trước, cả tháng", thN:"Số ca", thPass:"Đạt",
       mtdNote:"So sánh tương đương: {a} đến ngày {d} với {b} đến ngày {d}.",
       pClinic:"Theo phòng khám", pClinicH:"Thanh là điểm SOP; vạch là mục tiêu 80%",
-      pReps:"Theo nhân viên CSKH", pRepsH:"Cần tối thiểu 20 ca để tính xếp hạng",
+      pReps:"Theo nhân viên CSKH", pRepsH:"Xếp theo điểm SOP",
       thClinic:"Phòng khám", thRep:"NV CSKH", thScore:"Điểm SOP", thRule:"Đủ quy tắc", thCases:"Chấm được", thAudited:"Đã kiểm",
-      thTot:"Tổng", lowSample:"Ít mẫu",
+      thTot:"Tổng",
       months:["Th1","Th2","Th3","Th4","Th5","Th6","Th7","Th8","Th9","Th10","Th11","Th12"],
       cp:{checkin:"Hỏi thăm", meds:"HD sử dụng thuốc", eyecare:"HD chăm sóc mắt",
           vipintro:"Giới thiệu VIP", recall:"Nhắc tái khám", vip:"VIP",
@@ -358,14 +360,12 @@
       signin:"登录", signingin:"正在登录…", signout:"退出",
       badlogin:"密码不正确，请重试。",
       glede:"登录以查看质检结果。", lpass:"密码",
-      notDue:"尚未到期", dueNow:"到期", ofMature:"占已满周期案例", notYet:"尚未到期", ruleNotYet:"尚无案例满 D90，暂无法评估完整规则。", matureCases:"已满周期案例", allc:"全部诊所", allm:"全部月份", allmLong:"全部月份",
+      notDue:"尚未到期", dueNow:"到期", ofMature:"占已满周期案例", notYet:"尚未到期", ruleNotYet:"尚无案例满 D90，暂无法评估完整规则。", matureCases:"已满周期案例", missTitle:"完全遗漏的触点", missDesc:"若某触点的事项一项都未完成，即计为遗漏。部分完成仍计入得分，但不计入此处。", missOfDue:"占已到期触点比例", pMissed:"完全遗漏的触点", pMissedH:"以该触点已到期的案例为基数", thCadence:"触点", thDueCases:"已到期", thFull:"全部完成", thPartial:"部分完成", thMissed:"遗漏", thMissedPct:"遗漏率", allc:"全部诊所", allm:"全部月份", allmLong:"全部月份",
       scopeAll:"正在查看全部诊所", scopeOne:"正在查看", mtd:"本月至今", through:"截至",
       sopScore:"SOP 平均得分",
       heroLine:function(cp,tot,n){return "在 <b>"+n+"</b> 例可评分案例中，<b>"+tot+"</b> 项已到期事项完成了 <b>"+cp+"</b> 项。每个触点按其事项完成比例计分，做一半得一半。";},
       target:"目标", critical:"需重训",
       lScored:"可评分案例", lPass:"完全符合 SOP",
-      dq:"无法评分的案例", dqp:"这些案例有结论但无触点明细，新的逐项评分无从读取，因此不计入本页任何得分。",
-      fVerdict:"有结论，触点空白", fNoZalo:"未找到客户 Zalo", fNoVerdict:"无结论记录", fCoverage:"可评分占比",
       pLadder:"事项完成情况，D1 至 D90", pLadderH:"每条为该触点已完成事项的占比",
       pRule:"完整 SOP 规则", pRuleH:"四项条件须全部满足",
       r1:"累计至少 6 次跟进", r2:"D30 内至少 4 次触达", r3:"D30–D90 至少 2 次触达",
@@ -375,9 +375,9 @@
       vsPrev:"较上月同期", prevFull:"上月整月", thN:"案例数", thPass:"达标",
       mtdNote:"同口径对比：{a} 截至 {d} 日 与 {b} 截至 {d} 日。",
       pClinic:"按诊所", pClinicH:"柱为 SOP 得分；竖线为 80% 目标",
-      pReps:"按客服人员", pRepsH:"至少 20 例方可计入排名",
+      pReps:"按客服人员", pRepsH:"按 SOP 得分排序",
       thClinic:"诊所", thRep:"客服", thScore:"SOP 得分", thRule:"完整规则", thCases:"可评分", thAudited:"已稽核",
-      thTot:"合计", lowSample:"样本不足",
+      thTot:"合计",
       months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
       cp:{checkin:"问候", meds:"用药说明", eyecare:"护眼指导",
           vipintro:"VIP 项目介绍", recall:"复诊提醒", vip:"VIP",
@@ -483,6 +483,22 @@
     return {n:list.length, done:done, req:req, score:pct(done,req),
             pass:pass, mature:mature};
   }
+  /* For each cadence, split the cases where it was due into three:
+     every checkpoint done, some done, none done. "Missed" is none. */
+  function cadenceBreakdown(list){
+    return TOUCH.map(function(tp, ti){
+      var n = tp[1].length, due = 0, full = 0, part = 0, miss = 0;
+      list.forEach(function(c){
+        if(!isDue(c, ti)) return;
+        due++;
+        var got = 0;
+        for(var i = 0; i < n; i++) got += cpAt(c, ti, i);
+        if(got === n) full++; else if(got > 0) part++; else miss++;
+      });
+      return {label: tp[0], due: due, full: full, part: part, miss: miss,
+              rate: pct(miss, due)};
+    });
+  }
   function scoreColour(s){ return s>=TARGET ? "var(--ok)" : s>=CRITICAL ? "var(--warn)" : "var(--bad)"; }
 
   /* ---------------- render ---------------- */
@@ -514,16 +530,20 @@
             : '<b>'+esc(t.notYet)+'</b>')+'</span>'
       + '</div></div></div></div>';
 
-    var unsc = all.length - sc.length;
-    var noZalo = all.filter(function(c){ return c[3]==="nozalo"; }).length;
-    var noVerd = all.filter(function(c){ return c[3]==="unknown"; }).length;
-    h += '<div class="flagcard"><div><div class="fnum">'+unsc+'</div>'
-      + '<div class="flab">'+esc(t.dq)+'</div></div><p>'+esc(t.dqp)+'</p><div class="flist">'
-      + '<div class="fr"><span>'+esc(t.fVerdict)+'</span><span class="fv">'+unsc+'</span></div>'
-      + '<div class="fr"><span>'+esc(t.fNoZalo)+'</span><span class="fv">'+noZalo+'</span></div>'
-      + '<div class="fr"><span>'+esc(t.fNoVerdict)+'</span><span class="fv">'+noVerd+'</span></div>'
-      + '<div class="fr"><span>'+esc(t.fCoverage)+'</span><span class="fv">'+pct(sc.length,all.length)+'%</span></div>'
-      + '</div></div></div>';
+    var cad = cadenceBreakdown(sc);
+    var missTot = 0, dueTot = 0;
+    cad.forEach(function(x){ missTot += x.miss; dueTot += x.due; });
+    var worst = cad.filter(function(x){ return x.due > 0; })
+                   .slice().sort(function(a,b){ return b.rate - a.rate; }).slice(0,3);
+    h += '<div class="flagcard"><div><div class="fnum">'+missTot+'</div>'
+      + '<div class="flab">'+esc(t.missTitle)+'</div></div><p>'+esc(t.missDesc)+'</p><div class="flist">'
+      + '<div class="fr"><span>'+esc(t.missOfDue)+'</span><span class="fv">'
+        + pct(missTot,dueTot)+'% ('+missTot+'/'+dueTot+')</span></div>';
+    worst.forEach(function(x){
+      h += '<div class="fr"><span>'+esc(x.label)+'</span><span class="fv">'
+        + x.miss+' &middot; '+x.rate+'%</span></div>';
+    });
+    h += '</div></div></div>';
 
     /* MTD + by month */
     var curM=TODAY.slice(0,7), curDay=+TODAY.slice(8,10), ms=MONTHS();
@@ -602,6 +622,44 @@
     });
     h += '</div>';
 
+    /* cadences missed entirely */
+    h += '<div class="panel"><h3><span>'+esc(t.pMissed)+'</span>'
+      + '<span class="hint">'+esc(t.pMissedH)+'</span></h3>'
+      + '<div class="tblwrap"><table><thead><tr>'
+      + '<th>'+esc(t.thCadence)+'</th><th class="n">'+esc(t.thDueCases)+'</th>'
+      + '<th class="n">'+esc(t.thFull)+'</th><th class="n">'+esc(t.thPartial)+'</th>'
+      + '<th class="n">'+esc(t.thMissed)+'</th><th style="width:26%"></th>'
+      + '<th class="n">'+esc(t.thMissedPct)+'</th></tr></thead><tbody>';
+    cad.forEach(function(x){
+      if(!x.due){
+        h += '<tr><td><b>'+esc(x.label)+'</b></td>'
+          + '<td class="n" colspan="6" style="text-align:left;color:var(--muted)">'
+          + esc(t.notDue)+'</td></tr>';
+        return;
+      }
+      h += '<tr><td><b>'+esc(x.label)+'</b></td><td class="n">'+x.due+'</td>'
+        + '<td class="n" style="color:var(--ok)">'+x.full+'</td>'
+        + '<td class="n" style="color:var(--warn)">'+x.part+'</td>'
+        + '<td class="n" style="color:var(--bad)">'+x.miss+'</td>'
+        + '<td><div class="stack">'
+        + '<span style="width:'+pct(x.full,x.due)+'%;background:var(--ok)"></span>'
+        + '<span style="width:'+pct(x.part,x.due)+'%;background:var(--warn)"></span>'
+        + '<span style="width:'+pct(x.miss,x.due)+'%;background:var(--bad)"></span>'
+        + '</div></td>'
+        + '<td class="n" style="color:'+(x.rate>50?'var(--bad)':x.rate>25?'var(--warn)':'var(--ok)')+'">'
+        + x.rate+'%</td></tr>';
+    });
+    h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+dueTot+'</td>'
+      + '<td class="n">'+cad.reduce(function(a,x){return a+x.full},0)+'</td>'
+      + '<td class="n">'+cad.reduce(function(a,x){return a+x.part},0)+'</td>'
+      + '<td class="n">'+missTot+'</td><td></td>'
+      + '<td class="n">'+pct(missTot,dueTot)+'%</td></tr></tbody></table></div>'
+      + '<div class="legend3">'
+      + '<span><i style="background:var(--ok)"></i>'+esc(t.thFull)+'</span>'
+      + '<span><i style="background:var(--warn)"></i>'+esc(t.thPartial)+'</span>'
+      + '<span><i style="background:var(--bad)"></i>'+esc(t.thMissed)+'</span>'
+      + '</div></div>';
+
     /* full rule */
     var mat = sc.filter(isMature), conds=[0,0,0,0,0];
     mat.forEach(function(c){ var p=ruleParts(c);
@@ -665,7 +723,7 @@
         + '<td><div class="barw"><div class="barf" style="width:'+Math.max(r.score,1)+'%;background:'
         + scoreColour(r.score)+'"></div><div class="bart" style="left:'+TARGET+'%"></div></div></td>'
         + '<td class="n">'+pct(r.pass,r.n)+'%</td>'
-        + '<td class="n">'+r.n+(r.n<MIN_SAMPLE?' <span class="pill p-warn">'+esc(t.lowSample)+'</span>':'')+'</td></tr>';
+        + '<td class="n">'+r.n+'</td></tr>';
     });
     h += '</tbody></table></div></div>';
 
