@@ -330,7 +330,7 @@
   }
   var TODAY = todayISO();
 
-  var TARGET = 80, MIN_N = 10, PAGE = 10;
+  var TARGET = 80, MIN_N = 10, MIN_MISS = 20, PAGE = 10;
   var DUE_AFTER = [1, 3, 6, 15, 25, 60, 90, 100];
   var MS = 86400000;
 
@@ -530,14 +530,14 @@
       badlogin:"Incorrect password. Please try again.",
       glede:"Sign in to view the QC audit.", lpass:"Password",
       fMonth:"Period", fWeek:"Week", fClinic:"Clinic", fDA:"DA",
-      allm:"All months", allw:"All weeks", dueWord:"due", coverage:"{a} scored of {b} audited ({p}%)", outlier:"Outlier", problem:"Where the misses are", problemTxt:"{s}% of every missed follow-up sits in {c} — {d}.", noCases:"No cases yet this month.", noCasesHint:"Nothing has been operated on in the selected period. Choose another month, or All months.", wlDueIn:"cadences that fell due in {m}", wlDueAll:"cadences due, all months", allc:"All clinics", alld:"All DAs",
+      allm:"All months", allw:"All weeks", dueWord:"due", coverage:"{a} scored of {b} audited ({p}%)", outlier:"Outlier", problem:"Where the misses are", problemTxt:"{s}% of every missed follow-up sits in {c} — {d}.", noCases:"No cases yet this month.", noCasesHint:"Nothing has been operated on in the selected period. Choose another month, or All months.", wlDueIn:"cadences that fell due in {m}", wlDueAll:"cadences due, all months", worstBy:"Biggest share of all misses", cohortNote:"Patients operated in {m}, scored on the cadences they have reached so far", cohortWord:"surgery cohort", allc:"All clinics", alld:"All DAs",
       mtd:"MTD", viewing:"Viewing", allmLong:"all months",
       sopScore:"Average SOP score",
       heroLine:function(p,d,n){return "<b>"+p+"</b> points earned from <b>"+d+"</b> cadences due, across <b>"+n+"</b> scoreable cases. Each cadence scores 1 when its required content was sent, 0.5 when something went out but not all of it, and 0 when nothing did.";},
       target:"Target", lScored:"Scoreable cases", lTrack:"On track",
       missTitle:"Cadences missed entirely",
       missDesc:"A cadence is missed when none of its content was sent. Partial work scores 0.5 and is not counted here.",
-      missOfDue:"Share of cadences due",
+      missOfDue:"Of all cadences due this period",
       pLadder:"Cadence scores, D1 to D90", pLadderH:"Score, and the split of complete / partial / missed, across cases where the cadence had come due",
       pMissed:"Cadences missed entirely", pMissedH:"Of the cases where each cadence had come due",
       thCadence:"Cadence", thDueCases:"Due", thFull:"Full (1)", thPartial:"Partial (0.5)",
@@ -579,14 +579,14 @@
       badlogin:"Mật khẩu không đúng. Vui lòng thử lại.",
       glede:"Đăng nhập để xem kết quả kiểm tra.", lpass:"Mật khẩu",
       fMonth:"Kỳ", fWeek:"Tuần", fClinic:"Phòng khám", fDA:"Trợ lý",
-      allm:"Tất cả các tháng", allw:"Tất cả các tuần", dueWord:"tới hạn", coverage:"đã chấm {a} trên {b} ca kiểm ({p}%)", outlier:"Bất thường", problem:"Bỏ sót tập trung ở đâu", problemTxt:"{s}% số follow-up bị bỏ nằm ở {c} — {d}.", noCases:"Chưa có ca nào trong tháng này.", noCasesHint:"Không có ca phẫu thuật trong kỳ đang chọn. Hãy chọn tháng khác, hoặc Tất cả các tháng.", wlDueIn:"các chặng tới hạn trong {m}", wlDueAll:"các chặng đã tới hạn, tất cả các tháng", allc:"Tất cả phòng khám", alld:"Tất cả trợ lý",
+      allm:"Tất cả các tháng", allw:"Tất cả các tuần", dueWord:"tới hạn", coverage:"đã chấm {a} trên {b} ca kiểm ({p}%)", outlier:"Bất thường", problem:"Bỏ sót tập trung ở đâu", problemTxt:"{s}% số follow-up bị bỏ nằm ở {c} — {d}.", noCases:"Chưa có ca nào trong tháng này.", noCasesHint:"Không có ca phẫu thuật trong kỳ đang chọn. Hãy chọn tháng khác, hoặc Tất cả các tháng.", wlDueIn:"các chặng tới hạn trong {m}", wlDueAll:"các chặng đã tới hạn, tất cả các tháng", worstBy:"Chiếm tỷ trọng lớn nhất trong tổng số bỏ sót", cohortNote:"Bệnh nhân mổ trong {m}, chấm trên các chặng đã tới hạn", cohortWord:"nhóm mổ", allc:"Tất cả phòng khám", alld:"Tất cả trợ lý",
       mtd:"Đến nay", viewing:"Đang xem", allmLong:"tất cả các tháng",
       sopScore:"Điểm SOP trung bình",
       heroLine:function(p,d,n){return "Đạt <b>"+p+"</b> điểm trên <b>"+d+"</b> chặng đã tới hạn, trong <b>"+n+"</b> ca chấm được. Mỗi chặng được 1 điểm khi gửi đủ nội dung, 0,5 khi có gửi nhưng thiếu, và 0 khi không gửi gì.";},
       target:"Mục tiêu", lScored:"Ca chấm được", lTrack:"Đang đúng tiến độ",
       missTitle:"Chặng bị bỏ hoàn toàn",
       missDesc:"Một chặng bị bỏ khi không gửi nội dung nào. Làm một phần được 0,5 điểm và không tính ở đây.",
-      missOfDue:"Tỷ lệ trên số chặng tới hạn",
+      missOfDue:"Trên tổng số chặng tới hạn trong kỳ",
       pLadder:"Điểm theo chặng, D1 đến D90", pLadderH:"Điểm số và tỷ lệ đủ / một phần / bỏ, trên số ca đã tới hạn chặng đó",
       pMissed:"Chặng bị bỏ hoàn toàn", pMissedH:"Trên số ca mà chặng đó đã tới hạn",
       thCadence:"Chặng", thDueCases:"Tới hạn", thFull:"Đủ (1)", thPartial:"Một phần (0,5)",
@@ -628,14 +628,14 @@
       badlogin:"密码不正确，请重试。",
       glede:"登录以查看质检结果。", lpass:"密码",
       fMonth:"周期", fWeek:"周", fClinic:"诊所", fDA:"客服",
-      allm:"全部月份", allw:"全部周", dueWord:"到期", coverage:"已评分 {a} / 受稽核 {b} 例（{p}%）", outlier:"异常值", problem:"遗漏集中在哪", problemTxt:"{s}% 的漏发集中于 {c} — {d}。", noCases:"本月尚无案例。", noCasesHint:"所选周期内没有手术案例。请选择其他月份，或全部月份。", wlDueIn:"{m} 到期的触点", wlDueAll:"全部月份已到期的触点", allc:"全部诊所", alld:"全部客服",
+      allm:"全部月份", allw:"全部周", dueWord:"到期", coverage:"已评分 {a} / 受稽核 {b} 例（{p}%）", outlier:"异常值", problem:"遗漏集中在哪", problemTxt:"{s}% 的漏发集中于 {c} — {d}。", noCases:"本月尚无案例。", noCasesHint:"所选周期内没有手术案例。请选择其他月份，或全部月份。", wlDueIn:"{m} 到期的触点", wlDueAll:"全部月份已到期的触点", worstBy:"占全部遗漏比重最大", cohortNote:"{m} 手术的病人，按其已到期的触点评分", cohortWord:"手术批次", allc:"全部诊所", alld:"全部客服",
       mtd:"本月至今", viewing:"正在查看", allmLong:"全部月份",
       sopScore:"SOP 平均得分",
       heroLine:function(p,d,n){return "在 <b>"+n+"</b> 例可评分案例中，<b>"+d+"</b> 个已到期触点共得 <b>"+p+"</b> 分。每个触点：内容齐全记 1 分，有发送但不齐记 0.5 分，完全未发记 0 分。";},
       target:"目标", lScored:"可评分案例", lTrack:"进度达标",
       missTitle:"完全遗漏的触点",
       missDesc:"若某触点的内容一项都未发送，即计为遗漏。部分完成记 0.5 分，不计入此处。",
-      missOfDue:"占已到期触点比例",
+      missOfDue:"占本期全部已到期触点",
       pLadder:"触点得分，D1 至 D90", pLadderH:"得分，以及已到期案例中齐全 / 部分 / 遗漏的占比",
       pMissed:"完全遗漏的触点", pMissedH:"以该触点已到期的案例为基数",
       thCadence:"触点", thDueCases:"已到期", thFull:"齐全 (1)", thPartial:"部分 (0.5)",
@@ -771,7 +771,8 @@
     var t = T(), bits = [];
     bits.push(clinic === "all" ? esc(t.allc) : '<b>'+esc(clinic)+'</b>');
     if(da !== "all") bits.push('<b>'+esc(daName(da))+'</b>');
-    bits.push(month === "all" ? esc(t.allmLong) : '<b>'+esc(monthLabel(month))+'</b>');
+    bits.push(month === "all" ? esc(t.allmLong)
+      : '<b>'+esc(monthLabel(month))+'</b> '+esc(t.cohortWord));
     if(week !== "all") bits.push('<b>'+esc(weekLabel(week))+'</b>');
     return esc(t.viewing) + " " + bits.join(" &middot; ");
   }
@@ -836,14 +837,19 @@
     h += '<div class="flagcard"><div><div class="fnum">'+missTot+'</div>'
       + '<div class="flab">'+esc(t.missTitle)+'</div></div><p>'+esc(t.missDesc)+'</p><div class="flist">'
       + '<div class="fr"><span>'+esc(t.missOfDue)+'</span><span class="fv">'
-      + pct(missTot,dueTot)+'% ('+missTot+'/'+dueTot+')</span></div>';
+      + pct(missTot,dueTot)+'% ('+missTot+' / '+dueTot+')</span></div>';
+    if(missTot >= MIN_MISS){
+    h += '<div class="fr" style="border-bottom:0;padding-bottom:0"><span style="opacity:.75">'
+      + esc(t.worstBy)+'</span><span></span></div>';
     worst.forEach(function(x){
-      h += '<div class="fr"><span>'+esc(x.label)+'</span><span class="fv">'+x.miss+' &middot; '+x.rate+'%</span></div>';
+      h += '<div class="fr"><span>'+esc(x.label)+'</span><span class="fv">'
+        + x.miss+' &middot; '+pct(x.miss, missTot)+'%</span></div>';
     });
+    }
     h += '</div></div></div>';
 
     /* Where the misses actually are - stated, not left to be inferred. */
-    if(missTot > 0){
+    if(missTot >= MIN_MISS){
       var ranked = cad.filter(function(x){ return x.miss>0; })
                       .slice().sort(function(p,q){ return q.miss-p.miss; });
       var top2 = ranked.slice(0,2);
@@ -908,7 +914,9 @@
 
     /* ---------- cadences: one panel, one row, one number ---------- */
     var maxScore = Math.max.apply(null, cad.map(function(x){ return x.due ? x.score : 0; }).concat([1]));
-    h += '<div class="panel"><h3><span>'+esc(t.pLadder)+'</span><span class="hint">'+esc(t.pLadderH)+'</span></h3>';
+    h += '<div class="panel"><h3><span>'+esc(t.pLadder)+'</span><span class="hint">'
+      + esc(month==="all" ? t.pLadderH : t.cohortNote.split("{m}").join(monthLabel(month)))
+      + '</span></h3>';
 
     /* the drop-off, as a shape rather than a column of numbers */
     h += '<div class="pad" style="border-bottom:1px solid var(--rule-2)"><div class="decay">';
