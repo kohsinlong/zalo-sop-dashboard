@@ -463,9 +463,9 @@
     });
     return out;
   }
-  /* Deduped on the case row, not the patient string: 14 patient names
-     recur across different clinics, reps and surgery dates, and keying on
-     the name silently merged those into a single case. */
+  /* Deduped on the case row, not the Zalo tag. Tags repeat across clinics,
+     DAs and surgery dates - the same reason daKey() is clinic-scoped - and
+     keying on the tag silently merged those into a single case. */
   function casesOf(inst){
     var seen = {}, out = [];
     inst.forEach(function(p){ var k=p[2]; if(!seen[k]){ seen[k]=1; out.push(p[0]); } });
