@@ -9,9 +9,10 @@
 data flags come from the live Membership tracker; sent/not-sent figures are
 placeholders until the Salework Zalo API is enabled.
 
-**Lasik** — SOP compliance scored at checkpoint level across eight touchpoints
-from D1 to D90. Cases, clinics, reps, surgery dates, verdicts and touchpoints
-D1–D25 are taken from the QC workbook (1,099 cases, Oct 2025 – Mar 2026).
+**Lasik** — SOP compliance scored at checkpoint level across seven touchpoints
+(15 checkpoints) from D1 to D90. Cases, clinics, reps, surgery dates, verdicts and
+touchpoints D1–D25 are taken from the QC workbook (800 cases across 6 clinics,
+Jun – Sep 2026).
 Checkpoint detail within each touchpoint, and all of D30–D90, are modelled —
 the workbook records only a single mark per touchpoint, and D30–D90 is new SOP
 with no audit data yet.

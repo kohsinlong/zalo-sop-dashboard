@@ -409,6 +409,9 @@
       v5:"Đến hạn 22–24/8, gửi 27/8 — ba ngày sau khi cửa sổ đóng",
       v6:"Tính riêng với «chưa gửi» — khách vẫn được liên hệ, chỉ là trễ.",
       e1:"Không gửi gì trong 22–24/8", e2:"Cửa sổ D6-7 mở ngày 22/8 và đóng ngày 24/8 mà không có tin nhắn nào.",
+      /* Message bodies stay empty here: the transcript always shows the
+         Vietnamese original from VN_MSG, and a translation block is added
+         only for en and zh. */
       m1:"", m2:"", m3:"", m4:"",
       stageNote:"Mọi phòng khám đều lệch về phía sau: các mốc nhắc dài hạn 6, 9 và 12 tháng bị bỏ sót nhiều hơn hẳn so với liên hệ quanh lúc nhận kính.",
       stageNoteD5:"CTE D5 tuần này không có mốc nào sau CD+30 — tệp khách của phòng khám còn mới nên các mốc nhắc dài hạn chưa tới. Vì vậy tỷ lệ sót trông thấp hơn các phòng khám lâu năm."
@@ -465,7 +468,8 @@
 
   var lang = "en", clinic = "all", evCase = 1;
   function T(){ return L[lang]; }
-  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]}); }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function sum(a){ var t=0; for(var i=0;i<a.length;i++) t+=a[i]; return t; }
   function agg(field){
     var out=[]; for(var i=0;i<C.d5[field].length;i++){ var t=0;
@@ -492,6 +496,18 @@
     var due = sum(v.due), miss = sum(v.miss), sent = due - miss;
     var late = Math.round(miss * 0.9), onTime = sent - late;
     var pct = (miss/due*100).toFixed(1) + "%";
+    /* Largest remainder, so the three shares printed inside the bar always
+       add up to 100 - rounding each on its own put Song Han at 101%. */
+    var shares = (function(parts, total){
+      var exact = parts.map(function(v){ return v/total*100; });
+      var out = exact.map(Math.floor);
+      var short = 100 - out.reduce(function(a,b){ return a+b; }, 0);
+      exact.map(function(v,i){ return {i:i, r:v-Math.floor(v)}; })
+        .sort(function(a,b){ return b.r-a.r; })
+        .slice(0, Math.max(0, short))
+        .forEach(function(x){ out[x.i]++; });
+      return out;
+    })([onTime, late, miss], due);
 
     document.getElementById("pgTitle").textContent = t.title;
     document.getElementById("pgSub").textContent = t.sub;
@@ -509,9 +525,9 @@
       + '<div class="biglab">' + esc(t.notsent) + '</div></div><div>'
       + '<p class="sideline">' + t.hero(due, sent, miss, pct) + '</p>'
       + '<div class="sentbar">'
-      + '<div class="sg" style="flex:'+onTime+';background:var(--ok)">'+Math.round(onTime/due*100)+'%</div>'
-      + '<div class="sg" style="flex:'+late+';background:var(--warn)">'+Math.round(late/due*100)+'%</div>'
-      + '<div class="sg" style="flex:'+miss+';background:var(--bad)">'+Math.round(miss/due*100)+'%</div>'
+      + '<div class="sg" style="flex:'+onTime+';background:var(--ok)">'+shares[0]+'%</div>'
+      + '<div class="sg" style="flex:'+late+';background:var(--warn)">'+shares[1]+'%</div>'
+      + '<div class="sg" style="flex:'+miss+';background:var(--bad)">'+shares[2]+'%</div>'
       + '</div><div class="barlegend">'
       + '<span class="i"><span class="sw" style="background:var(--ok)"></span>'+esc(t.onT)+' <b class="num">'+onTime+'</b></span>'
       + '<span class="i"><span class="sw" style="background:var(--warn)"></span>'+esc(t.lateT)+' <b class="num">'+late+'</b></span>'
