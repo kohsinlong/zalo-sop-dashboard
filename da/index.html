@@ -1,0 +1,1083 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZALO SOP · My follow-ups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap">
+
+<style>
+  :root{
+    --ground:#FBFAF8; --surface:#FFFFFF; --surface-2:#F3F2EE; --surface-3:#E7E5DF;
+    --ink:#14151C; --ink-2:#3B3E4C; --muted:#6A6F80;
+    --rule:#DEDCD6; --rule-2:#EAE8E3;
+    --accent:#2438B8; --accent-soft:#E7E9F8;
+    --mark:#E6EE6B; --mark-ink:#2B2C0E;
+    --ok:#17795E; --ok-soft:#E2F0EA;
+    --warn:#A6690A; --warn-soft:#F7EEDC; --warn-mid:#EFDCBB;
+    --bad:#AE2E48; --bad-soft:#F8E6EA;
+    --inert:#5A6072; --inert-soft:#EBECEF;
+    --shadow:0 1px 2px rgba(20,21,28,.05), 0 8px 24px -18px rgba(20,21,28,.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+      --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+      --rule:#2B2E3A; --rule-2:#23262F;
+      --accent:#8D99F7; --accent-soft:#1D2140;
+      --mark:#C6CE55; --mark-ink:#14150A;
+      --ok:#5FC7A4; --ok-soft:#12291F;
+      --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+      --bad:#F0819A; --bad-soft:#2E141B;
+      --inert:#98A0B4; --inert-soft:#1F2129;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+    --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+    --rule:#2B2E3A; --rule-2:#23262F;
+    --accent:#8D99F7; --accent-soft:#1D2140;
+    --mark:#C6CE55; --mark-ink:#14150A;
+    --ok:#5FC7A4; --ok-soft:#12291F;
+    --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+    --bad:#F0819A; --bad-soft:#2E141B;
+    --inert:#98A0B4; --inert-soft:#1F2129;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  body.lang-zh{font-family:"IBM Plex Sans","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  button{font-family:inherit;font-size:inherit;cursor:pointer}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+  .mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px 80px}
+  @media (max-width:640px){.wrap{padding:0 12px 60px}}
+
+  /* gate + picker */
+  #gate,#pick{position:fixed;inset:0;z-index:100;background:var(--ground);
+    display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto}
+  #gate.gone,#pick.gone{display:none}
+  .gatecard{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--rule);
+    border-radius:6px;box-shadow:var(--shadow);padding:34px 32px}
+  .gatecard .brand{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+  .gatecard h2{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.42rem;
+    letter-spacing:-.015em;margin:0 0 7px;line-height:1.2}
+  .gatecard .lede{font-size:.88rem;color:var(--muted);margin:0 0 24px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .field input{width:100%;padding:10px 12px;font-family:inherit;font-size:.92rem;
+    background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:4px}
+  .gatebtn{width:100%;padding:11px;background:var(--accent);color:var(--surface);border:0;
+    border-radius:4px;font-weight:600;font-size:.92rem;margin-top:6px}
+  .gatebtn:disabled{opacity:.55;cursor:default}
+  .gateerr{background:var(--bad-soft);color:var(--bad);border-radius:4px;padding:9px 12px;
+    font-size:.84rem;margin-bottom:15px;display:none}
+  .gateerr.on{display:block}
+  .pickcard{max-width:480px}
+  .pickclinic{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin:18px 0 8px}
+  .pickrow{display:flex;flex-wrap:wrap;gap:8px}
+  .pickrow button{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 18px;
+    font-size:1rem;font-weight:600;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:140px}
+  .pickrow button span{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);font-weight:400;letter-spacing:.05em}
+  .pickrow button:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .pickrow button.on{border-color:var(--accent);background:var(--accent);color:var(--surface)}
+  .pickrow button.on span{color:var(--surface);opacity:.8}
+
+  /* header */
+  header.top{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;justify-content:space-between;padding:26px 0 14px}
+  .titleblock h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.55rem;letter-spacing:-.015em;margin:0 0 4px}
+  .titleblock .sub{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .titleblock .sub b{color:var(--accent);font-weight:600}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:var(--surface)}
+  .seg button{background:none;border:0;padding:6px 10px;color:var(--muted);font-size:12px;font-weight:500;border-right:1px solid var(--rule)}
+  .seg button:last-child{border-right:0}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+  .feed{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .feed i{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block}
+  .feed.live{color:var(--ok)} .feed.live i{background:var(--ok)}
+  .feed.loading i{background:var(--warn)}
+  .feed.failed{color:var(--bad)} .feed.failed i{background:var(--bad)}
+  .who{display:flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+  .who button{background:none;border:1px solid var(--rule);border-radius:4px;padding:4px 10px;
+    color:var(--muted);font-size:10.5px;font-family:inherit}
+  .who button:hover{color:var(--ink);border-color:var(--muted)}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:6px 0 16px}
+  @media (max-width:760px){.stats{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:480px){.stats{grid-template-columns:repeat(2,1fr);gap:8px}.stats .stat:last-child{grid-column:1/-1}}
+  .stat{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;
+    box-shadow:var(--shadow);text-align:left;color:var(--ink);display:flex;flex-direction:column;gap:2px;min-width:0}
+  .stat:hover{border-color:var(--accent)}
+  .stat .sn{font-size:1.75rem;font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+  .stat .sl{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .stat .sx{font-size:.76rem;color:var(--muted);margin-top:2px;line-height:1.35}
+  .stat.warn .sn{color:var(--warn)} .stat.bad .sn{color:var(--bad)} .stat.ok .sn{color:var(--ok)} .stat.acc .sn{color:var(--accent)}
+
+  /* panels */
+  .panel{background:var(--surface);border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow);margin-bottom:16px;scroll-margin-top:12px}
+  .panel > h3{margin:0;padding:13px 18px;border-bottom:1px solid var(--rule-2);font-size:.95rem;font-weight:600;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .panel > h3 .hint{font-weight:400;font-size:.78rem;color:var(--muted)}
+  .pad{padding:16px 18px}
+  @media (max-width:640px){.pad{padding:14px 14px}.panel > h3{padding:12px 14px}}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+  .grid2 > *{min-width:0}
+  .empty{padding:26px 16px;text-align:center;color:var(--muted);font-size:.9rem}
+  .note{background:var(--surface-2);border:1px solid var(--rule);border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:.84rem;color:var(--ink-2)}
+  .note p{margin:0}
+  .note a{color:var(--accent)}
+
+  /* hero: today */
+  .hero{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--accent);
+    border-radius:6px;box-shadow:var(--shadow);padding:20px 22px;margin-bottom:16px;
+    display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+  @media (max-width:520px){.hero{grid-template-columns:1fr;gap:14px;padding:16px}}
+  .hero.perfect{border-left-color:var(--ok)}
+  .hero h2{margin:0 0 6px;font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+  .hero p{margin:0 0 6px;color:var(--ink-2);font-size:.92rem}
+  .hero p b{color:var(--ink)}
+  .hero .cta{display:inline-block;margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;
+    background:var(--accent-soft);color:var(--accent);padding:4px 10px;border-radius:4px;font-weight:600}
+  .hero.perfect .cta{background:var(--ok-soft);color:var(--ok)}
+  .ring{position:relative;width:132px;height:132px}
+  .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .ring .rv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums}
+  .ring .rv b{font-size:1.9rem;font-weight:600;letter-spacing:-.04em;line-height:1}
+  .ring .rv span{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .ring.sm{width:104px;height:104px}
+  .ring.sm .rv b{font-size:1.45rem}
+  .msgbar{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin:8px 0 4px;max-width:360px}
+  .msgbar span{display:block;height:100%;background:var(--accent);border-radius:4px}
+  .hero.perfect .msgbar span{background:var(--ok)}
+  .msgtxt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+
+  /* rings row */
+  .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media (max-width:520px){.rings{gap:4px}}
+  .rcol{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+  .rcol .rl{font-size:.86rem;font-weight:600}
+  .rcol .rs{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted)}
+  .proj{margin:14px 0 0;padding:10px 14px;background:var(--accent-soft);border-radius:6px;font-size:.86rem;color:var(--ink)}
+  .proj b{color:var(--accent)}
+
+  /* day strip */
+  .strip{display:flex;flex-wrap:wrap;gap:5px}
+  .dsq{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;background:var(--surface-3);color:var(--muted)}
+  .dsq.ok{background:var(--ok);color:#fff} .dsq.warn{background:var(--warn);color:#fff} .dsq.bad{background:var(--bad);color:#fff}
+  .dsq.none{background:var(--surface-2);color:var(--muted);opacity:.7}
+  .dsq.future{background:transparent;border:1px dashed var(--rule);color:var(--muted)}
+  .dsq.today{outline:2px solid var(--accent);outline-offset:1px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .badge{flex:1 1 120px;background:var(--surface-2);border:1px solid var(--rule-2);border-radius:6px;padding:10px 12px}
+  .badge .bn{font-size:1.4rem;font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+  .badge .bl{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+  .badge.fire .bn{color:var(--warn)} .badge.star .bn{color:var(--ok)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:.76rem;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+  /* week */
+  .wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .wd{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+  .wd .wl{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);letter-spacing:.05em}
+  .wd.today .wl{color:var(--accent);font-weight:600}
+  .wd .wn{font-size:1.05rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+  .wd .wbar{width:100%;height:64px;background:var(--surface-3);border-radius:4px;display:flex;flex-direction:column-reverse;overflow:hidden}
+  .wd .wbar span{display:block;width:100%}
+  .wd.future .wbar{background:transparent;border:1px dashed var(--rule)}
+  .wd .ws{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted)}
+  .wksum{display:flex;gap:16px;flex-wrap:wrap;font-size:.84rem;color:var(--ink-2);margin-bottom:14px}
+  .wksum b{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
+
+  /* team */
+  table{border-collapse:collapse;width:100%;font-size:.86rem}
+  th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule-2)}
+  thead th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;background:var(--surface-2);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr.me td{background:var(--accent-soft);font-weight:600}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:"IBM Plex Mono",monospace}
+  .barw{position:relative;height:8px;background:var(--surface-3);border-radius:2px;min-width:60px}
+  .barf{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
+  .bart{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--ink);opacity:.55}
+  .rank{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted)}
+
+  /* task lists */
+  .chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:10px 18px;border-bottom:1px solid var(--rule-2);background:var(--surface-2)}
+  @media (max-width:640px){.chips{padding:10px 14px}}
+  .chips button{background:var(--surface);border:1px solid var(--rule);border-radius:20px;padding:4px 11px;font-size:.8rem;color:var(--ink-2);display:flex;gap:6px;align-items:center}
+  .chips button .cn{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;color:var(--accent)}
+  .chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .chips button[aria-pressed="true"] .cn{color:var(--surface)}
+  .chips .cnt{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+  .task{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:11px 18px;border-bottom:1px solid var(--rule-2);align-items:start}
+  @media (max-width:640px){.task{padding:11px 14px}}
+  .task:last-child{border-bottom:0}
+  .task.done{opacity:.62}
+  .task .tag{font-family:"IBM Plex Mono",monospace;font-size:.86rem;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .task .meta{grid-column:1;font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+  .task .items{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+  .task .st{grid-column:2;grid-row:1;justify-self:end}
+  .it{font-size:.76rem;display:inline-flex;align-items:center;gap:5px;border-radius:3px;padding:2px 8px;
+    background:var(--surface-2);border:1px solid var(--rule)}
+  .it.sent{background:var(--ok-soft);border-color:transparent;color:var(--ok);text-decoration:line-through;text-decoration-color:rgba(0,0,0,.25)}
+  .it i{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:10px}
+  .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.05em;
+    padding:2px 7px;border-radius:3px;font-weight:600;white-space:nowrap}
+  .p-ok{background:var(--ok-soft);color:var(--ok)}
+  .p-bad{background:var(--bad-soft);color:var(--bad)}
+  .p-warn{background:var(--warn-soft);color:var(--warn)}
+  .p-inert{background:var(--inert-soft);color:var(--inert)}
+  .p-accent{background:var(--accent-soft);color:var(--accent)}
+  .p-mock{background:var(--mark);color:var(--mark-ink)}
+  .p-prod{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule)}
+  .grp{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;padding:10px 18px 4px;background:var(--surface-2);border-bottom:1px solid var(--rule-2)}
+  @media (max-width:640px){.grp{padding:10px 14px 4px}}
+  .more{display:block;width:100%;background:var(--surface);border:0;border-top:1px solid var(--rule-2);padding:11px;color:var(--accent);font-weight:600;font-size:.86rem}
+  .more:hover{background:var(--surface-2)}
+  .tmrw{padding:10px 18px;border-top:1px solid var(--rule-2);font-size:.82rem;color:var(--muted);background:var(--surface-2)}
+  .tmrw b{font-family:"IBM Plex Mono",monospace;color:var(--ink)}
+
+  .foot{font-size:.8rem;color:var(--muted);line-height:1.5;margin-top:22px}
+  .foot a{color:var(--accent)}
+  .hidden{display:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="gate">
+  <form class="gatecard" id="gateform" autocomplete="on">
+    <div class="brand">Bệnh viện Mắt Sài Gòn</div>
+    <h2>ZALO SOP · <span id="gTitle">My follow-ups</span></h2>
+    <p class="lede" id="gateLede">Sign in to see your follow-ups for today.</p>
+    <div class="gateerr" id="gateErr"></div>
+    <div class="field">
+      <label for="gp" id="lpass">Password</label>
+      <input type="password" id="gp" name="password" autocomplete="current-password" required autofocus>
+    </div>
+    <button type="submit" class="gatebtn" id="gateBtn">Sign in</button>
+  </form>
+</div>
+
+<div id="pick" class="gone">
+  <div class="gatecard pickcard">
+    <div class="brand">Bệnh viện Mắt Sài Gòn</div>
+    <h2 id="pickTitle">Who are you?</h2>
+    <p class="lede" id="pickLede">Pick your clinic and your name. This phone will remember it.</p>
+    <div id="pickBody"></div>
+  </div>
+</div>
+
+<div class="wrap" id="wrap" hidden>
+  <header class="top">
+    <div class="titleblock">
+      <h1 id="pgTitle">My follow-ups</h1>
+      <div class="sub" id="pgSub"></div>
+    </div>
+    <div class="controls">
+      <span class="feed" id="feed"></span>
+      <span class="who" id="whoami"></span>
+      <div class="seg" id="langseg" role="group" aria-label="Language">
+        <button data-l="en" aria-pressed="true">EN</button>
+        <button data-l="vi" aria-pressed="false">Tiếng Việt</button>
+        <button data-l="zh" aria-pressed="false">中文</button>
+      </div>
+    </div>
+  </header>
+  <div id="app"></div>
+</div>
+
+<script src="../optom-core.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* Data, feed rules and the modelled sent-marks are shared with the
+     head-office page through ../optom-core.js, so a customer scores the
+     same here as there. */
+  var Z = window.ZSOP, DATA = Z.DATA;
+  var STAGES = Z.STAGES, OFF = Z.OFF, CAD = Z.CAD, PRODUCTS = Z.PRODUCTS, FLAGS = Z.FLAGS;
+  var CASES = DATA.cases, SNAPSHOT = DATA.cases;
+  var TODAY = Z.todayISO(), START = Z.START, TARGET = Z.TARGET, MS = Z.MS;
+  var PAGE = 10;
+
+  var PW_HASH = "d53942c8e49f95569651edc09e700cc036cc347754caa01dfa482574a51dae6e";
+  var lang = store("zsop_da_lang") || "en", me = store("zsop_da_me") || "", session = null;
+  var feedState = { mode:"snapshot", at:DATA.generated || "", error:"" };
+  var ui = { todayFilter:"", missedShown:PAGE, missedOlder:false, flagsAll:false };
+
+  function store(k, v){
+    try{
+      if(v === undefined) return localStorage.getItem(k) || "";
+      if(v === null) localStorage.removeItem(k); else localStorage.setItem(k, v);
+    }catch(e){}
+    return v;
+  }
+  function T(){ return L[lang]; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function pct(a,b){ return b ? Math.round(a/b*100) : 0; }
+  function fill(s, o){ Object.keys(o).forEach(function(k){ s = s.split("{"+k+"}").join(o[k]); }); return s; }
+  function addDays(iso, n){ return Z.addDays(iso, n); }
+  function mondayOf(iso){
+    var d = new Date(Date.parse(iso)), wd = (d.getUTCDay() + 6) % 7;
+    return new Date(d.getTime() - wd*MS).toISOString().slice(0,10);
+  }
+  function fmtDay(iso){ var t = T(); return +iso.slice(8,10) + " " + t.months[+iso.slice(5,7)-1]; }
+  function fmtWhen(iso){
+    if(!iso) return "";
+    var t = T(), d = new Date(iso);
+    if(isNaN(d)) return iso;
+    var day = d.getDate() + " " + t.months[d.getMonth()];
+    return iso.length > 10 ? day + " " + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0") : day;
+  }
+  function daysBetween(a, b){ return Math.round((Date.parse(b) - Date.parse(a)) / MS); }
+  function scoreColour(s){ return s>=TARGET ? "var(--ok)" : s>=70 ? "var(--warn)" : "var(--bad)"; }
+  function scoreClass(s){ return s>=TARGET ? "ok" : s>=70 ? "warn" : "bad"; }
+
+  /* ---------------- cadence per case (same rules as the head-office page) ---------------- */
+  function defs(c, si){ return CAD[c[2]][STAGES[si]] || null; }
+  function dueDate(c, si){
+    var anchor = OFF[si][0] === 0 ? c[4] : c[5];
+    return anchor ? addDays(anchor, OFF[si][1]) : null;
+  }
+  /* Due date is the END of a cadence's window. Windowed cadences open
+     earlier (D6-7 on day 6, CD+3-5 on day 3). */
+  function windowStart(c, si){
+    var d = dueDate(c, si), s = Z.WINDOW_START[STAGES[si]];
+    return (d && s !== undefined) ? addDays(d, s - OFF[si][1]) : d;
+  }
+  function cpAt(c, si, i){ return c[8][si].charAt(i) === "1"; }
+  function cadencePoints(c, si){
+    var bits = c[8][si], got = 0;
+    for(var i=0;i<bits.length;i++) if(bits.charAt(i)==="1") got++;
+    if(got === 0) return 0;
+    return got === bits.length ? 1 : 0.5;
+  }
+  function daKey(c){ return c[0] + "│" + c[1]; }
+  function daName(k){ return k.split("│")[1]; }
+  function daClinic(k){ return k.split("│")[0]; }
+  function prodLabel(p){ return T().prod[p] || p; }
+
+  /* Every cadence instance of a set of cases from July onward, with its
+     due date and score. No upper bound: future instances are what the
+     week view and the "due today" list are made of. */
+  function instancesOf(cases){
+    var out = [];
+    cases.forEach(function(c){
+      for(var si=0; si<STAGES.length; si++){
+        if(!defs(c, si)) continue;
+        var d = dueDate(c, si);
+        if(!d || d < START) continue;
+        out.push({ c:c, si:si, d:d, pts:cadencePoints(c, si) });
+      }
+    });
+    return out;
+  }
+  function agg(list){
+    var pts=0, full=0, part=0, miss=0;
+    list.forEach(function(x){ pts += x.pts; if(x.pts===1) full++; else if(x.pts===0.5) part++; else miss++; });
+    return { due:list.length, pts:pts, score:pct(pts, list.length), full:full, part:part, miss:miss };
+  }
+  function itemsOf(list){
+    var n=0, sent=0;
+    list.forEach(function(x){ var bits = x.c[8][x.si]; n += bits.length;
+      for(var i=0;i<bits.length;i++) if(bits.charAt(i)==="1") sent++; });
+    return { n:n, sent:sent };
+  }
+  function missingItems(x){
+    var d = defs(x.c, x.si), out = [];
+    for(var i=0;i<d.length;i++) if(!cpAt(x.c, x.si, i)) out.push(d[i][0]);
+    return out;
+  }
+
+  /* ---------------- the DA's numbers ---------------- */
+  function build(){
+    var mine = CASES.filter(function(c){ return daKey(c) === me; });
+    var inst = instancesOf(mine);
+    var curM = TODAY.slice(0,7), mon = mondayOf(TODAY), sun = addDays(mon, 6);
+    var today = inst.filter(function(x){ return x.d === TODAY; });
+    var week = inst.filter(function(x){ return x.d >= mon && x.d <= sun; });
+    var closed = inst.filter(function(x){ return x.d < TODAY; });
+    var mtd = closed.filter(function(x){ return x.d.slice(0,7) === curM; });
+    var missed = closed.filter(function(x){ return x.pts < 1; })
+      .sort(function(a,b){ return a.d < b.d ? 1 : a.d > b.d ? -1 : a.pts - b.pts; });
+    var tomorrow = inst.filter(function(x){ return x.d === addDays(TODAY, 1); });
+    /* the missed list opens on this week and last; older misses sit behind a button */
+    var lastMon = addDays(mon, -7);
+    var missedRecent = missed.filter(function(x){ return x.d >= lastMon; });
+    var missedOlder = missed.filter(function(x){ return x.d < lastMon; });
+
+    /* day by day: score per closed day, live completion today */
+    var byDay = {};
+    inst.forEach(function(x){ (byDay[x.d] = byDay[x.d] || []).push(x); });
+    function dayScore(d){ var l = byDay[d]; return l && l.length ? agg(l).score : null; }
+
+    /* streak: consecutive days at or above target, ending yesterday
+       (today joins once it is complete). Days with nothing due are skipped. */
+    var streak = 0, best = 0, run = 0, d;
+    for(d = START; d < TODAY; d = addDays(d, 1)){
+      var s = dayScore(d);
+      if(s === null) continue;
+      if(s >= TARGET){ run++; if(run > best) best = run; } else run = 0;
+    }
+    streak = run;
+    var tA = agg(today);
+    if(today.length && tA.score === 100){ streak++; if(streak > best) best = streak; }
+    var perfect = 0;
+    for(d = curM + "-01"; d < TODAY; d = addDays(d, 1)) if(dayScore(d) === 100) perfect++;
+    if(today.length && tA.score === 100) perfect++;
+
+    return {
+      mine:mine, inst:inst, today:today, week:week, closed:closed, mtd:mtd, missed:missed, tomorrow:tomorrow,
+      missedRecent:missedRecent, missedOlder:missedOlder, lastMon:lastMon,
+      mon:mon, sun:sun, curM:curM, byDay:byDay, dayScore:dayScore,
+      streak:streak, best:best, perfect:perfect,
+      flags: mine.filter(function(c){ return c[7].length; }),
+      replies: replyQueue(mine)
+    };
+  }
+
+  /* Awaiting-reply queue. MODELLED: the Zalo conversation feed is not
+     connected yet, so a deterministic sample of this DA's customers is
+     drawn per tag and given a wait type and a waiting time. No message
+     text is invented. */
+  function replyQueue(mine){
+    var out = [];
+    mine.forEach(function(c){
+      if(!c[4] && !c[5]) return;
+      var r = Z.prng(Z.hash32("reply│" + c[0] + "│" + c[6]));
+      if(r() > 0.045) return;
+      var t = r(), type = t < 0.5 ? "q" : t < 0.8 ? "promise" : "photo";
+      out.push({ c:c, type:type, hours: 1 + Math.floor(r() * 96) });
+    });
+    return out.sort(function(a,b){ return b.hours - a.hours; }).slice(0, 8);
+  }
+  function waitText(h){
+    var t = T();
+    return h < 24 ? fill(t.hours, {n:h}) : fill(t.daysUnit, {n:Math.floor(h/24)});
+  }
+
+  /* ---------------- strings ---------------- */
+  var CP = {
+    en:{intro:"Intro message", eta:"Production ETA", arrived:"Glasses arrived (<4h)", pickup:"Pickup appointment",
+        medsarrived:"Medication arrived", guide:"Usage guide", vipben:"Member benefits", referral:"Referral request",
+        checkin:"Check-in", wear12:"Remind 12h/day", edu:"Educational content", recall:"Recall invite",
+        frameadj:"Free frame adjustment", recallbook:"Book recall", vipbuy:"Repurchase benefits",
+        framelife:"Lifetime frame adjustment", firstwear:"First-night wear check", support:"Discomfort support",
+        wear6:"Remind >6 nights/week", dropguide:"Drop instructions", activate:"Activate membership",
+        compliancecall:"Compliance call (≥6 days/wk)", glare:"Anti-glare glasses reminder",
+        recall1:"Recall 1 (3 mo)", prescribe:"Next prescription", recall2:"Recall 2 (6 mo)",
+        upgrade:"Ortho-K / MC upsell", recall3:"Recall 3 (9 mo)", recall4:"Recall 4 (12 mo)",
+        summary:"Year summary", combo:"Combined treatment advice"},
+    vi:{intro:"Tin nhắn giới thiệu", eta:"Thời gian dự kiến làm kính", arrived:"Báo kính về (<4 giờ)", pickup:"Hẹn ngày lấy kính",
+        medsarrived:"Báo có thuốc", guide:"Hướng dẫn sử dụng", vipben:"Quyền lợi hội viên", referral:"Mời giới thiệu",
+        checkin:"Kiểm tra tình trạng", wear12:"Nhắc đeo 12 giờ/ngày", edu:"Nội dung giáo dục", recall:"Mời tái khám",
+        frameadj:"Chỉnh gọng miễn phí", recallbook:"Mời đặt lịch tái khám", vipbuy:"Quyền lợi mua lại",
+        framelife:"Chỉnh gọng trọn đời", firstwear:"Kiểm tra lần đeo đầu", support:"Hỗ trợ nếu khó chịu",
+        wear6:"Nhắc đeo >6 lần/tuần", dropguide:"Hướng dẫn nhỏ thuốc", activate:"Kích hoạt hội viên",
+        compliancecall:"Gọi kiểm tra tuân thủ (≥6 ngày/tuần)", glare:"Nhắc kính chống lóa",
+        recall1:"Tái khám 1 (3 tháng)", prescribe:"Kê đơn tiếp theo", recall2:"Tái khám 2 (6 tháng)",
+        upgrade:"Tư vấn nâng cấp Ortho-K / MC", recall3:"Tái khám 3 (9 tháng)", recall4:"Tái khám 4 (12 tháng)",
+        summary:"Tổng kết", combo:"Tư vấn phối hợp điều trị"},
+    zh:{intro:"介绍消息", eta:"预计制镜时间", arrived:"镜片到货通知 (<4小时)", pickup:"取镜预约",
+        medsarrived:"药品到货通知", guide:"使用指南", vipben:"会员权益", referral:"转介绍邀请",
+        checkin:"状况询问", wear12:"提醒每天佩戴12小时", edu:"教育内容", recall:"复诊邀请",
+        frameadj:"免费调整镜架", recallbook:"预约复诊", vipbuy:"复购权益",
+        framelife:"终身镜架调整", firstwear:"首夜佩戴检查", support:"不适支持",
+        wear6:"提醒每周佩戴>6次", dropguide:"滴药指导", activate:"激活会员",
+        compliancecall:"依从性电话（≥6天/周）", glare:"防眩光眼镜提醒",
+        recall1:"复诊1（3个月）", prescribe:"下次处方", recall2:"复诊2（6个月）",
+        upgrade:"升级 Ortho-K / MC 建议", recall3:"复诊3（9个月）", recall4:"复诊4（12个月）",
+        summary:"年度总结", combo:"联合治疗建议"}
+  };
+  var L = {
+    en:{
+      title:"My follow-ups", sub:"Optometry · DA", asOf:"as of",
+      signin:"Sign in", signingin:"Signing in…", signout:"Sign out", switchWho:"Not you?",
+      badlogin:"Incorrect password. Please try again.",
+      glede:"Sign in to see your follow-ups for today.", lpass:"Password",
+      pickTitle:"Who are you?", pickLede:"Pick your clinic and your name. This phone will remember it.",
+      hello:"Hello, {n}", feedLive:"Live · sheets read", feedLoading:"Reading the sheets…",
+      feedFailed:"Sheets unreachable · snapshot of", feedSnap:"Snapshot of",
+      months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+      days:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+      hours:"{n} h", daysUnit:"{n} d",
+      prod:{MC:"MC", "Kính":"Glasses", OK:"Ortho-K", Atropine:"Atropine"},
+      /* stat tiles */
+      sToday:"Due today", sWeek:"Due this week", sMissed:"Missed / incomplete", sFlags:"Data flags", sReply:"Awaiting reply",
+      sTodayX:"{d} done · {r} to go", sWeekX:"{a} closed · {b} still to come", sMissedX:"this week and last · {n} older", sFlagsX:"on your customers", sReplyX:"modelled",
+      /* hero */
+      hTitle:"Today's follow-ups", hDone:"done",
+      hLine:"<b>{d}</b> of <b>{n}</b> customers fully done · <b>{p}</b> in progress · <b>{z}</b> not started",
+      hMsgs:"{a} of {b} messages sent",
+      hToGo:"{n} to go — finish today for a perfect day", hPerfect:"Perfect day — everything due today is sent",
+      hNone:"Nothing falls due today.", hNoneHint:"A good day to clear the missed list below, or reply to customers who are waiting.",
+      /* rings */
+      pProgress:"Your score", pProgressH:"Same scoring as head office: 1 per cadence fully sent, 0.5 partial, 0 missed. Only cadences whose window has closed count.",
+      rToday:"Today", rMonth:"This month", rAll:"Since July", rSub:"{n} cadences", rTodaySub:"{n} due · live",
+      proj:"Finish today's <b>{n}</b> and your month reads <b>{p}%</b> tonight.",
+      projMet:"Your month is above target. Keep it there — today's <b>{n}</b> keep the streak alive.",
+      /* day strip */
+      pDays:"Your month, day by day", pDaysH:"Each square is one day's score; today fills in as you go",
+      streakCur:"Current streak", streakBest:"Best streak", perfectDays:"Perfect days", streakUnit:"days ≥ {t}%", perfectUnit:"this month, 100%",
+      legOk:"≥ 80%", legWarn:"70–79%", legBad:"< 70%", legNone:"nothing due", legFuture:"coming up",
+      /* team */
+      pTeam:"Team this month", pTeamH:"Month to date, all clinics", rank:"You are #{r} of {n}",
+      thDA:"DA", thClinic:"Clinic", thScore:"Score", thDue:"Due", thMissed:"Missed",
+      /* week */
+      pWeek:"This week", pWeekH:"{a}–{b}",
+      wkSum:"<b>{n}</b> due this week · <b>{c}</b> already closed · <b>{t}</b> today · <b>{f}</b> still to come",
+      wkNote:"Only cadences whose window has closed count toward your score. Days ahead are shown so you can plan, not scored.",
+      wkDue:"due",
+      /* today list */
+      pToday:"Due today", pTodayH:"Zalo tag · what to send", fAll:"All", fTodo:"To do", fProg:"In progress", fDone:"Done",
+      stDone:"Done", stProg:"In progress", stTodo:"To do",
+      winOpen:"window open since {d}", tomorrow:"Due tomorrow: <b>{n}</b>", nothingLeft:"Nothing here.",
+      /* missed */
+      pMissed:"Missed and incomplete", pMissedH:"Fell due, not fully sent · newest first",
+      gYesterday:"Yesterday", gThisWeek:"Earlier this week", gLastWeek:"Last week", gOlder:"Older",
+      stMissed:"Missed", stIncomplete:"Incomplete", notSent:"Not sent:", overdue:"{n} d overdue", dueOn:"due {d}",
+      showMore:"Show {n} more", showOlder:"Show {n} older", noneMissed:"Nothing missed. Nice.", noneMissedRecent:"Nothing missed this week or last.",
+      missedNote:"Catching up late still helps the customer. Once the Zalo API is connected, late sends will show here as sent late; how they count toward the score is set by head office.",
+      /* reply */
+      pReply:"Waiting for your reply", pReplyH:"Modelled · needs the Zalo conversation feed",
+      rq:"Asked a question — no reply yet", rpromise:"You said you'd check and come back", rphoto:"Sent a photo or document — not acknowledged",
+      waiting:"waiting {t}", noneReply:"No one is waiting on you.",
+      replyNote:"<b>How this will work:</b> once the Salework Zalo conversation feed is connected, every thread where the customer spoke last, or where your last message promised to come back, is listed here with how long they have waited. An AI pass reads the last few messages to tell a real question from a \"thank you\", and to spot a promise like \"để em kiểm tra\" that has not been followed up. Until then the names here are a modelled sample.",
+      /* flags */
+      pFlags:"Data flags to fix", pFlagsH:"From the Membership tracker · fix these so the tracker can schedule the customer",
+      noneFlags:"No data flags on your customers.", showAll:"Show all {n}",
+      fl:{twokids:"Two kids on one tag", prodmismatch:"Product ≠ tag", setY:"Collected — set Y",
+          nstale:"N tag older than 14 days", missingYN:"Missing Y/N", badtag:"Unreadable tag"},
+      fx:{twokids:"Add the second child as its own row, with its own tag.",
+          prodmismatch:"Make the product column match the tag prefix (MC / KT / OK / Atr).",
+          setY:"Collection date has passed but the tag still says N — change it to Y.",
+          nstale:"Still N after 14 days — check whether the Zalo tag was updated.",
+          missingYN:"Add Y (collected) or N (awaiting) after the product prefix.",
+          badtag:"Tag or date cannot be read — rewrite as Prefix + Y/N + YYMMDD + name."},
+      /* footer */
+      foot:"Customers, products, tag dates and data flags are {src}. Whether each message was actually sent is modelled until the Salework Zalo API is connected, so the ticks on this page are illustrative. Due dates are the last day of each cadence's window. Head-office view: <a href=\"../\">ZALO SOP Compliance</a>.",
+      srcLive:"read live from the Google Sheets Membership trackers at {t}", srcSnap:"taken from the Membership trackers as exported on {t}"
+    },
+    vi:{
+      title:"Follow-up của tôi", sub:"Khúc xạ · Trợ lý", asOf:"tính đến",
+      signin:"Đăng nhập", signingin:"Đang đăng nhập…", signout:"Đăng xuất", switchWho:"Không phải bạn?",
+      badlogin:"Mật khẩu không đúng. Vui lòng thử lại.",
+      glede:"Đăng nhập để xem follow-up hôm nay của bạn.", lpass:"Mật khẩu",
+      pickTitle:"Bạn là ai?", pickLede:"Chọn phòng khám và tên của bạn. Điện thoại này sẽ ghi nhớ.",
+      hello:"Chào {n}", feedLive:"Trực tiếp · đã đọc sheet", feedLoading:"Đang đọc sheet…",
+      feedFailed:"Không đọc được sheet · bản chụp", feedSnap:"Bản chụp",
+      months:["Th1","Th2","Th3","Th4","Th5","Th6","Th7","Th8","Th9","Th10","Th11","Th12"],
+      days:["T2","T3","T4","T5","T6","T7","CN"],
+      hours:"{n} giờ", daysUnit:"{n} ngày",
+      prod:{MC:"MC", "Kính":"Kính", OK:"Ortho-K", Atropine:"Atropine"},
+      sToday:"Tới hạn hôm nay", sWeek:"Tới hạn tuần này", sMissed:"Bỏ sót / chưa đủ", sFlags:"Cờ dữ liệu", sReply:"Chờ bạn trả lời",
+      sTodayX:"{d} xong · {r} còn lại", sWeekX:"{a} đã qua · {b} sắp tới", sMissedX:"tuần này và tuần trước · {n} cũ hơn", sFlagsX:"trên khách của bạn", sReplyX:"mô phỏng",
+      hTitle:"Follow-up hôm nay", hDone:"đã xong",
+      hLine:"<b>{d}</b> / <b>{n}</b> khách đã gửi đủ · <b>{p}</b> đang làm · <b>{z}</b> chưa bắt đầu",
+      hMsgs:"Đã gửi {a} / {b} tin nhắn",
+      hToGo:"Còn {n} — hoàn tất hôm nay để có một ngày trọn vẹn", hPerfect:"Ngày trọn vẹn — mọi mốc hôm nay đã gửi đủ",
+      hNone:"Hôm nay không có mốc nào tới hạn.", hNoneHint:"Hãy tranh thủ xử lý danh sách bỏ sót bên dưới, hoặc trả lời khách đang chờ.",
+      pProgress:"Điểm của bạn", pProgressH:"Cách chấm giống văn phòng: 1 điểm khi gửi đủ, 0,5 khi gửi một phần, 0 khi bỏ. Chỉ tính các mốc đã qua hạn.",
+      rToday:"Hôm nay", rMonth:"Tháng này", rAll:"Từ tháng 7", rSub:"{n} mốc", rTodaySub:"{n} tới hạn · trực tiếp",
+      proj:"Hoàn tất <b>{n}</b> mốc hôm nay thì tối nay tháng của bạn đạt <b>{p}%</b>.",
+      projMet:"Tháng này đang trên mục tiêu. Giữ vững — <b>{n}</b> mốc hôm nay giúp duy trì chuỗi.",
+      pDays:"Tháng của bạn, từng ngày", pDaysH:"Mỗi ô là điểm của một ngày; ô hôm nay đầy dần khi bạn làm",
+      streakCur:"Chuỗi hiện tại", streakBest:"Chuỗi dài nhất", perfectDays:"Ngày trọn vẹn", streakUnit:"ngày ≥ {t}%", perfectUnit:"tháng này, 100%",
+      legOk:"≥ 80%", legWarn:"70–79%", legBad:"< 70%", legNone:"không có mốc", legFuture:"sắp tới",
+      pTeam:"Đội nhóm tháng này", pTeamH:"Từ đầu tháng, tất cả phòng khám", rank:"Bạn đứng #{r} / {n}",
+      thDA:"Trợ lý", thClinic:"Phòng khám", thScore:"Điểm", thDue:"Tới hạn", thMissed:"Bỏ",
+      pWeek:"Tuần này", pWeekH:"{a}–{b}",
+      wkSum:"<b>{n}</b> mốc tuần này · <b>{c}</b> đã qua hạn · <b>{t}</b> hôm nay · <b>{f}</b> sắp tới",
+      wkNote:"Chỉ các mốc đã qua hạn mới tính vào điểm. Các ngày sắp tới hiển thị để bạn lên kế hoạch, chưa chấm.",
+      wkDue:"mốc",
+      pToday:"Tới hạn hôm nay", pTodayH:"Tag Zalo · cần gửi gì", fAll:"Tất cả", fTodo:"Cần làm", fProg:"Đang làm", fDone:"Xong",
+      stDone:"Xong", stProg:"Đang làm", stTodo:"Cần làm",
+      winOpen:"mở từ {d}", tomorrow:"Tới hạn ngày mai: <b>{n}</b>", nothingLeft:"Không có gì ở đây.",
+      pMissed:"Bỏ sót và chưa đủ", pMissedH:"Đã qua hạn, chưa gửi đủ · mới nhất trước",
+      gYesterday:"Hôm qua", gThisWeek:"Đầu tuần này", gLastWeek:"Tuần trước", gOlder:"Cũ hơn",
+      stMissed:"Bỏ", stIncomplete:"Chưa đủ", notSent:"Chưa gửi:", overdue:"trễ {n} ngày", dueOn:"hạn {d}",
+      showMore:"Xem thêm {n}", showOlder:"Xem {n} mốc cũ hơn", noneMissed:"Không bỏ sót mốc nào. Tuyệt.", noneMissedRecent:"Tuần này và tuần trước không bỏ sót mốc nào.",
+      missedNote:"Gửi muộn vẫn tốt cho khách. Khi kết nối API Zalo, tin gửi muộn sẽ hiện ở đây là gửi muộn; cách tính điểm do văn phòng quyết định.",
+      pReply:"Khách đang chờ bạn trả lời", pReplyH:"Mô phỏng · cần kết nối hội thoại Zalo",
+      rq:"Khách hỏi — chưa được trả lời", rpromise:"Bạn nói sẽ kiểm tra rồi báo lại", rphoto:"Khách gửi ảnh / tài liệu — chưa phản hồi",
+      waiting:"chờ {t}", noneReply:"Không có khách nào đang chờ bạn.",
+      replyNote:"<b>Cách hoạt động:</b> khi kết nối hội thoại Zalo qua Salework, mọi cuộc trò chuyện mà khách nhắn sau cùng, hoặc tin cuối của bạn hứa sẽ báo lại, sẽ hiện ở đây cùng thời gian khách đã chờ. AI đọc vài tin cuối để phân biệt câu hỏi thật với lời cảm ơn, và nhận ra lời hứa như \"để em kiểm tra\" chưa được thực hiện. Hiện tại danh sách này là mẫu mô phỏng.",
+      pFlags:"Cờ dữ liệu cần sửa", pFlagsH:"Từ bảng Membership · sửa để bảng có thể lên lịch cho khách",
+      noneFlags:"Khách của bạn không có cờ dữ liệu.", showAll:"Xem tất cả {n}",
+      fl:{twokids:"Hai bé chung một tag", prodmismatch:"Sản phẩm ≠ tag", setY:"Đã nhận — đổi sang Y",
+          nstale:"Tag N quá 14 ngày", missingYN:"Thiếu Y/N", badtag:"Tag không đọc được"},
+      fx:{twokids:"Tách bé thứ hai thành dòng riêng với tag riêng.",
+          prodmismatch:"Sửa cột sản phẩm cho khớp tiền tố tag (MC / KT / OK / Atr).",
+          setY:"Đã qua ngày nhận kính nhưng tag vẫn N — đổi sang Y.",
+          nstale:"Vẫn N sau 14 ngày — kiểm tra tag Zalo đã cập nhật chưa.",
+          missingYN:"Thêm Y (đã nhận) hoặc N (chờ nhận) sau tiền tố sản phẩm.",
+          badtag:"Không đọc được tag hoặc ngày — viết lại theo Tiền tố + Y/N + YYMMDD + tên."},
+      foot:"Khách hàng, sản phẩm, ngày tag và cờ dữ liệu {src}. Việc từng tin đã gửi hay chưa là số mô phỏng cho tới khi kết nối API Salework Zalo, nên dấu tick trên trang này chỉ để minh hoạ. Ngày tới hạn là ngày cuối cửa sổ của mỗi mốc. Trang văn phòng: <a href=\"../\">Tuân thủ SOP Zalo</a>.",
+      srcLive:"đọc trực tiếp từ bảng Membership trên Google Sheets lúc {t}", srcSnap:"lấy từ bảng Membership theo bản xuất ngày {t}"
+    },
+    zh:{
+      title:"我的跟进", sub:"视光 · 助理", asOf:"截至",
+      signin:"登录", signingin:"正在登录…", signout:"退出", switchWho:"不是你？",
+      badlogin:"密码不正确，请重试。",
+      glede:"登录以查看你今天的跟进。", lpass:"密码",
+      pickTitle:"你是谁？", pickLede:"选择你的诊所和姓名。本手机会记住。",
+      hello:"你好，{n}", feedLive:"实时 · 已读取表格", feedLoading:"正在读取表格…",
+      feedFailed:"无法读取表格 · 快照", feedSnap:"快照",
+      months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+      days:["一","二","三","四","五","六","日"],
+      hours:"{n} 小时", daysUnit:"{n} 天",
+      prod:{MC:"MC", "Kính":"框架镜", OK:"角膜塑形镜", Atropine:"阿托品"},
+      sToday:"今日到期", sWeek:"本周到期", sMissed:"遗漏 / 未完成", sFlags:"数据标记", sReply:"待你回复",
+      sTodayX:"{d} 已完成 · {r} 待办", sWeekX:"{a} 已过期 · {b} 即将到期", sMissedX:"本周与上周 · 更早 {n}", sFlagsX:"你的客户", sReplyX:"模拟",
+      hTitle:"今日跟进", hDone:"已完成",
+      hLine:"<b>{d}</b> / <b>{n}</b> 位客户已全部发送 · <b>{p}</b> 进行中 · <b>{z}</b> 未开始",
+      hMsgs:"已发送 {a} / {b} 条消息",
+      hToGo:"还剩 {n} — 今天完成即为完美一天", hPerfect:"完美一天 — 今日到期的全部已发送",
+      hNone:"今天没有到期的触点。", hNoneHint:"正好处理下方的遗漏清单，或回复等待中的客户。",
+      pProgress:"你的得分", pProgressH:"与总部同一评分：全部发送 1 分，部分 0.5 分，遗漏 0 分。仅计入窗口已关闭的触点。",
+      rToday:"今天", rMonth:"本月", rAll:"7 月以来", rSub:"{n} 个触点", rTodaySub:"{n} 个到期 · 实时",
+      proj:"完成今天的 <b>{n}</b> 个，今晚本月得分为 <b>{p}%</b>。",
+      projMet:"本月已高于目标。保持住 — 今天的 <b>{n}</b> 个让连胜继续。",
+      pDays:"你的这个月，逐日", pDaysH:"每格为一天的得分；今天的格子随进度填满",
+      streakCur:"当前连胜", streakBest:"最长连胜", perfectDays:"完美天数", streakUnit:"天 ≥ {t}%", perfectUnit:"本月，100%",
+      legOk:"≥ 80%", legWarn:"70–79%", legBad:"< 70%", legNone:"无到期", legFuture:"即将到来",
+      pTeam:"团队本月", pTeamH:"本月至今，全部诊所", rank:"你排第 {r} / {n}",
+      thDA:"助理", thClinic:"诊所", thScore:"得分", thDue:"到期", thMissed:"遗漏",
+      pWeek:"本周", pWeekH:"{a}–{b}",
+      wkSum:"本周 <b>{n}</b> 个到期 · <b>{c}</b> 已过期 · <b>{t}</b> 今天 · <b>{f}</b> 即将到期",
+      wkNote:"仅窗口已关闭的触点计入得分。未来几天仅供安排，不评分。",
+      wkDue:"到期",
+      pToday:"今日到期", pTodayH:"Zalo 标签 · 需发送内容", fAll:"全部", fTodo:"待办", fProg:"进行中", fDone:"已完成",
+      stDone:"已完成", stProg:"进行中", stTodo:"待办",
+      winOpen:"自 {d} 起可发送", tomorrow:"明日到期：<b>{n}</b>", nothingLeft:"这里没有内容。",
+      pMissed:"遗漏与未完成", pMissedH:"已到期、未全部发送 · 最新在前",
+      gYesterday:"昨天", gThisWeek:"本周早些时候", gLastWeek:"上周", gOlder:"更早",
+      stMissed:"遗漏", stIncomplete:"未完成", notSent:"未发送：", overdue:"逾期 {n} 天", dueOn:"到期 {d}",
+      showMore:"再显示 {n} 条", showOlder:"显示更早的 {n} 条", noneMissed:"没有遗漏。很好。", noneMissedRecent:"本周与上周没有遗漏。",
+      missedNote:"补发仍对客户有帮助。接入 Zalo API 后，迟发会在此显示为迟发；如何计分由总部决定。",
+      pReply:"等待你回复", pReplyH:"模拟 · 需接入 Zalo 会话",
+      rq:"客户提问 — 尚未回复", rpromise:"你说会查一下再回复", rphoto:"客户发了照片或文件 — 未确认",
+      waiting:"已等待 {t}", noneReply:"没有客户在等你。",
+      replyNote:"<b>将如何运作：</b>接入 Salework 的 Zalo 会话后，凡是客户最后发言、或你最后一条消息承诺回头处理的会话，都会连同等待时长列在这里。AI 会读取最后几条消息，区分真正的提问与\"谢谢\"，并识别\"để em kiểm tra\"这类尚未兑现的承诺。在此之前，这里的名单为模拟样本。",
+      pFlags:"待修正的数据标记", pFlagsH:"来自会员追踪表 · 修正后追踪表才能为客户排程",
+      noneFlags:"你的客户没有数据标记。", showAll:"显示全部 {n} 条",
+      fl:{twokids:"一个标签两个孩子", prodmismatch:"项目与标签不符", setY:"已取镜 — 应改为 Y",
+          nstale:"N 标签超过 14 天", missingYN:"缺少 Y/N", badtag:"标签无法识别"},
+      fx:{twokids:"将第二个孩子单独建一行，使用独立标签。",
+          prodmismatch:"使项目列与标签前缀一致（MC / KT / OK / Atr）。",
+          setY:"取镜日期已过但标签仍为 N — 改为 Y。",
+          nstale:"14 天后仍为 N — 检查 Zalo 标签是否已更新。",
+          missingYN:"在项目前缀后加 Y（已取）或 N（待取）。",
+          badtag:"标签或日期无法识别 — 按 前缀 + Y/N + YYMMDD + 姓名 重写。"},
+      foot:"客户、项目、标签日期与数据标记{src}。每条消息是否实际发送，在 Salework Zalo API 接通前为模拟数据，本页的勾选仅作示意。到期日为各触点窗口的最后一天。总部视图：<a href=\"../\">ZALO SOP 合规看板</a>。",
+      srcLive:"于 {t} 实时读取自 Google Sheets 会员追踪表", srcSnap:"取自 {t} 导出的会员追踪表"
+    }
+  };
+  function cpName(k){ return CP[lang][k] || k; }
+
+  /* ---------------- crypto (same gate as the head-office page) ---------------- */
+  function utf8(str){var o="",i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i);
+    if(c<128)o+=String.fromCharCode(c);else if(c<2048)o+=String.fromCharCode(192|(c>>6),128|(c&63));
+    else o+=String.fromCharCode(224|(c>>12),128|((c>>6)&63),128|(c&63));}return o;}
+  function sha256sync(a){function rr(v,x){return(v>>>x)|(v<<(32-x));}
+    var mm=Math.pow,mp=mm(2,32),i,j,res="",w=[],bl=a.length*8,h=sha256sync.h,k=sha256sync.k;
+    if(!h){h=sha256sync.h=[];k=sha256sync.k=[];var n=0,ic={};
+      for(var cd=2;n<64;cd++){if(!ic[cd]){for(i=0;i<313;i+=cd)ic[i]=cd;
+        h[n]=(mm(cd,.5)*mp)|0;k[n++]=(mm(cd,1/3)*mp)|0;}}h=h.slice(0,8);sha256sync.h=h;}
+    a+="\x80";while(a.length%64-56)a+="\x00";
+    for(i=0;i<a.length;i++){j=a.charCodeAt(i);if(j>>8)return null;w[i>>2]|=j<<((3-i)%4)*8;}
+    w[w.length]=(bl/mp)|0;w[w.length]=bl;var H=h.slice(0);
+    for(j=0;j<w.length;){var ww=w.slice(j,j+=16),old=H.slice(0);
+      for(i=0;i<64;i++){var w15=ww[i-15],w2=ww[i-2],A=H[0],E=H[4];
+        var t1=H[7]+(rr(E,6)^rr(E,11)^rr(E,25))+((E&H[5])^((~E)&H[6]))+k[i]
+          +(ww[i]=(i<16)?ww[i]:(ww[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+ww[i-7]
+            +(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+        var t2=(rr(A,2)^rr(A,13)^rr(A,22))+((A&H[1])^(A&H[2])^(H[1]&H[2]));
+        H=[(t1+t2)|0].concat(H);H[4]=(H[4]+t1)|0;H.length=8;}
+      for(i=0;i<8;i++)H[i]=(H[i]+old[i])|0;}
+    for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(H[i]>>(j*8))&255;res+=((b<16)?"0":"")+b.toString(16);}
+    return res;}
+  function sha256(t){if(window.crypto&&crypto.subtle&&window.isSecureContext){try{
+      return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){
+        return Array.prototype.map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,"0")}).join("");
+      }).catch(function(){return sha256sync(utf8(t))});}catch(e){}}
+    return Promise.resolve(sha256sync(utf8(t)));}
+
+  /* ================= pieces ================= */
+  function ring(p, colour, label, sub, small){
+    var r = 44, C = 2*Math.PI*r, v = Math.max(0, Math.min(100, p));
+    return '<div class="ring'+(small?' sm':'')+'"><svg viewBox="0 0 100 100">'
+      + '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="var(--surface-3)" stroke-width="9"/>'
+      + '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+colour+'" stroke-width="9" stroke-linecap="round" '
+      + 'stroke-dasharray="'+(C*v/100).toFixed(1)+' '+C.toFixed(1)+'"/></svg>'
+      + '<div class="rv"><b>'+esc(label)+'</b>'+(sub?'<span>'+esc(sub)+'</span>':'')+'</div></div>';
+  }
+  function statusOf(x){ return x.pts === 1 ? "done" : x.pts === 0.5 ? "prog" : "todo"; }
+  function taskRow(x, opts){
+    var t = T(), d = defs(x.c, x.si), st = statusOf(x), chips = "";
+    for(var i=0;i<d.length;i++){
+      var sent = cpAt(x.c, x.si, i);
+      chips += '<span class="it'+(sent?' sent':'')+'"><i>'+(sent?'✓':'○')+'</i>'+esc(cpName(d[i][0]))+'</span>';
+    }
+    var ws = windowStart(x.c, x.si), meta = '<span class="pill p-prod">'+esc(prodLabel(x.c[2]))+'</span>'
+      + '<span class="mono">'+esc(STAGES[x.si])+'</span>';
+    if(opts && opts.due) meta += '<span>'+esc(fill(t.dueOn, {d:fmtDay(x.d)}))+'</span>'
+      + '<span style="color:var(--bad)">'+esc(fill(t.overdue, {n:daysBetween(x.d, TODAY)}))+'</span>';
+    else if(ws && ws !== x.d) meta += '<span>'+esc(fill(t.winOpen, {d:fmtDay(ws)}))+'</span>';
+    var pill = (opts && opts.due)
+      ? (x.pts===0 ? '<span class="pill p-bad">'+esc(t.stMissed)+'</span>' : '<span class="pill p-warn">'+esc(t.stIncomplete)+'</span>')
+      : (st==="done" ? '<span class="pill p-ok">'+esc(t.stDone)+'</span>'
+         : st==="prog" ? '<span class="pill p-warn">'+esc(t.stProg)+'</span>'
+         : '<span class="pill p-accent">'+esc(t.stTodo)+'</span>');
+    return '<div class="task'+(st==="done"&&!(opts&&opts.due)?' done':'')+'">'
+      + '<div class="tag">'+esc(x.c[6])+'</div><div class="st">'+pill+'</div>'
+      + '<div class="meta">'+meta+'</div><div class="items">'+chips+'</div></div>';
+  }
+
+  /* ================= render ================= */
+  function render(){
+    var t = T(), b = build();
+    document.title = "ZALO SOP · " + t.title;
+    document.body.className = lang === "zh" ? "lang-zh" : "";
+    document.getElementById("pgTitle").textContent = fill(t.hello, {n:daName(me)});
+    document.getElementById("pgSub").innerHTML = '<b>'+esc(daClinic(me))+'</b> &middot; '+esc(t.sub)+' &middot; '+esc(t.asOf)+' '+esc(TODAY);
+
+    var h = "", tA = agg(b.today), items = itemsOf(b.today);
+    var wClosed = b.week.filter(function(x){ return x.d < TODAY; }).length;
+    var wFuture = b.week.filter(function(x){ return x.d > TODAY; }).length;
+    var perfect = b.today.length > 0 && tA.full === b.today.length;
+
+    /* stat tiles */
+    h += '<div class="stats">'
+      + tile("#today", b.today.length ? (perfect ? "ok" : "acc") : "", b.today.length, t.sToday, fill(t.sTodayX, {d:tA.full, r:b.today.length - tA.full}))
+      + tile("#week", "", b.week.length, t.sWeek, fill(t.sWeekX, {a:wClosed, b:wFuture}))
+      + tile("#missed", b.missedRecent.length ? "bad" : "ok", b.missedRecent.length, t.sMissed, fill(t.sMissedX, {n:b.missedOlder.length}))
+      + tile("#reply", b.replies.length ? "warn" : "ok", b.replies.length, t.sReply, t.sReplyX)
+      + tile("#flags", b.flags.length ? "warn" : "ok", b.flags.length, t.sFlags, t.sFlagsX)
+      + '</div>';
+
+    /* hero: today */
+    h += '<div class="hero'+(perfect?' perfect':'')+'" id="top">';
+    if(b.today.length){
+      var donePct = pct(tA.full, b.today.length);
+      h += ring(donePct, perfect ? 'var(--ok)' : 'var(--accent)', donePct+'%', t.hDone)
+        + '<div><h2>'+esc(t.hTitle)+'</h2>'
+        + '<p>'+fill(t.hLine, {d:tA.full, n:b.today.length, p:tA.part, z:tA.miss})+'</p>'
+        + '<div class="msgbar"><span style="width:'+pct(items.sent, items.n)+'%"></span></div>'
+        + '<div class="msgtxt">'+esc(fill(t.hMsgs, {a:items.sent, b:items.n}))+'</div>'
+        + '<span class="cta">'+esc(perfect ? t.hPerfect : fill(t.hToGo, {n:b.today.length - tA.full}))+'</span></div>';
+    } else {
+      h += ring(0, 'var(--surface-3)', '—', t.rToday)
+        + '<div><h2>'+esc(t.hNone)+'</h2><p>'+esc(t.hNoneHint)+'</p></div>';
+    }
+    h += '</div>';
+
+    /* rings + day strip */
+    var mA = agg(b.mtd), aA = agg(b.closed);
+    var projPts = mA.pts + b.today.length, projDue = mA.due + b.today.length;
+    var projPct = pct(projPts, projDue);
+    h += '<div class="grid2">';
+    h += '<div class="panel" id="progress"><h3><span>'+esc(t.pProgress)+'</span></h3><div class="pad"><div class="rings">'
+      + '<div class="rcol">'+ring(b.today.length ? pct(tA.full, b.today.length) : 0, perfect ? 'var(--ok)' : 'var(--accent)',
+          b.today.length ? pct(tA.full, b.today.length)+'%' : '—', '', true)
+        + '<span class="rl">'+esc(t.rToday)+'</span><span class="rs">'+esc(fill(t.rTodaySub, {n:b.today.length}))+'</span></div>'
+      + '<div class="rcol">'+ring(mA.score, mA.due ? scoreColour(mA.score) : 'var(--surface-3)', mA.due ? mA.score+'%' : '—', '', true)
+        + '<span class="rl">'+esc(t.rMonth)+'</span><span class="rs">'+esc(fill(t.rSub, {n:mA.due}))+'</span></div>'
+      + '<div class="rcol">'+ring(aA.score, aA.due ? scoreColour(aA.score) : 'var(--surface-3)', aA.due ? aA.score+'%' : '—', '', true)
+        + '<span class="rl">'+esc(t.rAll)+'</span><span class="rs">'+esc(fill(t.rSub, {n:aA.due}))+'</span></div>'
+      + '</div>';
+    if(b.today.length && !perfect)
+      h += '<p class="proj">'+fill(mA.due && mA.score >= TARGET ? t.projMet : t.proj, {n:b.today.length - tA.full, p:projPct})+'</p>';
+    h += '<p style="margin:12px 0 0;font-size:.78rem;color:var(--muted)">'+esc(t.pProgressH)+'</p></div></div>';
+
+    /* day strip */
+    var y = +b.curM.slice(0,4), m = +b.curM.slice(5,7), nDays = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    h += '<div class="panel" id="days"><h3><span>'+esc(t.pDays)+'</span><span class="hint">'+esc(t.pDaysH)+'</span></h3><div class="pad"><div class="strip">';
+    for(var i=1;i<=nDays;i++){
+      var dk = b.curM + "-" + String(i).padStart(2,"0"), cls, title;
+      if(dk < TODAY){ var s = b.dayScore(dk); cls = s === null ? "none" : scoreClass(s); title = s === null ? "" : s + "%"; }
+      else if(dk === TODAY){ cls = "today " + (b.today.length ? (perfect ? "ok" : "none") : "none"); title = b.today.length ? pct(tA.full, b.today.length)+"%" : ""; }
+      else cls = "future";
+      if(dk < START) cls = "none";
+      h += '<span class="dsq '+cls+'" title="'+esc(dk + (title ? " · " + title : ""))+'">'+i+'</span>';
+    }
+    h += '</div><div class="legend"><span><i style="background:var(--ok)"></i>'+esc(t.legOk)+'</span>'
+      + '<span><i style="background:var(--warn)"></i>'+esc(t.legWarn)+'</span>'
+      + '<span><i style="background:var(--bad)"></i>'+esc(t.legBad)+'</span>'
+      + '<span><i style="background:var(--surface-2);border:1px solid var(--rule)"></i>'+esc(t.legNone)+'</span>'
+      + '<span><i style="border:1px dashed var(--rule)"></i>'+esc(t.legFuture)+'</span></div>';
+    h += '<div class="badges">'
+      + '<div class="badge fire"><div class="bn">'+(b.streak ? '🔥 ' : '')+b.streak+'</div><div class="bl">'+esc(t.streakCur)+' · '+esc(fill(t.streakUnit, {t:TARGET}))+'</div></div>'
+      + '<div class="badge"><div class="bn">'+b.best+'</div><div class="bl">'+esc(t.streakBest)+'</div></div>'
+      + '<div class="badge star"><div class="bn">'+(b.perfect ? '★ ' : '')+b.perfect+'</div><div class="bl">'+esc(t.perfectDays)+' · '+esc(t.perfectUnit)+'</div></div>'
+      + '</div></div></div>';
+    h += '</div>';
+
+    /* week */
+    var wkByDay = {}; b.week.forEach(function(x){ (wkByDay[x.d] = wkByDay[x.d] || []).push(x); });
+    h += '<div class="panel" id="week"><h3><span>'+esc(t.pWeek)+'</span><span class="hint">'+esc(fill(t.pWeekH, {a:fmtDay(b.mon), b:fmtDay(b.sun)}))+'</span></h3><div class="pad">'
+      + '<div class="wksum">'+fill(t.wkSum, {n:b.week.length, c:wClosed, t:b.today.length, f:wFuture})+'</div><div class="wk">';
+    var wkMax = 1; Object.keys(wkByDay).forEach(function(k){ wkMax = Math.max(wkMax, wkByDay[k].length); });
+    for(var wi=0; wi<7; wi++){
+      var dk2 = addDays(b.mon, wi), list = wkByDay[dk2] || [], g = agg(list), future = dk2 > TODAY, isT = dk2 === TODAY;
+      var hgt = list.length ? Math.max(6, Math.round(list.length / wkMax * 64)) : 0;
+      h += '<div class="wd'+(future?' future':'')+(isT?' today':'')+'"><span class="wl">'+esc(t.days[wi])+' '+(+dk2.slice(8,10))+'</span>'
+        + '<span class="wn">'+(list.length || '·')+'</span><div class="wbar">';
+      if(list.length){
+        if(future) h += '<span style="height:'+hgt+'px;background:var(--surface-3)"></span>';
+        else {
+          h += '<span style="height:'+Math.round(hgt*g.miss/list.length)+'px;background:var(--bad)"></span>'
+            + '<span style="height:'+Math.round(hgt*g.part/list.length)+'px;background:var(--warn)"></span>'
+            + '<span style="height:'+Math.round(hgt*g.full/list.length)+'px;background:var(--ok)"></span>';
+        }
+      }
+      h += '</div><span class="ws">'+(list.length && !future ? g.score+'%' : (list.length ? esc(t.wkDue) : ''))+'</span></div>';
+    }
+    h += '</div><p style="margin:12px 0 0;font-size:.78rem;color:var(--muted)">'+esc(t.wkNote)+'</p></div></div>';
+
+    /* today list */
+    var todayRows = b.today.slice().sort(function(a,b2){ return a.pts - b2.pts || (a.c[6] < b2.c[6] ? -1 : 1); });
+    var cnt = { todo:0, prog:0, done:0 }; todayRows.forEach(function(x){ cnt[statusOf(x)]++; });
+    var shown = todayRows.filter(function(x){ return !ui.todayFilter || statusOf(x) === ui.todayFilter; });
+    h += '<div class="panel" id="today"><h3><span>'+esc(t.pToday)+'</span><span class="hint">'+esc(t.pTodayH)+'</span></h3>';
+    if(b.today.length){
+      h += '<div class="chips">'
+        + chip("", t.fAll, b.today.length) + chip("todo", t.fTodo, cnt.todo) + chip("prog", t.fProg, cnt.prog) + chip("done", t.fDone, cnt.done)
+        + '</div>';
+      if(shown.length) shown.forEach(function(x){ h += taskRow(x); });
+      else h += '<div class="empty">'+esc(t.nothingLeft)+'</div>';
+    } else {
+      h += '<div class="empty">'+esc(t.hNone)+'</div>';
+    }
+    h += '<div class="tmrw">'+fill(t.tomorrow, {n:b.tomorrow.length})+'</div></div>';
+
+    /* missed */
+    var mList = ui.missedOlder ? b.missed : b.missedRecent;
+    h += '<div class="panel" id="missed"><h3><span>'+esc(t.pMissed)+' <span class="pill '+(b.missedRecent.length?'p-bad':'p-ok')+'">'+b.missedRecent.length+'</span></span>'
+      + '<span class="hint">'+esc(t.pMissedH)+'</span></h3>';
+    if(mList.length){
+      var grp = "", view = mList.slice(0, ui.missedShown);
+      view.forEach(function(x){
+        var g2 = x.d === addDays(TODAY,-1) ? t.gYesterday : x.d >= b.mon ? t.gThisWeek : x.d >= b.lastMon ? t.gLastWeek : t.gOlder;
+        if(g2 !== grp){ grp = g2; h += '<div class="grp">'+esc(g2)+'</div>'; }
+        h += taskRow(x, {due:true});
+      });
+      if(mList.length > ui.missedShown)
+        h += '<button class="more" id="moreMissed">'+esc(fill(t.showMore, {n:Math.min(PAGE, mList.length - ui.missedShown)}))+'</button>';
+      else if(!ui.missedOlder && b.missedOlder.length)
+        h += '<button class="more" id="olderMissed">'+esc(fill(t.showOlder, {n:b.missedOlder.length}))+'</button>';
+      h += '<div class="tmrw">'+esc(t.missedNote)+'</div>';
+    } else if(b.missedOlder.length){
+      h += '<div class="empty">'+esc(t.noneMissedRecent)+'</div>'
+        + '<button class="more" id="olderMissed">'+esc(fill(t.showOlder, {n:b.missedOlder.length}))+'</button>';
+    } else h += '<div class="empty">'+esc(t.noneMissed)+'</div>';
+    h += '</div>';
+
+    /* awaiting reply (modelled) */
+    h += '<div class="panel" id="reply"><h3><span>'+esc(t.pReply)+' <span class="pill p-mock">'+b.replies.length+'</span></span>'
+      + '<span class="hint">'+esc(t.pReplyH)+'</span></h3>';
+    if(b.replies.length){
+      b.replies.forEach(function(r){
+        var lab = r.type === "q" ? t.rq : r.type === "promise" ? t.rpromise : t.rphoto;
+        var cls = r.hours >= 24 ? "p-bad" : r.hours >= 4 ? "p-warn" : "p-inert";
+        h += '<div class="task"><div class="tag">'+esc(r.c[6])+'</div>'
+          + '<div class="st"><span class="pill '+cls+'">'+esc(fill(t.waiting, {t:waitText(r.hours)}))+'</span></div>'
+          + '<div class="meta"><span class="pill p-prod">'+esc(prodLabel(r.c[2]))+'</span><span>'+esc(lab)+'</span></div></div>';
+      });
+    } else h += '<div class="empty">'+esc(t.noneReply)+'</div>';
+    h += '<div class="tmrw">'+t.replyNote+'</div></div>';
+
+    /* team */
+    var team = {};
+    instancesOf(CASES).forEach(function(x){
+      if(x.d >= TODAY || x.d.slice(0,7) !== b.curM) return;
+      var k = daKey(x.c); (team[k] = team[k] || []).push(x);
+    });
+    var trows = Object.keys(team).map(function(k){ var g = agg(team[k]); g.k = k; return g; })
+      .sort(function(p,q){ return q.score - p.score || q.due - p.due; });
+    var myRank = 0; trows.forEach(function(r, i){ if(r.k === me) myRank = i+1; });
+    h += '<div class="grid2">';
+    h += '<div class="panel" id="team"><h3><span>'+esc(t.pTeam)+'</span><span class="hint">'+esc(t.pTeamH)+'</span></h3>'
+      + '<div style="overflow-x:auto"><table><thead><tr><th>'+esc(t.thDA)+'</th><th>'+esc(t.thClinic)+'</th><th class="n">'+esc(t.thScore)+'</th>'
+      + '<th style="width:26%"></th><th class="n">'+esc(t.thDue)+'</th><th class="n">'+esc(t.thMissed)+'</th></tr></thead><tbody>';
+    trows.forEach(function(r, i){
+      h += '<tr'+(r.k===me?' class="me"':'')+'><td><span class="rank">#'+(i+1)+'</span> '+esc(daName(r.k))+'</td>'
+        + '<td style="color:var(--muted)">'+esc(daClinic(r.k))+'</td>'
+        + '<td class="n" style="color:'+scoreColour(r.score)+'">'+r.score+'%</td>'
+        + '<td><div class="barw"><div class="barf" style="width:'+Math.max(r.score,1)+'%;background:'+scoreColour(r.score)+'"></div>'
+        + '<div class="bart" style="left:'+TARGET+'%"></div></div></td>'
+        + '<td class="n">'+r.due+'</td><td class="n">'+r.miss+'</td></tr>';
+    });
+    h += '</tbody></table></div>'
+      + (myRank ? '<div class="tmrw">'+esc(fill(t.rank, {r:myRank, n:trows.length}))+'</div>' : '')+'</div>';
+
+    /* flags */
+    var fl = b.flags.slice().sort(function(x,y){ return y[7].length - x[7].length || (x[6] < y[6] ? -1 : 1); });
+    var flView = ui.flagsAll ? fl : fl.slice(0, 6);
+    h += '<div class="panel" id="flags"><h3><span>'+esc(t.pFlags)+' <span class="pill '+(fl.length?'p-warn':'p-ok')+'">'+fl.length+'</span></span></h3>';
+    if(fl.length){
+      h += '<div class="tmrw" style="border-top:0;border-bottom:1px solid var(--rule-2)">'+esc(t.pFlagsH)+'</div>';
+      flView.forEach(function(c){
+        h += '<div class="task"><div class="tag">'+esc(c[6])+'</div>'
+          + '<div class="st">'+c[7].map(function(f){ return '<span class="pill p-warn">'+esc(t.fl[f])+'</span>'; }).join(' ')+'</div>'
+          + '<div class="meta"><span class="pill p-prod">'+esc(prodLabel(c[2]))+'</span></div>'
+          + '<div class="items" style="font-size:.8rem;color:var(--ink-2)">'+c[7].map(function(f){ return esc(t.fx[f]); }).join(' ')+'</div></div>';
+      });
+      if(!ui.flagsAll && fl.length > flView.length)
+        h += '<button class="more" id="moreFlags">'+esc(fill(t.showAll, {n:fl.length}))+'</button>';
+    } else h += '<div class="empty">'+esc(t.noneFlags)+'</div>';
+    h += '</div>';
+    h += '</div>';
+
+    /* footer */
+    h += '<p class="foot">'+fill(t.foot, {src: feedState.mode === "live"
+      ? fill(t.srcLive, {t:fmtWhen(feedState.at)}) : fill(t.srcSnap, {t:fmtWhen(feedState.at)})})+'</p>';
+
+    document.getElementById("app").innerHTML = h;
+    wire();
+    renderWho();
+    renderFeed();
+  }
+  function tile(href, cls, n, label, sub){
+    return '<a class="stat '+cls+'" href="'+href+'" style="text-decoration:none"><span class="sn">'+n+'</span>'
+      + '<span class="sl">'+esc(label)+'</span><span class="sx">'+esc(sub)+'</span></a>';
+  }
+  function chip(k, label, n){
+    return '<button data-tf="'+k+'" aria-pressed="'+(ui.todayFilter===k)+'">'+esc(label)+' <span class="cn">'+n+'</span></button>';
+  }
+  function wire(){
+    document.querySelectorAll("[data-tf]").forEach(function(el){
+      el.onclick = function(){ ui.todayFilter = el.dataset.tf; render(); };
+    });
+    var mm = document.getElementById("moreMissed");
+    if(mm) mm.onclick = function(){ ui.missedShown += PAGE; render(); };
+    var mo = document.getElementById("olderMissed");
+    if(mo) mo.onclick = function(){ ui.missedOlder = true; render(); };
+    var mf = document.getElementById("moreFlags");
+    if(mf) mf.onclick = function(){ ui.flagsAll = true; render(); };
+  }
+
+  /* ================= shell ================= */
+  function renderFeed(){
+    var t = T(), el = document.getElementById("feed"), m = feedState.mode;
+    if(!Z.feedUrl() && m !== "live"){ el.className = "feed"; el.innerHTML = '<i></i>' + esc(t.feedSnap) + ' ' + esc(fmtWhen(feedState.at)); return; }
+    el.className = "feed " + m;
+    el.innerHTML = '<i></i>' + esc(m === "live" ? t.feedLive + " " + fmtWhen(feedState.at)
+      : m === "loading" ? t.feedLoading
+      : t.feedFailed + " " + fmtWhen(feedState.at));
+    if(m === "failed") el.title = feedState.error;
+  }
+  function renderWho(){
+    var t = T(), el = document.getElementById("whoami");
+    el.innerHTML = session ? '<button type="button" id="swBtn">'+esc(t.switchWho)+'</button><button type="button" id="soBtn">'+esc(t.signout)+'</button>' : "";
+    if(session){
+      document.getElementById("soBtn").onclick = signOut;
+      document.getElementById("swBtn").onclick = function(){ showPick(); };
+    }
+  }
+  function applyGateLang(){
+    var t = T();
+    document.getElementById("gTitle").textContent = t.title;
+    document.getElementById("gateLede").textContent = t.glede;
+    document.getElementById("lpass").textContent = t.lpass;
+    document.getElementById("pickTitle").textContent = t.pickTitle;
+    document.getElementById("pickLede").textContent = t.pickLede;
+    var b = document.getElementById("gateBtn");
+    if(!b.disabled) b.textContent = t.signin;
+  }
+  function daKeys(){
+    var by = {};
+    CASES.forEach(function(c){ (by[c[0]] = by[c[0]] || {})[daKey(c)] = (by[c[0]][daKey(c)] || 0) + 1; });
+    return by;
+  }
+  function showPick(){
+    var by = daKeys(), h = "";
+    Object.keys(by).sort().forEach(function(cl){
+      h += '<div class="pickclinic">'+esc(cl)+'</div><div class="pickrow">';
+      Object.keys(by[cl]).sort().forEach(function(k){
+        h += '<button data-me="'+esc(k)+'"'+(k===me?' class="on"':'')+'>'+esc(daName(k))+'<span>'+by[cl][k]+' KH</span></button>';
+      });
+      h += '</div>';
+    });
+    document.getElementById("pickBody").innerHTML = h;
+    document.querySelectorAll("[data-me]").forEach(function(b){
+      b.onclick = function(){ me = store("zsop_da_me", b.dataset.me); ui = { todayFilter:"", missedShown:PAGE, missedOlder:false, flagsAll:false };
+        document.getElementById("pick").classList.add("gone"); document.getElementById("wrap").hidden = false; render(); };
+    });
+    document.getElementById("wrap").hidden = true;
+    document.getElementById("pick").classList.remove("gone");
+  }
+  function meKnown(){ return !!me && CASES.some(function(c){ return daKey(c) === me; }); }
+  function saveSession(){ session={ok:1}; try{sessionStorage.setItem("zsop_session","1")}catch(e){} }
+  function loadSession(){ try{ if(sessionStorage.getItem("zsop_session")==="1"){session={ok:1};return true;} }catch(e){} return false; }
+  function signOut(){
+    session=null;
+    try{sessionStorage.removeItem("zsop_session")}catch(e){}
+    document.getElementById("wrap").hidden=true;
+    document.getElementById("pick").classList.add("gone");
+    document.getElementById("gate").classList.remove("gone");
+    var g=document.getElementById("gp"); g.value=""; g.focus();
+  }
+  function enterApp(){
+    document.getElementById("gate").classList.add("gone");
+    if(meKnown()){ document.getElementById("wrap").hidden=false; render(); } else showPick();
+    if(Z.feedUrl()){
+      feedState = { mode:"loading", at:"", error:"" }; renderFeed();
+      Z.loadFeed().then(function(f){
+        CASES = f.cases; feedState = { mode:"live", at:f.generated, error:"" };
+      }).catch(function(err){
+        CASES = SNAPSHOT; feedState = { mode:"failed", at:DATA.generated || "", error:String(err && err.message || err) };
+      }).then(function(){
+        if(!session) return;
+        if(meKnown()){ document.getElementById("pick").classList.add("gone"); document.getElementById("wrap").hidden = false; render(); }
+        else showPick();
+        renderFeed();
+      });
+    }
+  }
+  document.getElementById("gateform").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var t=T(), btn=document.getElementById("gateBtn"), err=document.getElementById("gateErr");
+    btn.disabled=true; btn.textContent=t.signingin; err.classList.remove("on");
+    sha256(document.getElementById("gp").value).then(function(hh){
+      btn.disabled=false; btn.textContent=t.signin;
+      if(hh!==PW_HASH){ err.textContent=t.badlogin; err.classList.add("on");
+        var g=document.getElementById("gp"); g.value=""; g.focus(); return; }
+      saveSession(); enterApp();
+    }).catch(function(){ btn.disabled=false; btn.textContent=t.signin;
+      err.textContent=t.badlogin; err.classList.add("on"); });
+  });
+  function setLang(l){
+    lang = l; store("zsop_da_lang", l);
+    document.getElementById("langseg").querySelectorAll("button").forEach(function(x){
+      x.setAttribute("aria-pressed", String(x.dataset.l===l)); });
+    applyGateLang();
+    if(session && meKnown() && document.getElementById("pick").classList.contains("gone")) render();
+    else if(session) showPick();
+  }
+  document.getElementById("langseg").querySelectorAll("button").forEach(function(b){
+    b.onclick=function(){ setLang(b.dataset.l); };
+  });
+  var ql = /[?&]lang=(en|vi|zh)/.exec(location.search);
+  if(ql) lang = ql[1];
+  document.getElementById("langseg").querySelectorAll("button").forEach(function(x){
+    x.setAttribute("aria-pressed", String(x.dataset.l===lang)); });
+
+  applyGateLang();
+  if(loadSession()) enterApp();
+  else document.getElementById("gp").focus();
+})();
+</script>

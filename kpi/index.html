@@ -1,0 +1,582 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZALO SOP · KPI at a glance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap">
+
+<style>
+  :root{
+    --ground:#FBFAF8; --surface:#FFFFFF; --surface-2:#F3F2EE; --surface-3:#E7E5DF;
+    --ink:#14151C; --ink-2:#3B3E4C; --muted:#6A6F80;
+    --rule:#DEDCD6; --rule-2:#EAE8E3;
+    --accent:#2438B8; --accent-soft:#E7E9F8;
+    --mark:#E6EE6B; --mark-ink:#2B2C0E;
+    --ok:#17795E; --ok-soft:#E2F0EA;
+    --warn:#A6690A; --warn-soft:#F7EEDC; --warn-mid:#EFDCBB;
+    --bad:#AE2E48; --bad-soft:#F8E6EA;
+    --inert:#5A6072; --inert-soft:#EBECEF;
+    --c1:#2438B8; --c2:#17795E; --c3:#A6690A;
+    --shadow:0 1px 2px rgba(20,21,28,.05), 0 8px 24px -18px rgba(20,21,28,.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+      --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+      --rule:#2B2E3A; --rule-2:#23262F;
+      --accent:#8D99F7; --accent-soft:#1D2140;
+      --mark:#C6CE55; --mark-ink:#14150A;
+      --ok:#5FC7A4; --ok-soft:#12291F;
+      --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+      --bad:#F0819A; --bad-soft:#2E141B;
+      --inert:#98A0B4; --inert-soft:#1F2129;
+      --c1:#8D99F7; --c2:#5FC7A4; --c3:#E0A83F;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E0F14; --surface:#171922; --surface-2:#1E2029; --surface-3:#2A2D39;
+    --ink:#E9EAF0; --ink-2:#BFC3D0; --muted:#8D93A5;
+    --rule:#2B2E3A; --rule-2:#23262F;
+    --accent:#8D99F7; --accent-soft:#1D2140;
+    --mark:#C6CE55; --mark-ink:#14150A;
+    --ok:#5FC7A4; --ok-soft:#12291F;
+    --warn:#E0A83F; --warn-soft:#2C2211; --warn-mid:#453317;
+    --bad:#F0819A; --bad-soft:#2E141B;
+    --inert:#98A0B4; --inert-soft:#1F2129;
+    --c1:#8D99F7; --c2:#5FC7A4; --c3:#E0A83F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.85);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  body.lang-zh{font-family:"IBM Plex Sans","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  button{font-family:inherit;font-size:inherit;cursor:pointer}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+  .mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 22px 80px}
+  @media (max-width:640px){.wrap{padding:0 12px 60px}}
+
+  #gate{position:fixed;inset:0;z-index:100;background:var(--ground);display:flex;align-items:center;justify-content:center;padding:24px}
+  #gate.gone{display:none}
+  .gatecard{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow);padding:34px 32px}
+  .gatecard .brand{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+  .gatecard h2{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.42rem;letter-spacing:-.015em;margin:0 0 7px;line-height:1.2}
+  .gatecard .lede{font-size:.88rem;color:var(--muted);margin:0 0 24px}
+  .field{margin-bottom:15px}
+  .field label{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .field input{width:100%;padding:10px 12px;font-family:inherit;font-size:.92rem;background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:4px}
+  .gatebtn{width:100%;padding:11px;background:var(--accent);color:var(--surface);border:0;border-radius:4px;font-weight:600;font-size:.92rem;margin-top:6px}
+  .gatebtn:disabled{opacity:.55;cursor:default}
+  .gateerr{background:var(--bad-soft);color:var(--bad);border-radius:4px;padding:9px 12px;font-size:.84rem;margin-bottom:15px;display:none}
+  .gateerr.on{display:block}
+
+  header.top{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;justify-content:space-between;padding:28px 0 14px}
+  .titleblock h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:1.6rem;letter-spacing:-.015em;margin:0 0 4px}
+  .titleblock .sub{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .seg{display:flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:var(--surface)}
+  .seg button{background:none;border:0;padding:6px 10px;color:var(--muted);font-size:12px;font-weight:500;border-right:1px solid var(--rule)}
+  .seg button:last-child{border-right:0}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+  .feed{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .feed i{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block}
+  .feed.live{color:var(--ok)} .feed.live i{background:var(--ok)}
+  .feed.loading i{background:var(--warn)}
+  .feed.failed{color:var(--bad)} .feed.failed i{background:var(--bad)}
+  .who button{background:none;border:1px solid var(--rule);border-radius:4px;padding:4px 10px;color:var(--muted);font-size:10.5px;font-family:"IBM Plex Mono",monospace}
+  .who button:hover{color:var(--ink);border-color:var(--muted)}
+
+  .filters{display:grid;gap:6px;margin:6px 0 4px}
+  .frow{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+  .frow button{background:var(--surface);border:1px solid var(--rule);border-radius:20px;padding:5px 13px;font-size:.83rem;color:var(--ink-2);display:flex;align-items:center;gap:7px}
+  .frow button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .mtdtag{font-family:"IBM Plex Mono",monospace;font-size:8.5px;letter-spacing:.08em;background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:3px;font-weight:600}
+  .frow button[aria-pressed="true"] .mtdtag{background:rgba(255,255,255,.22);color:var(--surface)}
+  .scopebar{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 18px}
+  .scopebar b{color:var(--accent);font-weight:600}
+
+  .note{background:var(--surface-2);border:1px solid var(--rule);border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:.84rem;color:var(--ink-2)}
+  .note p{margin:0} .note a{color:var(--accent)}
+  .panel{background:var(--surface);border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow);margin-bottom:16px}
+  .panel > h3{margin:0;padding:13px 18px;border-bottom:1px solid var(--rule-2);font-size:.95rem;font-weight:600;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .panel > h3 .hint{font-weight:400;font-size:.78rem;color:var(--muted)}
+  .pad{padding:16px 18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media (max-width:860px){.grid2{grid-template-columns:1fr}}
+  .grid2 > *{min-width:0}
+
+  /* headline tiles */
+  .heads{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+  @media (max-width:860px){.heads{grid-template-columns:1fr}}
+  .head{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--accent);border-radius:6px;box-shadow:var(--shadow);padding:18px 20px;min-width:0}
+  .head.ok{border-left-color:var(--ok)} .head.warn{border-left-color:var(--warn)} .head.bad{border-left-color:var(--bad)}
+  .head .hl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .head .hv{font-size:2.5rem;font-weight:600;letter-spacing:-.04em;line-height:1;margin:8px 0 2px;font-variant-numeric:tabular-nums}
+  .head .ht{font-size:.84rem;color:var(--muted)}
+  .head .ht b{color:var(--ink);font-family:"IBM Plex Mono",monospace;font-weight:600}
+  .gauge{position:relative;height:12px;background:var(--surface-3);border-radius:3px;margin:12px 0 6px;overflow:visible}
+  .gfill{height:100%;border-radius:3px}
+  .gpace{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.6}
+  .gl{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted)}
+  .pace{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.05em;padding:2px 7px;border-radius:3px;font-weight:600;margin-top:8px}
+  .p-ok{background:var(--ok-soft);color:var(--ok)} .p-bad{background:var(--bad-soft);color:var(--bad)} .p-warn{background:var(--warn-soft);color:var(--warn)}
+  .p-mock{background:var(--mark);color:var(--mark-ink)} .p-accent{background:var(--accent-soft);color:var(--accent)}
+  .pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.05em;padding:2px 7px;border-radius:3px;font-weight:600;white-space:nowrap}
+
+  table{border-collapse:collapse;width:100%;font-size:.86rem}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule-2)}
+  thead th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2);white-space:nowrap}
+  thead th.grp{text-align:center;border-bottom:1px solid var(--rule);background:var(--surface-3)}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr.tot td{background:var(--surface-2);font-weight:600;border-top:1px solid var(--rule)}
+  td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:"IBM Plex Mono",monospace}
+  td.sw{width:12px;padding-right:0} td.sw i{display:inline-block;width:10px;height:10px;border-radius:2px}
+  .tblwrap{overflow-x:auto}
+  .barw{position:relative;height:8px;background:var(--surface-3);border-radius:2px;min-width:70px}
+  .barf{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
+  .bart{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--ink);opacity:.55}
+  .mix{display:flex;height:22px;border-radius:4px;overflow:hidden;background:var(--surface-3);margin:4px 0 10px}
+  .mix span{display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:10px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px} .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+  .wkbars{display:flex;align-items:flex-end;gap:10px;height:150px;position:relative;margin-top:8px}
+  .wcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;min-width:0}
+  .wbar{width:100%;max-width:58px;border-radius:2px 2px 0 0}
+  .wval{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600}
+  .wlab{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);white-space:nowrap}
+  .tline{position:absolute;left:0;right:0;border-top:1px dashed var(--ink);opacity:.4}
+  .tlineLab{position:absolute;right:0;font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);transform:translateY(-14px)}
+  .foot{font-size:.8rem;color:var(--muted);line-height:1.5;margin-top:20px} .foot a{color:var(--accent)}
+  .links{display:flex;gap:8px;flex-wrap:wrap}
+  .links a{font-size:.8rem;color:var(--accent);text-decoration:none;border:1px solid var(--rule);border-radius:4px;padding:4px 10px;background:var(--surface)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="gate">
+  <form class="gatecard" id="gateform" autocomplete="on">
+    <div class="brand">Bệnh viện Mắt Sài Gòn</div>
+    <h2>ZALO SOP · <span id="gTitle">KPI at a glance</span></h2>
+    <p class="lede" id="gateLede">Sign in to view the clinic KPI overview.</p>
+    <div class="gateerr" id="gateErr"></div>
+    <div class="field">
+      <label for="gp" id="lpass">Password</label>
+      <input type="password" id="gp" name="password" autocomplete="current-password" required autofocus>
+    </div>
+    <button type="submit" class="gatebtn" id="gateBtn">Sign in</button>
+  </form>
+</div>
+
+<div class="wrap" id="wrap" hidden>
+  <header class="top">
+    <div class="titleblock">
+      <h1 id="pgTitle">KPI at a glance</h1>
+      <div class="sub"><span id="pgSub">Optometry</span> &middot; <span id="asOf"></span></div>
+    </div>
+    <div class="controls">
+      <span class="feed" id="feed"></span>
+      <span class="who" id="whoami"></span>
+      <div class="seg" id="langseg" role="group" aria-label="Language">
+        <button data-l="en" aria-pressed="true">EN</button>
+        <button data-l="vi" aria-pressed="false">Tiếng Việt</button>
+        <button data-l="zh" aria-pressed="false">中文</button>
+      </div>
+    </div>
+  </header>
+  <div class="filters">
+    <div class="frow" id="monthbar"></div>
+    <div class="frow" id="clinicbar"></div>
+  </div>
+  <div class="scopebar" id="scopebar"></div>
+  <div id="app"></div>
+</div>
+
+<script src="../optom-core.js"></script>
+<script>
+(function(){
+  "use strict";
+  var Z = window.ZSOP, DATA = Z.DATA;
+  var STAGES = Z.STAGES, OFF = Z.OFF, CAD = Z.CAD;
+  var CASES = DATA.cases, SNAPSHOT = DATA.cases;
+  var TODAY = Z.todayISO(), START = Z.START, TARGET = Z.TARGET, MS = Z.MS;
+  var PW_HASH = "d53942c8e49f95569651edc09e700cc036cc347754caa01dfa482574a51dae6e";
+  var lang = "en", clinic = "all", month = TODAY.slice(0,7), session = null;
+  var feedState = { mode:"snapshot", at:DATA.generated || "", error:"" };
+
+  /* ================= KPI inputs =================
+     ILLUSTRATIVE. Sales and leads have no data source yet: targets below
+     are placeholders per clinic per month, and "achieved" is modelled
+     from them. Replace TARGETS with the real monthly targets and point
+     actuals() at the sales tracker / Salework when those are available.
+     Revenue in VND. */
+  var STREAMS = ["member","repurchase","referral"];
+  var TARGETS = {
+    "CTE D5": { rev:{member:600e6, repurchase:220e6, referral:140e6}, cust:{member:110, repurchase:55, referral:28}, leads:380 },
+    "NGT":    { rev:{member:900e6, repurchase:340e6, referral:210e6}, cust:{member:170, repurchase:85, referral:42}, leads:560 }
+  };
+  /* Achieved so far for a clinic-month: a deterministic draw around the
+     target, scaled by how much of the month has elapsed. */
+  function actuals(cl, m){
+    var t = TARGETS[cl], r = Z.prng(Z.hash32("kpi│" + cl + "│" + m));
+    var frac = monthFrac(m), out = { rev:{}, cust:{}, leads:0, leadsByWeek:[] };
+    /* a clinic with no target block yet shows zeros rather than breaking the page */
+    if(!t){ STREAMS.forEach(function(s2){ out.rev[s2] = 0; out.cust[s2] = 0; });
+      out.leadsByWeek = weeksOf(m).map(function(w){ return {w:w, n:null}; }); return out; }
+    STREAMS.forEach(function(s){
+      var k = 0.72 + r()*0.45;                     /* 72% - 117% of pace */
+      out.rev[s]  = Math.round(t.rev[s]  * frac * k / 1e6) * 1e6;
+      out.cust[s] = Math.round(t.cust[s] * frac * (k*0.9 + r()*0.2));
+    });
+    var lk = 0.7 + r()*0.5;
+    out.leads = Math.round(t.leads * frac * lk);
+    /* split leads across the month's weeks (Mon-start), only the elapsed ones */
+    var weeks = weeksOf(m), left = out.leads;
+    weeks.forEach(function(w, i){
+      if(w.start > TODAY){ out.leadsByWeek.push({w:w, n:null}); return; }
+      var share = i === weeks.length-1 || weeks[i+1].start > TODAY ? left : Math.round(out.leads * w.frac * (0.8 + r()*0.4));
+      share = Math.max(0, Math.min(left, share)); left -= share;
+      out.leadsByWeek.push({w:w, n:share});
+    });
+    return out;
+  }
+  function daysIn(m){ return new Date(Date.UTC(+m.slice(0,4), +m.slice(5,7), 0)).getUTCDate(); }
+  /* share of the month elapsed: 1 for past months, day/days for the live one */
+  function monthFrac(m){
+    var cur = TODAY.slice(0,7);
+    if(m < cur) return 1;
+    if(m > cur) return 0;
+    return +TODAY.slice(8,10) / daysIn(m);
+  }
+  function weeksOf(m){
+    var n = daysIn(m), out = [], d = m + "-01", i = 1;
+    while(d.slice(0,7) === m){
+      var wd = (new Date(Date.parse(d)).getUTCDay() + 6) % 7, end = Z.addDays(d, 6 - wd);
+      if(end.slice(0,7) !== m) end = m + "-" + String(n).padStart(2,"0");
+      var days = Math.round((Date.parse(end) - Date.parse(d)) / MS) + 1;
+      out.push({ start:d, end:end, frac: days / n, i:i++ });
+      d = Z.addDays(end, 1);
+    }
+    return out;
+  }
+
+  /* ================= helpers ================= */
+  function T(){ return L[lang]; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function pct(a,b){ return b ? Math.round(a/b*100) : 0; }
+  function fill(s, o){ Object.keys(o).forEach(function(k){ s = s.split("{"+k+"}").join(o[k]); }); return s; }
+  function money(v){
+    var t = T();
+    if(Math.abs(v) >= 1e9) return fill(t.bn, {n:(v/1e9).toFixed(2).replace(/\.?0+$/,"")});
+    return fill(t.mn, {n:Math.round(v/1e6).toLocaleString("en-US")});
+  }
+  function monthLabel(k){ return T().months[+k.slice(5,7)-1] + " " + k.slice(0,4); }
+  function fmtWhen(iso){
+    if(!iso) return "";
+    var t = T(), d = new Date(iso);
+    if(isNaN(d)) return iso;
+    var day = d.getDate() + " " + t.months[d.getMonth()];
+    return iso.length > 10 ? day + " " + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0") : day;
+  }
+  function scoreColour(s){ return s>=TARGET ? "var(--ok)" : s>=70 ? "var(--warn)" : "var(--bad)"; }
+  function scoreClass(s){ return s>=TARGET ? "ok" : s>=70 ? "warn" : "bad"; }
+  /* pace: achieved vs the share of the month elapsed */
+  function paceClass(ach, tgt, frac){
+    if(!tgt || !frac) return "";
+    var ratio = (ach / tgt) / frac;
+    return ratio >= 0.97 ? "ok" : ratio >= 0.85 ? "warn" : "bad";
+  }
+
+  /* ---------------- SOP (real, same rules as the head-office page) ---------------- */
+  function defs(c, si){ return CAD[c[2]][STAGES[si]] || null; }
+  function dueDate(c, si){ var a = OFF[si][0] === 0 ? c[4] : c[5]; return a ? Z.addDays(a, OFF[si][1]) : null; }
+  function cadencePoints(c, si){
+    var bits = c[8][si], got = 0;
+    for(var i=0;i<bits.length;i++) if(bits.charAt(i)==="1") got++;
+    return got === 0 ? 0 : got === bits.length ? 1 : 0.5;
+  }
+  function sop(cl, m){
+    var due=0, pts=0, miss=0, cust={};
+    CASES.forEach(function(c){
+      if(cl !== "all" && c[0] !== cl) return;
+      for(var si=0; si<STAGES.length; si++){
+        if(!defs(c, si)) continue;
+        var d = dueDate(c, si);
+        if(!d || d >= TODAY || d < START || d.slice(0,7) !== m) continue;
+        var v = cadencePoints(c, si); due++; pts += v; if(v === 0) miss++; cust[c[0]+"│"+c[6]] = 1;
+      }
+    });
+    return { due:due, pts:pts, miss:miss, score:pct(pts, due), n:Object.keys(cust).length };
+  }
+  function clinics(){ var s = {}; CASES.forEach(function(c){ s[c[0]] = 1; }); return Object.keys(s).sort(); }
+  function months(){
+    var out = [], m = START.slice(0,7), cur = TODAY.slice(0,7);
+    while(m <= cur){ out.push(m); var y = +m.slice(0,4), mo = +m.slice(5,7)+1; if(mo > 12){ mo = 1; y++; } m = y + "-" + String(mo).padStart(2,"0"); }
+    return out;
+  }
+  function sum(cl, m, key, sub){
+    var list = cl === "all" ? clinics() : [cl], v = 0;
+    list.forEach(function(c){ var src = key === "target" ? TARGETS[c] : actuals(c, m); if(!src) return;
+      v += sub ? src[sub[0]][sub[1]] : src.leads; });
+    return v;
+  }
+
+  var L = {
+    en:{ title:"KPI at a glance", sub:"Optometry · concept", asOf:"as of", signin:"Sign in", signingin:"Signing in…", signout:"Sign out",
+      badlogin:"Incorrect password. Please try again.", glede:"Sign in to view the clinic KPI overview.", lpass:"Password",
+      mock:"modelled", allc:"All clinics", mtd:"MTD", viewing:"Viewing", feedLive:"Live · sheets read", feedLoading:"Reading the sheets…", feedFailed:"Sheets unreachable · snapshot of", feedSnap:"Snapshot of",
+      months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], bn:"₫{n}bn", mn:"₫{n}m",
+      note:"<b>Concept page.</b> SOP compliance is real and scored exactly as on the head-office page. Sales and leads have no data source yet: the targets are placeholders and the achieved figures are modelled from them, marked <span class=\"pill p-mock\">modelled</span>. Wire the sales tracker and Salework lead counts into the KPI block at the top of the script and the page fills in.",
+      hSop:"SOP compliance", hSales:"Sales", hLeads:"Leads",
+      ofTarget:"of target", target:"Target", achieved:"Achieved", dayOf:"day {d} of {n}", paceLine:"pace line — where {p}% of target should sit today",
+      onPace:"On pace", behind:"Slightly behind", offPace:"Behind", metTarget:"Target met", missedTarget:"Below target",
+      sopLine:"<b>{s}%</b> score · <b>{m}</b> missed of <b>{d}</b> cadences due · <b>{n}</b> customers", sopTarget:"target {t}%",
+      salesLine:"<b>{a}</b> of <b>{t}</b>", leadsLine:"<b>{a}</b> of <b>{t}</b> leads",
+      pSales:"Sales target vs achieved", pSalesH:"Revenue and customers, by stream", thStream:"Stream", thRevenue:"Revenue", thCustomers:"Customers", thTarget:"Target", thAch:"Achieved", thPct:"%", thTot:"Total",
+      st:{member:"Membership", repurchase:"Repurchase", referral:"Referral"}, mixH:"Revenue mix, achieved",
+      pLeads:"Leads target vs generated", pLeadsH:"By week of the month", wk:"W{n}", wkTarget:"weekly pace",
+      pSop:"SOP compliance by clinic", pSopH:"Same scoring as the head-office page · click through for the detail", thClinic:"Clinic", thScore:"Score", thDue:"Due", thMissed:"Missed", thCust:"Customers",
+      links:{optom:"Head-office SOP view", da:"DA view"},
+      foot:"SOP figures are {src}; whether each message was sent is modelled until the Salework Zalo API is connected. Sales and leads on this page are placeholders.",
+      srcLive:"read live from the Google Sheets Membership trackers at {t}", srcSnap:"taken from the Membership trackers as exported on {t}" },
+    vi:{ title:"KPI tổng quan", sub:"Khúc xạ · bản ý tưởng", asOf:"tính đến", signin:"Đăng nhập", signingin:"Đang đăng nhập…", signout:"Đăng xuất",
+      badlogin:"Mật khẩu không đúng. Vui lòng thử lại.", glede:"Đăng nhập để xem tổng quan KPI phòng khám.", lpass:"Mật khẩu",
+      mock:"mô phỏng", allc:"Tất cả phòng khám", mtd:"Đến nay", viewing:"Đang xem", feedLive:"Trực tiếp · đã đọc sheet", feedLoading:"Đang đọc sheet…", feedFailed:"Không đọc được sheet · bản chụp", feedSnap:"Bản chụp",
+      months:["Th1","Th2","Th3","Th4","Th5","Th6","Th7","Th8","Th9","Th10","Th11","Th12"], bn:"{n} tỷ", mn:"{n} tr",
+      note:"<b>Trang ý tưởng.</b> Tuân thủ SOP là số thật, chấm đúng như trang văn phòng. Doanh số và leads chưa có nguồn dữ liệu: mục tiêu là số giữ chỗ và số đạt được là mô phỏng từ đó, đánh dấu <span class=\"pill p-mock\">mô phỏng</span>. Kết nối bảng doanh số và số lead từ Salework vào khối KPI đầu script là trang tự điền.",
+      hSop:"Tuân thủ SOP", hSales:"Doanh số", hLeads:"Leads",
+      ofTarget:"mục tiêu", target:"Mục tiêu", achieved:"Đạt", dayOf:"ngày {d} / {n}", paceLine:"vạch nhịp — vị trí {p}% mục tiêu lẽ ra đạt hôm nay",
+      onPace:"Đúng nhịp", behind:"Hơi chậm", offPace:"Chậm", metTarget:"Đạt mục tiêu", missedTarget:"Dưới mục tiêu",
+      sopLine:"<b>{s}%</b> điểm · bỏ <b>{m}</b> trên <b>{d}</b> mốc tới hạn · <b>{n}</b> khách", sopTarget:"mục tiêu {t}%",
+      salesLine:"<b>{a}</b> / <b>{t}</b>", leadsLine:"<b>{a}</b> / <b>{t}</b> leads",
+      pSales:"Doanh số: mục tiêu và đạt được", pSalesH:"Doanh thu và số khách, theo nguồn", thStream:"Nguồn", thRevenue:"Doanh thu", thCustomers:"Khách hàng", thTarget:"Mục tiêu", thAch:"Đạt", thPct:"%", thTot:"Tổng",
+      st:{member:"Hội viên", repurchase:"Mua lại", referral:"Giới thiệu"}, mixH:"Cơ cấu doanh thu đạt được",
+      pLeads:"Leads: mục tiêu và tạo được", pLeadsH:"Theo tuần trong tháng", wk:"T{n}", wkTarget:"nhịp tuần",
+      pSop:"Tuân thủ SOP theo phòng khám", pSopH:"Cùng cách chấm với trang văn phòng · bấm để xem chi tiết", thClinic:"Phòng khám", thScore:"Điểm", thDue:"Tới hạn", thMissed:"Bỏ", thCust:"Khách hàng",
+      links:{optom:"Trang SOP văn phòng", da:"Trang trợ lý"},
+      foot:"Số liệu SOP {src}; việc từng tin đã gửi hay chưa là mô phỏng cho tới khi kết nối API Salework Zalo. Doanh số và leads trên trang này là số giữ chỗ.",
+      srcLive:"đọc trực tiếp từ bảng Membership trên Google Sheets lúc {t}", srcSnap:"lấy từ bảng Membership theo bản xuất ngày {t}" },
+    zh:{ title:"KPI 一览", sub:"视光 · 概念稿", asOf:"截至", signin:"登录", signingin:"正在登录…", signout:"退出",
+      badlogin:"密码不正确，请重试。", glede:"登录以查看诊所 KPI 总览。", lpass:"密码",
+      mock:"模拟", allc:"全部诊所", mtd:"本月至今", viewing:"正在查看", feedLive:"实时 · 已读取表格", feedLoading:"正在读取表格…", feedFailed:"无法读取表格 · 快照", feedSnap:"快照",
+      months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"], bn:"₫{n}bn", mn:"₫{n}m",
+      note:"<b>概念页。</b>SOP 合规为真实数据，评分与总部页完全一致。销售与线索尚无数据源：目标为占位数，达成数由其模拟生成，标记为 <span class=\"pill p-mock\">模拟</span>。将销售追踪表与 Salework 线索数接入脚本顶部的 KPI 块，页面即自动填充。",
+      hSop:"SOP 合规", hSales:"销售", hLeads:"线索",
+      ofTarget:"目标完成率", target:"目标", achieved:"达成", dayOf:"第 {d} / {n} 天", paceLine:"进度线 — 今天应达到目标的 {p}%",
+      onPace:"进度正常", behind:"略落后", offPace:"落后", metTarget:"已达标", missedTarget:"未达标",
+      sopLine:"<b>{s}%</b> 得分 · <b>{d}</b> 个到期触点中遗漏 <b>{m}</b> · <b>{n}</b> 位客户", sopTarget:"目标 {t}%",
+      salesLine:"<b>{a}</b> / <b>{t}</b>", leadsLine:"<b>{a}</b> / <b>{t}</b> 条线索",
+      pSales:"销售目标与达成", pSalesH:"营收与客户数，按来源", thStream:"来源", thRevenue:"营收", thCustomers:"客户", thTarget:"目标", thAch:"达成", thPct:"%", thTot:"合计",
+      st:{member:"会员", repurchase:"复购", referral:"转介绍"}, mixH:"达成营收构成",
+      pLeads:"线索目标与生成", pLeadsH:"按本月各周", wk:"第{n}周", wkTarget:"周进度",
+      pSop:"各诊所 SOP 合规", pSopH:"与总部页同一评分 · 点击查看明细", thClinic:"诊所", thScore:"得分", thDue:"到期", thMissed:"遗漏", thCust:"客户",
+      links:{optom:"总部 SOP 视图", da:"助理视图"},
+      foot:"SOP 数据{src}；每条消息是否发送，在 Salework Zalo API 接通前为模拟数据。本页的销售与线索为占位数。",
+      srcLive:"于 {t} 实时读取自 Google Sheets 会员追踪表", srcSnap:"取自 {t} 导出的会员追踪表" }
+  };
+
+  /* crypto: same gate as the other pages */
+  function utf8(str){var o="",i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i);
+    if(c<128)o+=String.fromCharCode(c);else if(c<2048)o+=String.fromCharCode(192|(c>>6),128|(c&63));
+    else o+=String.fromCharCode(224|(c>>12),128|((c>>6)&63),128|(c&63));}return o;}
+  function sha256sync(a){function rr(v,x){return(v>>>x)|(v<<(32-x));}
+    var mm=Math.pow,mp=mm(2,32),i,j,res="",w=[],bl=a.length*8,h=sha256sync.h,k=sha256sync.k;
+    if(!h){h=sha256sync.h=[];k=sha256sync.k=[];var n=0,ic={};
+      for(var cd=2;n<64;cd++){if(!ic[cd]){for(i=0;i<313;i+=cd)ic[i]=cd;
+        h[n]=(mm(cd,.5)*mp)|0;k[n++]=(mm(cd,1/3)*mp)|0;}}h=h.slice(0,8);sha256sync.h=h;}
+    a+="\x80";while(a.length%64-56)a+="\x00";
+    for(i=0;i<a.length;i++){j=a.charCodeAt(i);if(j>>8)return null;w[i>>2]|=j<<((3-i)%4)*8;}
+    w[w.length]=(bl/mp)|0;w[w.length]=bl;var H=h.slice(0);
+    for(j=0;j<w.length;){var ww=w.slice(j,j+=16),old=H.slice(0);
+      for(i=0;i<64;i++){var w15=ww[i-15],w2=ww[i-2],A=H[0],E=H[4];
+        var t1=H[7]+(rr(E,6)^rr(E,11)^rr(E,25))+((E&H[5])^((~E)&H[6]))+k[i]
+          +(ww[i]=(i<16)?ww[i]:(ww[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+ww[i-7]
+            +(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+        var t2=(rr(A,2)^rr(A,13)^rr(A,22))+((A&H[1])^(A&H[2])^(H[1]&H[2]));
+        H=[(t1+t2)|0].concat(H);H[4]=(H[4]+t1)|0;H.length=8;}
+      for(i=0;i<8;i++)H[i]=(H[i]+old[i])|0;}
+    for(i=0;i<8;i++)for(j=3;j+1;j--){var b=(H[i]>>(j*8))&255;res+=((b<16)?"0":"")+b.toString(16);}
+    return res;}
+  function sha256(t){if(window.crypto&&crypto.subtle&&window.isSecureContext){try{
+      return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){
+        return Array.prototype.map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,"0")}).join("");
+      }).catch(function(){return sha256sync(utf8(t))});}catch(e){}}
+    return Promise.resolve(sha256sync(utf8(t)));}
+
+  /* ================= filters ================= */
+  function bar(id, items, active, onPick){
+    var el = document.getElementById(id), h = "";
+    items.forEach(function(it){ h += '<button data-k="'+esc(it.k)+'" aria-pressed="'+(active===it.k)+'">'+it.label+'</button>'; });
+    el.innerHTML = h;
+    el.querySelectorAll("button").forEach(function(b){ b.onclick = function(){ onPick(b.dataset.k); }; });
+  }
+  function buildFilters(){
+    var t = T(), cur = TODAY.slice(0,7);
+    bar("monthbar", months().map(function(m){ return {k:m, label:esc(monthLabel(m)) + (m===cur ? ' <span class="mtdtag">'+esc(t.mtd)+'</span>' : "")}; }),
+      month, function(k){ month = k; buildFilters(); render(); });
+    bar("clinicbar", [{k:"all", label:esc(t.allc)}].concat(clinics().map(function(c){ return {k:c, label:esc(c)}; })),
+      clinic, function(k){ clinic = k; buildFilters(); render(); });
+  }
+
+  /* ================= render ================= */
+  function headTile(cls, label, big, sub, achieved, target, frac, mock, unitFn){
+    var t = T(), p = pct(achieved, target), pc = frac < 1 ? paceClass(achieved, target, frac) : (achieved >= target ? "ok" : "bad");
+    var paceTxt = frac < 1 ? (pc==="ok" ? t.onPace : pc==="warn" ? t.behind : t.offPace) : (pc==="ok" ? t.metTarget : t.missedTarget);
+    return '<div class="head '+cls+'"><div class="hl">'+esc(label)+(mock ? ' <span class="pill p-mock">'+esc(t.mock)+'</span>' : '')+'</div>'
+      + '<div class="hv" style="color:'+(cls==="ok"?'var(--ok)':cls==="warn"?'var(--warn)':cls==="bad"?'var(--bad)':'var(--ink)')+'">'+big+'</div>'
+      + '<div class="ht">'+sub+'</div>'
+      + '<div class="gauge"><div class="gfill" style="width:'+Math.min(100, Math.max(p,1))+'%;background:'+(pc==="ok"?'var(--ok)':pc==="warn"?'var(--warn)':'var(--bad)')+'"></div>'
+      + (frac < 1 ? '<div class="gpace" style="left:'+Math.round(frac*100)+'%" title="'+esc(fill(t.paceLine, {p:Math.round(frac*100)}))+'"></div>' : '')+'</div>'
+      + '<div class="gl"><span>'+esc(t.achieved)+' '+unitFn(achieved)+'</span><span>'+esc(t.target)+' '+unitFn(target)+'</span></div>'
+      + '<span class="pace p-'+(pc||"accent")+'">'+esc(paceTxt)+' · '+p+'% '+esc(t.ofTarget)+'</span></div>';
+  }
+  function render(){
+    var t = T(), cur = TODAY.slice(0,7), frac = monthFrac(month), live = month === cur;
+    document.getElementById("pgTitle").textContent = t.title;
+    document.getElementById("pgSub").textContent = t.sub;
+    document.getElementById("asOf").textContent = t.asOf + " " + TODAY;
+    document.body.className = lang === "zh" ? "lang-zh" : "";
+    document.getElementById("scopebar").innerHTML = esc(t.viewing) + " " + (clinic==="all" ? esc(t.allc) : '<b>'+esc(clinic)+'</b>')
+      + ' &middot; <b>'+esc(monthLabel(month))+'</b>' + (live ? ' &middot; '+esc(fill(t.dayOf, {d:+TODAY.slice(8,10), n:daysIn(month)})) : '');
+
+    var s = sop(clinic, month);
+    var revT = 0, revA = 0, cusT = 0, cusA = 0, rows = [];
+    STREAMS.forEach(function(st){
+      var r = { st:st, rt:sum(clinic, month, "target", ["rev",st]), ra:sum(clinic, month, "actual", ["rev",st]),
+                ct:sum(clinic, month, "target", ["cust",st]), ca:sum(clinic, month, "actual", ["cust",st]) };
+      revT += r.rt; revA += r.ra; cusT += r.ct; cusA += r.ca; rows.push(r);
+    });
+    var leadT = sum(clinic, month, "target"), leadA = sum(clinic, month, "actual");
+
+    var h = '<div class="note"><p>'+t.note+'</p></div>';
+    h += '<div class="heads">';
+    h += '<div class="head '+(s.due ? scoreClass(s.score) : '')+'"><div class="hl">'+esc(t.hSop)+'</div>'
+      + '<div class="hv" style="color:'+(s.due ? scoreColour(s.score) : 'var(--muted)')+'">'+(s.due ? s.score+'<span style="font-size:1.2rem">%</span>' : '—')+'</div>'
+      + '<div class="ht">'+fill(t.sopLine, {s:s.score, m:s.miss, d:s.due, n:s.n})+'</div>'
+      + '<div class="gauge"><div class="gfill" style="width:'+Math.max(s.score,1)+'%;background:'+scoreColour(s.score)+'"></div>'
+      + '<div class="gpace" style="left:'+TARGET+'%"></div></div>'
+      + '<div class="gl"><span>0%</span><span>'+esc(fill(t.sopTarget, {t:TARGET}))+'</span></div>'
+      + '<span class="pace p-'+scoreClass(s.score)+'">'+esc(s.score >= TARGET ? t.metTarget : t.missedTarget)+'</span></div>';
+    h += headTile("", t.hSales, money(revA), fill(t.salesLine, {a:money(revA), t:money(revT)}), revA, revT, frac, true, money);
+    h += headTile("", t.hLeads, leadA.toLocaleString("en-US"), fill(t.leadsLine, {a:leadA, t:leadT}), leadA, leadT, frac, true, function(v){ return v.toLocaleString("en-US"); });
+    h += '</div>';
+
+    /* sales breakdown */
+    var cols = ["var(--c1)","var(--c2)","var(--c3)"];
+    h += '<div class="panel"><h3><span>'+esc(t.pSales)+' <span class="pill p-mock">'+esc(t.mock)+'</span></span><span class="hint">'+esc(t.pSalesH)+'</span></h3>'
+      + '<div class="tblwrap"><table><thead><tr><th rowspan="2"></th><th rowspan="2">'+esc(t.thStream)+'</th>'
+      + '<th class="grp" colspan="4">'+esc(t.thRevenue)+'</th><th class="grp" colspan="3">'+esc(t.thCustomers)+'</th></tr>'
+      + '<tr><th class="n">'+esc(t.thTarget)+'</th><th class="n">'+esc(t.thAch)+'</th><th class="n">'+esc(t.thPct)+'</th><th style="width:18%"></th>'
+      + '<th class="n">'+esc(t.thTarget)+'</th><th class="n">'+esc(t.thAch)+'</th><th class="n">'+esc(t.thPct)+'</th></tr></thead><tbody>';
+    rows.forEach(function(r, i){
+      var p = pct(r.ra, r.rt), pc = frac < 1 ? paceClass(r.ra, r.rt, frac) : (r.ra >= r.rt ? "ok" : "bad");
+      h += '<tr><td class="sw"><i style="background:'+cols[i]+'"></i></td><td><b>'+esc(t.st[r.st])+'</b></td>'
+        + '<td class="n">'+money(r.rt)+'</td><td class="n">'+money(r.ra)+'</td>'
+        + '<td class="n" style="color:'+(pc==="ok"?'var(--ok)':pc==="warn"?'var(--warn)':'var(--bad)')+'">'+p+'%</td>'
+        + '<td><div class="barw"><div class="barf" style="width:'+Math.min(100,p)+'%;background:'+cols[i]+'"></div>'
+        + (frac < 1 ? '<div class="bart" style="left:'+Math.round(frac*100)+'%"></div>' : '')+'</div></td>'
+        + '<td class="n">'+r.ct+'</td><td class="n">'+r.ca+'</td><td class="n">'+pct(r.ca, r.ct)+'%</td></tr>';
+    });
+    h += '<tr class="tot"><td></td><td>'+esc(t.thTot)+'</td><td class="n">'+money(revT)+'</td><td class="n">'+money(revA)+'</td>'
+      + '<td class="n">'+pct(revA, revT)+'%</td><td></td><td class="n">'+cusT+'</td><td class="n">'+cusA+'</td><td class="n">'+pct(cusA, cusT)+'%</td></tr>'
+      + '</tbody></table></div>';
+    h += '<div class="pad" style="border-top:1px solid var(--rule-2)"><div class="hint" style="font-size:.78rem;color:var(--muted)">'+esc(t.mixH)+'</div><div class="mix">';
+    rows.forEach(function(r, i){ var w = pct(r.ra, revA);
+      h += '<span style="width:'+w+'%;background:'+cols[i]+'">'+(w >= 12 ? w+'%' : '')+'</span>'; });
+    h += '</div><div class="legend">'+rows.map(function(r, i){ return '<span><i style="background:'+cols[i]+'"></i>'+esc(t.st[r.st])+' '+money(r.ra)+'</span>'; }).join('')+'</div></div></div>';
+
+    /* leads + sop by clinic */
+    h += '<div class="grid2">';
+    var wl = clinics().filter(function(c){ return clinic==="all" || clinic===c; }).map(function(c){ return actuals(c, month).leadsByWeek; });
+    var weeks = weeksOf(month), wkT = weeks.map(function(w){ return Math.round(leadT * w.frac); });
+    var wkA = weeks.map(function(w, i){ var v = null; wl.forEach(function(l){ if(l[i] && l[i].n !== null) v = (v||0) + l[i].n; }); return v; });
+    var mx = Math.max.apply(null, wkT.concat(wkA.filter(function(v){ return v !== null; }))) || 1;
+    h += '<div class="panel"><h3><span>'+esc(t.pLeads)+' <span class="pill p-mock">'+esc(t.mock)+'</span></span><span class="hint">'+esc(t.pLeadsH)+'</span></h3><div class="pad"><div class="wkbars">';
+    weeks.forEach(function(w, i){
+      var a = wkA[i], hgt = a === null ? 0 : Math.max(3, Math.round(a / mx * 110)), th = Math.round(wkT[i] / mx * 110);
+      h += '<div class="wcol"><span class="wval">'+(a === null ? '—' : a)+'</span>'
+        + '<div style="position:relative;width:100%;max-width:58px"><div class="wbar" style="height:'+hgt+'px;background:'+(a === null ? 'var(--surface-3)' : (a >= wkT[i]*0.97 ? 'var(--ok)' : a >= wkT[i]*0.85 ? 'var(--warn)' : 'var(--bad)'))+'"></div>'
+        + '<div style="position:absolute;left:0;right:0;bottom:'+th+'px;border-top:2px dashed var(--ink);opacity:.5"></div></div>'
+        + '<span class="wlab">'+esc(fill(t.wk, {n:w.i}))+' · '+(+w.start.slice(8,10))+'–'+(+w.end.slice(8,10))+'</span></div>';
+    });
+    h += '</div><div class="legend" style="margin-top:10px"><span><i style="border-top:2px dashed var(--ink);height:0;width:14px;border-radius:0"></i>'+esc(t.wkTarget)+'</span></div></div></div>';
+
+    h += '<div class="panel"><h3><span>'+esc(t.pSop)+'</span><span class="hint">'+esc(t.pSopH)+'</span></h3><div class="tblwrap"><table><thead><tr>'
+      + '<th>'+esc(t.thClinic)+'</th><th class="n">'+esc(t.thScore)+'</th><th style="width:28%"></th><th class="n">'+esc(t.thDue)+'</th><th class="n">'+esc(t.thMissed)+'</th><th class="n">'+esc(t.thCust)+'</th></tr></thead><tbody>';
+    clinics().forEach(function(c){
+      var g = sop(c, month);
+      h += '<tr><td><b>'+esc(c)+'</b></td><td class="n" style="color:'+scoreColour(g.score)+'">'+(g.due ? g.score+'%' : '—')+'</td>'
+        + '<td><div class="barw"><div class="barf" style="width:'+Math.max(g.score,1)+'%;background:'+scoreColour(g.score)+'"></div><div class="bart" style="left:'+TARGET+'%"></div></div></td>'
+        + '<td class="n">'+g.due+'</td><td class="n">'+g.miss+'</td><td class="n">'+g.n+'</td></tr>';
+    });
+    h += '<tr class="tot"><td>'+esc(t.thTot)+'</td><td class="n">'+(s.due ? s.score+'%' : '—')+'</td><td></td><td class="n">'+s.due+'</td><td class="n">'+s.miss+'</td><td class="n">'+s.n+'</td></tr>'
+      + '</tbody></table></div><div class="pad" style="border-top:1px solid var(--rule-2)"><div class="links">'
+      + '<a href="../">'+esc(t.links.optom)+' →</a><a href="../da/">'+esc(t.links.da)+' →</a></div></div></div>';
+    h += '</div>';
+
+    h += '<p class="foot">'+fill(t.foot, {src: feedState.mode === "live" ? fill(t.srcLive, {t:fmtWhen(feedState.at)}) : fill(t.srcSnap, {t:fmtWhen(feedState.at)})})+'</p>';
+    document.getElementById("app").innerHTML = h;
+    renderWho(); renderFeed();
+  }
+
+  /* ================= shell ================= */
+  function renderFeed(){
+    var t = T(), el = document.getElementById("feed"), m = feedState.mode;
+    if(!Z.feedUrl() && m !== "live"){ el.className = "feed"; el.innerHTML = '<i></i>' + esc(t.feedSnap) + ' ' + esc(fmtWhen(feedState.at)); return; }
+    el.className = "feed " + m;
+    el.innerHTML = '<i></i>' + esc(m === "live" ? t.feedLive + " " + fmtWhen(feedState.at) : m === "loading" ? t.feedLoading : t.feedFailed + " " + fmtWhen(feedState.at));
+    if(m === "failed") el.title = feedState.error;
+  }
+  function renderWho(){
+    var el = document.getElementById("whoami");
+    el.innerHTML = session ? '<button type="button" id="soBtn">'+esc(T().signout)+'</button>' : "";
+    if(session) document.getElementById("soBtn").onclick = signOut;
+  }
+  function applyGateLang(){
+    var t = T();
+    document.getElementById("gTitle").textContent = t.title;
+    document.getElementById("gateLede").textContent = t.glede;
+    document.getElementById("lpass").textContent = t.lpass;
+    var b = document.getElementById("gateBtn"); if(!b.disabled) b.textContent = t.signin;
+  }
+  function saveSession(){ session={ok:1}; try{sessionStorage.setItem("zsop_session","1")}catch(e){} }
+  function loadSession(){ try{ if(sessionStorage.getItem("zsop_session")==="1"){session={ok:1};return true;} }catch(e){} return false; }
+  function signOut(){
+    session=null; clinic="all"; month=TODAY.slice(0,7);
+    try{sessionStorage.removeItem("zsop_session")}catch(e){}
+    document.getElementById("wrap").hidden=true;
+    document.getElementById("gate").classList.remove("gone");
+    var g=document.getElementById("gp"); g.value=""; g.focus();
+  }
+  function enterApp(){
+    document.getElementById("gate").classList.add("gone");
+    document.getElementById("wrap").hidden=false;
+    buildFilters(); render();
+    if(Z.feedUrl()){
+      feedState = { mode:"loading", at:"", error:"" }; renderFeed();
+      Z.loadFeed().then(function(f){ CASES = f.cases; feedState = { mode:"live", at:f.generated, error:"" }; })
+        .catch(function(err){ CASES = SNAPSHOT; feedState = { mode:"failed", at:DATA.generated || "", error:String(err && err.message || err) }; })
+        .then(function(){ if(session){ buildFilters(); render(); } });
+    }
+  }
+  document.getElementById("gateform").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var t=T(), btn=document.getElementById("gateBtn"), err=document.getElementById("gateErr");
+    btn.disabled=true; btn.textContent=t.signingin; err.classList.remove("on");
+    sha256(document.getElementById("gp").value).then(function(hh){
+      btn.disabled=false; btn.textContent=t.signin;
+      if(hh!==PW_HASH){ err.textContent=t.badlogin; err.classList.add("on"); var g=document.getElementById("gp"); g.value=""; g.focus(); return; }
+      saveSession(); enterApp();
+    }).catch(function(){ btn.disabled=false; btn.textContent=t.signin; err.textContent=t.badlogin; err.classList.add("on"); });
+  });
+  document.getElementById("langseg").querySelectorAll("button").forEach(function(b){
+    b.onclick=function(){ lang=b.dataset.l;
+      document.getElementById("langseg").querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x===b)); });
+      applyGateLang(); if(session){ buildFilters(); render(); } };
+  });
+  var ql = /[?&]lang=(en|vi|zh)/.exec(location.search);
+  if(ql){ lang = ql[1]; document.getElementById("langseg").querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.l===lang)); }); }
+  applyGateLang();
+  if(loadSession()) enterApp(); else document.getElementById("gp").focus();
+})();
+</script>
