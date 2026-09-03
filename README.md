@@ -9,15 +9,14 @@
 product cadences in the CRM form (MC, glasses, Ortho-K, Atropine: D1 to
 CD+365), filtered by month, week, clinic, assistant and product. Customers,
 products, assistants, tag dates and data flags come from the clinics'
-Membership trackers; Zalo tags are shown with the child's name reduced to
-initials. Whether each content item was actually sent is modelled until the
+Membership trackers, with Zalo tags shown as written. Whether each content item was actually sent is modelled until the
 Salework Zalo API is connected. Data flags (two kids on one tag, product ≠
 tag, collected but still N, stale N, missing Y/N) are counted by type, clinic
 and assistant, with the fix for each, on the live month only.
 
 *Live data.* `tools/live-feed.gs` is a Google Apps Script that reads every
 Membership tracker listed in it and serves the page a minimised JSON feed
-(no names, phones or birthdays). Deploy it once as a web app (execute as
+(tags and dates, no phones or birthdays). Deploy it once as a web app (execute as
 you, access: anyone), then put its `/exec` URL and token into `LIVE` near
 the top of the script in `index.html`. The page reads the sheets on every
 load and falls back to the embedded snapshot if they are unreachable;
