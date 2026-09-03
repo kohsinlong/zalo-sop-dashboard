@@ -279,6 +279,8 @@
   .wlpager button[disabled]{opacity:.35;cursor:default}
   .wlpager .pinfo{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
   td.det{font-size:.82rem;color:var(--ink-2);max-width:280px}
+  td.tag{white-space:nowrap;min-width:250px;font-variant-numeric:tabular-nums}
+  td.nw{white-space:nowrap}
   .empty{padding:34px 20px;text-align:center;color:var(--muted)}
 
   .decaywrap{overflow-x:auto}
@@ -1356,7 +1358,7 @@
       h += '<div class="tblwrap"><table><thead><tr><th>'+esc(t.thPatient)+'</th><th>'+esc(t.thClinic)+'</th>'
         + '<th>'+esc(t.thRep)+'</th><th>'+esc(t.thProd)+'</th><th>'+esc(t.thFlag)+'</th><th>'+esc(t.thFix)+'</th></tr></thead><tbody>';
       view.forEach(function(c){
-        h += '<tr><td class="num">'+esc(c[6])+'</td><td>'+esc(c[0])+'</td><td>'+esc(c[1])+'</td>'
+        h += '<tr><td class="tag">'+esc(c[6])+'</td><td class="nw">'+esc(c[0])+'</td><td class="nw">'+esc(c[1])+'</td>'
           + '<td>'+esc(prodLabel(c[2]))+'</td><td>'
           + c[7].map(function(f){ return '<span class="pill p-warn">'+esc(t.fl[f])+'</span>'; }).join(' ')
           + '</td><td class="fix">'+c[7].map(function(f){ return esc(t.fx[f]); }).join(' ')+'</td></tr>';
@@ -1432,12 +1434,12 @@
       + sortable("due", t.thDue) + sortable("od", t.thOverdue, "n")
       + '</tr></thead><tbody>';
     view.forEach(function(r){
-      h += '<tr><td class="num">'+esc(r.patient)+'</td><td>'+esc(r.clinic)+'</td>'
-        + '<td>'+esc(r.da)+'</td><td>'+esc(prodLabel(r.prod))+'</td><td class="num">'+esc(r.cad)+'</td>'
+      h += '<tr><td class="tag">'+esc(r.patient)+'</td><td class="nw">'+esc(r.clinic)+'</td>'
+        + '<td class="nw">'+esc(r.da)+'</td><td class="nw">'+esc(prodLabel(r.prod))+'</td><td class="num nw">'+esc(r.cad)+'</td>'
         + '<td><span class="pill '+(r.status==="missed"?"p-bad":"p-warn")+'">'
         + esc(r.status==="missed"?t.wlMissed:t.wlIncomplete)+'</span></td>'
         + '<td class="det">'+esc(detailText(r))+'</td>'
-        + '<td class="num">'+esc(r.due)+'</td>'
+        + '<td class="num nw">'+esc(r.due)+'</td>'
         + '<td class="n">'+r.od+'</td></tr>';
     });
     h += '</tbody></table></div>';
