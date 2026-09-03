@@ -3,9 +3,9 @@
  *
  * One standalone Google Apps Script that reads every Membership tracker
  * listed in SHEETS and serves the dashboard a minimised JSON feed:
- * clinic, assistant, product, a shortened Zalo tag (child's name reduced
- * to initials), Y/N, tag date, collection date and the tracker's data
- * flag. Names, phone numbers and dates of birth never leave the sheet.
+ * clinic, assistant, product, the Zalo tag as written, Y/N, tag date,
+ * collection date and the tracker's data flag. Phone numbers and dates
+ * of birth never leave the sheet.
  *
  * Setup (once):
  *   1. script.google.com → New project → paste this file → set TOKEN.
@@ -68,7 +68,7 @@ function buildFeed() {
         prod: t ? t.prod : "",
         yn: t ? t.yn : "",
         tagDate: t ? t.date : "",
-        tag: t ? t.short : "?",
+        tag: cleanTag(String(raw)),
         anchor: cAnchor >= 0 ? iso(v[cAnchor]) : "",
         coll: cColl >= 0 ? iso(v[cColl]) : "",
         flag: cFlag >= 0 && v[cFlag] ? String(v[cFlag]) : ""
@@ -94,7 +94,7 @@ var PREFIX = { MC: "MC", KT: "Kính", KH: "Kính", "KÍNH": "Kính", KINH: "Kín
      MCY-260804-Chị Sa-Nguyễn Thị Thảo Chi      (CTE D5)
      MCY 260720 Ô.Ngoại bé Tuấn Kiệt            (NGT)
      KTN 260822 MẸ BÉ HẢI BĂNG & NHÃ UYÊN       (two kids)
-   Returns product (from the prefix), Y/N, the date and a shortened tag. */
+   Returns product (from the prefix), Y/N and the date. */
 function parseTag(raw) {
   var line = raw.trim().split("\n")[0];
   var m = /^\s*(MC|KT|KH|Kính|Kinh|OK|Atr|Exam)\s*([YNK])?/i.exec(line);
@@ -109,34 +109,14 @@ function parseTag(raw) {
     var y = 2000 + +d6.slice(0, 2), mo = +d6.slice(2, 4), da = +d6.slice(4, 6);
     var dt = new Date(Date.UTC(y, mo - 1, da));
     if (dt.getUTCMonth() === mo - 1 && dt.getUTCDate() === da) date = dt.toISOString().slice(0, 10);
-    rest = rest.slice(dm.index + 6);
   }
-  var pre = prod === "Kính" ? "KT" : (prod || key);
-  return { prod: prod, yn: yn, date: date, short: shortTag(pre, yn || "?", d6 || "??????", rest) };
+  return { prod: prod, yn: yn, date: date };
 }
 
-function shortTag(prefix, yn, d6, rest) {
-  rest = rest.replace(/^[\s\-\n]+|[\s\-\n]+$/g, "");
-  var parent, child, i = rest.indexOf("-");
-  if (i !== -1) { parent = rest.slice(0, i); child = rest.slice(i + 1); }
-  else {
-    var sp = /\s+b[éẹ]\s+/i.exec(rest);
-    if (sp) { parent = rest.slice(0, sp.index); child = rest.slice(sp.index + sp[0].length); }
-    else { parent = ""; child = rest; }
-  }
-  var kids = child.split("&").map(initials).join("&");
-  parent = tidy(parent);
-  return prefix + yn + "-" + d6 + "-" + (parent ? parent + "-" : "") + kids;
-}
-function initials(name) {
-  name = name.replace(/^\s*b[éẹ]\s+/i, "").trim();
-  return name.split(/\s+/).filter(Boolean).map(function (p) { return p.charAt(0).toUpperCase() + "."; }).join("");
-}
-function tidy(s) {
-  s = s.replace(/^[\s\-\n]+|[\s\-\n]+$/g, "");
-  if (s && s === s.toUpperCase() && s !== s.toLowerCase())
-    s = s.toLowerCase().replace(/(^|\s)(\S)/g, function (_, a, b) { return a + b.toUpperCase(); });
-  return s;
+/* First line only (a second child on the same Zalo is sometimes written
+   on line two), trimmed, runs of whitespace collapsed. */
+function cleanTag(raw) {
+  return raw.split("\n")[0].replace(/\s+/g, " ").trim();
 }
 
 /* Run this from the editor to check the feed before deploying. */
