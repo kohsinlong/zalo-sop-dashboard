@@ -4,7 +4,9 @@
  * This is the SECOND FILE of the same Apps Script project as live-feed.gs
  * (the optometry feed). That file's doGet routes ?app=lasik here and its
  * doPost delegates here, so the one web-app deployment, URL and TOKEN serve
- * both dashboards. lasik/index.html is already pointed at that deployment.
+ * both dashboards. There is no live CTE feed yet (the dashboard embeds the
+ * workbook's Excel export via tools/lasik-import.py); this file is for when
+ * the workbook lives in Google Sheets.
  *
  * What it does
  *   1. reads each DA's customer-information workbook listed in
@@ -29,8 +31,9 @@
  *   3. Fill LASIK.sources with the CTE workbook's spreadsheet ID (the long
  *      id in its URL). LASIK.audit and LASIK.salework are optional.
  *   4. Deploy → Manage deployments → Edit → Version: New version → Deploy.
- *      The URL does not change. Reload the dashboard: the chip in the
- *      header turns green ("Live · sheets read").
+ *      The URL does not change. Put it and the TOKEN into LIVE at the top
+ *      of the script in lasik/index.html; the chip in the header turns
+ *      green ("Live · sheets read").
  *   Standalone project instead? Add
  *      function doGet(e){ return lasikGet(e); }  function doPost(e){ return lasikPost(e); }
  *   and a TOKEN, deploy as a web app, and put its URL into LIVE.url.
