@@ -23,12 +23,46 @@ load and falls back to the embedded snapshot if they are unreachable;
 `?feed=<url>` overrides the URL for testing. The embedded snapshot is the
 trackers as exported on 3 Sep 2026.
 
-**Lasik** — SOP compliance scored at checkpoint level across eight touchpoints
-from D1 to D90. Cases, clinics, reps, surgery dates, verdicts and touchpoints
-D1–D25 are taken from the QC workbook (1,099 cases, Oct 2025 – Mar 2026).
-Checkpoint detail within each touchpoint, and all of D30–D90, are modelled —
-the workbook records only a single mark per touchpoint, and D30–D90 is new SOP
-with no audit data yet.
+**Lasik** — SOP compliance scored per the D90 SOP QC guide: seven
+touchpoints from D1 to D90 (D1, D2–4, D6, D15, D25–30, D30–60, D60–90) worth
+10 points each — 10 when every required item went out, 5 when only part of
+it did, 0 when nothing did — plus response quality out of 30, rated once a
+month per DA by QA in four bands (30 / 20 / 10 / 0) with a justification.
+Total 100, pass at 70. Follow-up scores are pro-rated to the touchpoints that
+have fallen due; a total appears once at least half the cadences in view carry
+a quality rating.
+
+*CTE cases* come from the DA's customer-information workbook (the surgery
+sheet: surgery date, name, phone), imported with `tools/lasik-import.py`. The
+surgery date anchors D1. The workbook has no Zalo tag: tags are resolved from
+the Salework raw data by phone number and surgery date, and until a message
+exists the worklist shows the customer's name and number with "Zalo tag not
+available yet". Whether each item was sent comes from the QC workbook's audit
+sheet where a row matches the case; cases without one are listed in the
+worklist as "No data yet" and left out of the scores. The other clinics are
+still modelled data until Salework is connected.
+
+*No live CTE feed yet.* The CTE cases are the workbook's Excel export as
+of 2 Sep 2026, embedded by `tools/lasik-import.py` (re-run it with a newer
+export to refresh). Quality ratings are kept in the browser that entered
+them; "Copy link with ratings" in the rating panel makes a link that carries
+them to another browser, where they merge in (newest wins). The snapshot
+carries names with phone numbers masked to their last four digits, because
+the page is public once deployed (`--phones full` embeds them whole).
+
+*When the workbook lives in Google Sheets.* `tools/lasik-feed.gs` is a
+second file for the same Apps Script project as the optometry feed:
+`live-feed.gs` routes `?app=lasik` to it and hands it the ratings the page
+saves, so one deployment, URL and token serve both dashboards. Open that
+project, replace its code with the current `live-feed.gs`, add
+`lasik-feed.gs` as a new script file, put the workbook's spreadsheet ID into
+`LASIK.sources` (the QC audit and Salework sheets are optional; the ratings
+store is created in Drive on the first save), publish a new version, and put
+the deployment URL and token into `LIVE` near the top of the script in
+`lasik/index.html`. The page then reads cases and ratings from the sheets on
+every load and posts ratings back; the feed serves full phone numbers
+(`LASIK.phone`).
 
 Static HTML, no dependencies. Language: EN / Tiếng Việt / 中文.
-No patient data appears in either page.
+The optometry page shows no patient data; the Lasik snapshot shows customer
+names with masked numbers, behind the sign-in gate.
