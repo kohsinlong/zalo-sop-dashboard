@@ -49,9 +49,10 @@ August on the QA scores each DA on the page.
 of 2 Sep 2026, embedded by `tools/lasik-import.py` (re-run it with a newer
 export to refresh). Quality ratings are kept in the browser that entered
 them; "Copy link with ratings" in the rating panel makes a link that carries
-them to another browser, where they merge in (newest wins). The snapshot
-carries names with phone numbers masked to their last four digits, because
-the page is public once deployed (`--phones full` embeds them whole).
+them to another browser, where they merge in (newest wins). The marking list
+shows each case's name, phone number and Zalo tag in full, since those
+identify the case being marked; the page sits behind the sign-in gate but is
+public once deployed (`--phones last4` masks the numbers).
 
 *When the workbook lives in Google Sheets.* `tools/lasik-feed.gs` is a
 second file for the same Apps Script project as the optometry feed:
