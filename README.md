@@ -38,9 +38,12 @@ surgery date anchors D1. The workbook has no Zalo tag: tags are resolved from
 the Salework raw data by phone number and surgery date, and until a message
 exists the worklist shows the customer's name and number with "Zalo tag not
 available yet". Whether each item was sent comes from the QC workbook's audit
-sheet where a row matches the case; cases without one are listed in the
-worklist as "No data yet" and left out of the scores. The other clinics are
-still modelled data until Salework is connected.
+sheet where a row matches the case; every other case carries modelled
+sent-flags until Salework is connected, as on the optometry page. The other
+clinics are made-up cases at MSG's real volume (about 1,000 Lasik surgeries a
+month across the hospitals) from May 2026, and the response-quality ratings
+for May to July are seeded so the month-by-month scoring can be shown; from
+August on the QA scores each DA on the page.
 
 *No live CTE feed yet.* The CTE cases are the workbook's Excel export as
 of 2 Sep 2026, embedded by `tools/lasik-import.py` (re-run it with a newer
