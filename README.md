@@ -42,15 +42,20 @@ sheet where a row matches the case; cases without one are listed in the
 worklist as "No data yet" and left out of the scores. The other clinics are
 still modelled data until Salework is connected.
 
-*Live data and ratings.* `tools/lasik-feed.gs` is a Google Apps Script that
-reads the DA workbooks, the QC audit sheet and the Salework sheet, serves the
-page its cases, and stores the quality ratings keyed in on the page in a
-"QA ratings" sheet. Deploy it as a web app (execute as you, access: anyone)
-and put its `/exec` URL and token into `LIVE` near the top of the script in
-`lasik/index.html`. Without it the page uses the embedded snapshot and keeps
-ratings in the browser that entered them. The embedded snapshot carries names
-with phone numbers masked to their last four digits; the feed serves full
-numbers (see `PHONE` in the script), because the page is public once deployed.
+*Live data and ratings.* `tools/lasik-feed.gs` is a second file for the
+same Apps Script project as the optometry feed: `live-feed.gs` routes
+`?app=lasik` to it and hands it the ratings the page saves, so one
+deployment, URL and token serve both dashboards, and `lasik/index.html` is
+already pointed at it. To switch it on, open that project, replace its code
+with the current `live-feed.gs`, add `lasik-feed.gs` as a new script file,
+put the CTE workbook's spreadsheet ID into `LASIK.sources` (the QC audit and
+Salework sheets are optional; the ratings store is created in Drive on the
+first save), then Deploy → Manage deployments → Edit → New version. Until
+then the header chip reads "Lasik feed not published yet", the page uses the
+embedded snapshot and ratings stay in the browser that entered them. The
+snapshot carries names with phone numbers masked to their last four digits;
+the feed serves full numbers (`LASIK.phone`), because the page is public
+once deployed.
 
 Static HTML, no dependencies. Language: EN / Tiếng Việt / 中文.
 The optometry page shows no patient data; the Lasik snapshot shows customer

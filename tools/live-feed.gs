@@ -14,6 +14,11 @@
  *   3. Copy the web-app URL (ends in /exec) into LIVE.url in index.html,
  *      and the TOKEN into LIVE.token.
  *   After editing this file: Deploy → Manage deployments → Edit → New version.
+ *
+ * The Lasik dashboard is served by the same deployment: add tools/lasik-feed.gs
+ * to this project as a second file (File → New → Script) and publish a new
+ * version. doGet routes ?app=lasik there and doPost hands it the quality
+ * ratings the Lasik page saves. Both pages share this TOKEN.
  */
 
 var SHEETS = [
@@ -27,11 +32,18 @@ var CACHE_SECONDS = 120;        /* the sheets change slowly; spare their quota *
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (TOKEN && p.token !== TOKEN) return out({ error: "forbidden" });
+  if (p.app === "lasik")
+    return typeof lasikGet === "function" ? lasikGet(e) : out({ error: "lasik-feed.gs is not in this project" });
   var cache = CacheService.getScriptCache(), hit = cache.get("feed");
   if (hit && !p.nocache) return out(JSON.parse(hit));
   var feed = buildFeed();
   try { cache.put("feed", JSON.stringify(feed), CACHE_SECONDS); } catch (err) {}
   return out(feed);
+}
+
+/* Only the Lasik page posts: its monthly response-quality ratings. */
+function doPost(e) {
+  return typeof lasikPost === "function" ? lasikPost(e) : out({ error: "lasik-feed.gs is not in this project" });
 }
 
 function out(obj) {
