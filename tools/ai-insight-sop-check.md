@@ -1,5 +1,11 @@
 # Salework Zalo AI Insight — SOP compliance check prompt
 
+> **Status (2 Oct 2026): blocked.** The first NGT run showed that the AI
+> is given conversation IDs, not the contact name, so it cannot read the
+> Zalo tag; Salework only renders the name in the report afterwards.
+> Every anchor date came back "unknown". The prompt is sound only once
+> the contact name (or something mappable to it) reaches the model.
+
 A prompt for Salework's **Zalo AI Insight** (Salework Zalo → AI Insight →
 *Tạo yêu cầu AI*) that reads each conversation's Zalo tag, works out which
 SOP milestones fell due in the period, and checks whether the DA sent the
