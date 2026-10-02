@@ -14,6 +14,14 @@ Salework Zalo API is connected. Data flags (two kids on one tag, product ≠
 tag, collected but still N, stale N, missing Y/N) are counted by type, clinic
 and assistant, with the fix for each, on the live month only.
 
+*Salework AI Insight.* `tools/ai-insight-sop-check.md` is a prompt for
+Salework's Zalo AI Insight that reads the Zalo tag of each conversation,
+works out which milestones fell due in a period and checks whether the DA
+sent the required content on time, scored 0 / 0.5 / 1 per cadence like
+this page. One run reads at most 100 conversations and only those with a
+message in the period, so it audits what was sent; the page's worklist
+stays the list of who was due. The file says how to run it in slices.
+
 *Live data.* `tools/live-feed.gs` is a Google Apps Script that reads every
 Membership tracker listed in it and serves the page a minimised JSON feed
 (tags and dates, no phones or birthdays). Deploy it once as a web app (execute as
