@@ -4,7 +4,7 @@
  * One standalone Google Apps Script that reads every Membership tracker
  * listed in SHEETS and serves the dashboard a minimised JSON feed:
  * clinic, assistant, product, the Zalo tag as written, Y/N, tag date,
- * collection date and the tracker's data flag. Phone numbers and dates
+ * deposit date (K), collection date (L) and the tracker's data flag. Phone numbers and dates
  * of birth never leave the sheet.
  *
  * Setup (once):
@@ -65,7 +65,7 @@ function buildFeed() {
       return -1;
     };
     var cProd = col("Sản phẩm"), cDA = col("Trợ lý"), cTag = col("Zalo"),
-        cColl = col("Ngày nhận"), cAnchor = col("Ngày neo"), cFlag = col("Cờ cảnh báo");
+        cColl = col("Ngày nhận"), cDep = col("Ngày đặt cọc"), cAnchor = col("Ngày neo"), cFlag = col("Cờ cảnh báo");
     var n = 0;
     for (var r = 1; r < values.length; r++) {
       var v = values[r], raw = cTag >= 0 ? v[cTag] : "";
@@ -82,6 +82,7 @@ function buildFeed() {
         tagDate: t ? t.date : "",
         tag: cleanTag(String(raw)),
         anchor: cAnchor >= 0 ? iso(v[cAnchor]) : "",
+        dep: cDep >= 0 ? iso(v[cDep]) : "",
         coll: cColl >= 0 ? iso(v[cColl]) : "",
         flag: cFlag >= 0 && v[cFlag] ? String(v[cFlag]) : ""
       });
@@ -91,13 +92,26 @@ function buildFeed() {
   return { generated: new Date().toISOString(), sources: sources, rows: rows };
 }
 
-/* Dates arrive as Date objects, or as serial numbers where the tracker's
-   helper column is formatted as a plain number. */
+/* Dates arrive as Date objects, as serial numbers where a column is formatted
+   as a plain number, or typed as text (dd/mm/yyyy, dd/mm). */
 function iso(v) {
   if (v instanceof Date && !isNaN(v)) return Utilities.formatDate(v, "Asia/Ho_Chi_Minh", "yyyy-MM-dd");
   if (typeof v === "number" && v > 30000 && v < 60000)
     return Utilities.formatDate(new Date(Date.UTC(1899, 11, 30) + v * 86400000), "UTC", "yyyy-MM-dd");
+  var s = String(v || "").trim(), m;
+  if ((m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s))) return ymd(+m[1], +m[2], +m[3]);
+  if ((m = /^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})\s*$/.exec(s))) { var y = +m[3]; if (y < 100) y += 2000; return ymd(y, +m[2], +m[1]); }
+  if ((m = /^(\d{1,2})[\/\-.](\d{1,2})\s*$/.exec(s))) {
+    var base = Utilities.formatDate(new Date(), "Asia/Ho_Chi_Minh", "yyyy-MM-dd"), by = +base.slice(0, 4), best = "";
+    [by - 1, by, by + 1].forEach(function (yy) { var c = ymd(yy, +m[2], +m[1]); if (!c) return; var d = (Date.parse(c) - Date.parse(base)) / 86400000; if (d >= -335 && d <= 35) best = c; });
+    return best;
+  }
   return "";
+}
+function ymd(y, m, d) {
+  var dt = new Date(Date.UTC(y, m - 1, d));
+  if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return "";
+  return dt.toISOString().slice(0, 10);
 }
 
 var PREFIX = { MC: "MC", KT: "Kính", KH: "Kính", "KÍNH": "Kính", KINH: "Kính", OK: "OK", ATR: "Atropine", EXAM: null };

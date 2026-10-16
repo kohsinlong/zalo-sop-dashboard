@@ -566,10 +566,9 @@
   /* ---------------- feed rows -> cases ----------------
      Mirrors the rules the snapshot was built with:
        product  = tag prefix, else the product column
-       deposit  = tag date for N; collection - 7 days for Y (the tracker
-                  overwrites the tag date on collection, so it is lost)
-       CD       = collection date (or tag date) for Y; for N only when a
-                  collection date is on file
+       deposit  = the tracker's deposit date (K); else the tag date for N,
+                  collection - 7 days for Y
+       CD       = the tracker's collected date (L); else the tag date for Y
      Sent / not-sent marks stay modelled, seeded per tag, until the
      Salework Zalo API replaces them. */
   var FLAGMAP = [["2 bé","twokids"],["SP≠Zalo","prodmismatch"],["đổi N→Y","setY"],
@@ -612,10 +611,13 @@
       var da = r.da || "?", flags = mapFlags(r.flag);
       var date = r.tagDate || r.anchor || "";
       if(!date && flags.indexOf("badtag") === -1) flags.push("badtag");
-      var dep = "", cd = "";
-      if(date){
-        if(r.yn === "Y"){ cd = r.coll || date; dep = addDays(cd, -7); }
-        else { dep = date; cd = r.coll || ""; }
+      /* Deposit (K) and collected (L) dates from the tracker anchor the cadences;
+         the tag date only fills in where they are blank. */
+      var dep = r.dep || "", cd = r.coll || "";
+      if(!cd && r.yn === "Y") cd = date;
+      if(!dep){
+        if(r.yn === "Y") dep = cd ? addDays(cd, -7) : "";
+        else dep = date;
       }
       var tag = r.tag || "?", k = r.clinic + "│" + tag;
       while(seen[k]){ tag += "'"; k = r.clinic + "│" + tag; }

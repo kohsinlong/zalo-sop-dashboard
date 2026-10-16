@@ -16,7 +16,11 @@ and assistant, with the fix for each, on the live month only.
 
 *Live data.* `tools/live-feed.gs` is a Google Apps Script that reads every
 Membership tracker listed in it and serves the page a minimised JSON feed
-(tags and dates, no phones or birthdays). Deploy it once as a web app (execute as
+(tags and dates, no phones or birthdays). Since 16 Oct 2026 the feed also
+serves the deposit date (column K), and the page anchors every cadence on the
+tracker's deposit and collected dates, falling back to the date inside the
+Zalo tag only when those are blank. Republish the script (Deploy → Manage
+deployments → New version) after updating it so the feed carries the column. Deploy it once as a web app (execute as
 you, access: anyone), then put its `/exec` URL and token into `LIVE` near
 the top of the script in `index.html`. The page reads the sheets on every
 load and falls back to the embedded snapshot if they are unreachable;
