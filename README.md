@@ -4,6 +4,7 @@
 |---|---|
 | Optometry — weekly outreach sent check | https://kohsinlong.github.io/zalo-sop-dashboard/ |
 | Lasik — SOP audit, D1–D90 | https://kohsinlong.github.io/zalo-sop-dashboard/lasik/ |
+| Zalo Audit Tracker — CZ's weekly chat audit (NGT) | https://kohsinlong.github.io/zalo-sop-dashboard/cz/ |
 
 **Optometry** — SOP compliance scored per cadence (0 / 0.5 / 1) across the
 product cadences in the CRM form (MC, glasses, Ortho-K, Atropine: D1 to
@@ -66,6 +67,38 @@ the deployment URL and token into `LIVE` near the top of the script in
 `lasik/index.html`. The page then reads cases and ratings from the sheets on
 every load and posts ratings back; the feed serves full phone numbers
 (`LASIK.phone`).
+
+**Zalo Audit Tracker** — the reviewer's (CZ) weekly chat audit, built on
+the reasoning of the `CZ_NGT_Tracker` sheet: one view per ISO week, every
+customer whose cadence falls due that week (computed from the CD anchor and
+the product cadence with the same day offsets as the sheet's "Due This Week"
+formula), and a sample of about 15 chats to mark. "Draw" spreads the sample
+across the cadences and products due; any customer can also be added by
+hand. Each sampled chat lists the cadence(s) due with the items the SOP asks
+for (from the sheet's Cadence tab, in EN / VI / ZH): tick what was sent, add
+a remark, attach screenshots, or flag a data issue (wrong tag or date, chat
+not found). A cadence scores 1 when every item went out, 0.5 when some did,
+0 when none; the week's score is the average, with pass / partial / fail
+counts, coverage by cadence and product, an overall-feedback note per week,
+and a week-to-week trend with a cadence × week and product × week matrix.
+NGT only for now; the clinic is carried in the data so more can be added.
+
+*Signing in.* Same site, a different view per credential: on the optometry
+page the staff password opens the dashboard and the reviewer's password
+redirects to `cz/`; the audit page accepts both.
+
+*Data.* `tools/cz-import.py` embeds the tracker's Excel export: the CRM rows
+(no phone numbers or birthdays) and the marks CZ wrote in the W34… sheets
+before this page existed, shown as written with a pass / partial / fail
+reading of their wording. Audits, feedback and screenshots stay in the
+browser that entered them (localStorage and IndexedDB) until
+`tools/cz-feed.gs` is added to the Apps Script project (`live-feed.gs`
+routes `?app=cz` to it): then the page reads the tracker's CRM tab live,
+writes every audit and feedback note to a "Zalo audit log" spreadsheet and
+every screenshot to a Drive folder as they are marked, and reloads them on
+each visit. Put the tracker's spreadsheet ID into `CZ.tracker`, publish a
+new version, and put the deployment URL and token into `LIVE` near the top
+of the script in `cz/index.html`.
 
 Static HTML, no dependencies. Language: EN / Tiếng Việt / 中文.
 The optometry page shows no patient data; the Lasik snapshot shows customer

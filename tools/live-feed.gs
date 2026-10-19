@@ -18,7 +18,9 @@
  * The Lasik dashboard is served by the same deployment: add tools/lasik-feed.gs
  * to this project as a second file (File → New → Script) and publish a new
  * version. doGet routes ?app=lasik there and doPost hands it the quality
- * ratings the Lasik page saves. Both pages share this TOKEN.
+ * ratings the Lasik page saves. The CZ audit page (cz/) works the same way
+ * with tools/cz-feed.gs: ?app=cz, and posts carrying {app:"cz"}. All pages
+ * share this TOKEN.
  */
 
 var SHEETS = [
@@ -34,6 +36,8 @@ function doGet(e) {
   if (TOKEN && p.token !== TOKEN) return out({ error: "forbidden" });
   if (p.app === "lasik")
     return typeof lasikGet === "function" ? lasikGet(e) : out({ error: "lasik-feed.gs is not in this project" });
+  if (p.app === "cz")
+    return typeof czGet === "function" ? czGet(e) : out({ error: "cz-feed.gs is not in this project" });
   var cache = CacheService.getScriptCache(), hit = cache.get("feed");
   if (hit && !p.nocache) return out(JSON.parse(hit));
   var feed = buildFeed();
@@ -41,8 +45,12 @@ function doGet(e) {
   return out(feed);
 }
 
-/* Only the Lasik page posts: its monthly response-quality ratings. */
+/* Two pages post: the Lasik page its monthly response-quality ratings, the
+   CZ audit page its audits, weekly feedback and screenshots ({app:"cz"}). */
 function doPost(e) {
+  var body = (e && e.postData && e.postData.contents) || "";
+  if (/"app"\s*:\s*"cz"/.test(body))
+    return typeof czPost === "function" ? czPost(e) : out({ error: "cz-feed.gs is not in this project" });
   return typeof lasikPost === "function" ? lasikPost(e) : out({ error: "lasik-feed.gs is not in this project" });
 }
 
