@@ -7,7 +7,7 @@
 
 The reviewer's weekly chat audit (CZ) and head office's review of it are not here: they
 live in the DA Zalo Dashboard at https://kohsinlong.github.io/DA-Dashboard-/zalo/ (sign in
-as `CZ`, `SL` or `ANH`; see that repository's `zalo/README.md` §2.14).
+as `ChengYF` or `OptoHO`; see that repository's `zalo/README.md` §2.14).
 
 **Optometry** — SOP compliance scored per cadence (0 / 0.5 / 1) across the
 product cadences in the CRM form (MC, glasses, Ortho-K, Atropine: D1 to
