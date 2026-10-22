@@ -386,9 +386,6 @@
   var feedState = { mode: "snapshot", at: DATA.generated || "", error: "" };
 
   var PW_HASH = "d53942c8e49f95569651edc09e700cc036cc347754caa01dfa482574a51dae6e";
-  /* The reviewer's password opens the weekly audit (cz/) instead of this
-     dashboard: same site, a different view per credential. */
-  var CZ_HASH = "1fd95845f79b5781a51f6a557662ed7d7ac7a4e449f321db6233f480e418680d";
   var lang="en", clinic="all", da="all", product="all", month="all", week="all", session=null;
   var wl = {q:"", clinic:"", da:"", prod:"", cad:"", status:"", minOd:"", maxOd:"",
             sort:"od", dir:-1, page:0};
@@ -1551,7 +1548,6 @@
     btn.disabled=true; btn.textContent=t.signingin; err.classList.remove("on");
     sha256(document.getElementById("gp").value).then(function(hh){
       btn.disabled=false; btn.textContent=t.signin;
-      if(hh===CZ_HASH){ try{ sessionStorage.setItem("cz_session","1"); }catch(e){} location.href = "cz/"; return; }
       if(hh!==PW_HASH){ err.textContent=t.badlogin; err.classList.add("on");
         var g=document.getElementById("gp"); g.value=""; g.focus(); return; }
       saveSession(); enterApp();
